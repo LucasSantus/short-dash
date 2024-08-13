@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">Short Dash</h1>
 
-## Getting Started
+<h3 id="about">:information_source: About</h3>
 
-First, run the development server:
+> This project was developed using Nextjs, React, TypeScript, TailwindCSS.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The idea is:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+_""_
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<h3 id="why">:question: Why</h3>
 
-## Learn More
+This project is part of my personal portfolio, I will be happy if you provide some feedback, code, structure, functionality or any feature&improvement you can report to improve it.
 
-To learn more about Next.js, take a look at the following resources:
+You can use this project however you want, whether it's for studying, making improvements, you call the shots!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This is a totally free project!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+<h3 id="tecnologies">:rocket: Tecnologies</h3>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Used tools:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [NextJS v13.4.13](https://nextjs.org/)
+- [CLSX v2.0.0](https://www.npmjs.com/package/clsx)
+- [Eslint v8.42.0](https://github.com/eslint/eslint)
+- [Lucide React v0.263.1](https://lucide.dev/)
+- [Prettier v2.8.8](https://prettier.io/)
+- [React v18.2.0](https://pt-br.reactjs.org/)
+- [TypeScript v5.1.3](https://www.typescriptlang.org/)
+- [TailwindCSS v3.3.2](https://tailwindcss.com/docs/installation)
+- [Framer Motion v10.16.2](https://www.npmjs.com/package/framer-motion)
+- [Radix UI](https://www.radix-ui.com/)
+- [DayJS v1.11.9](https://day.js.org/)
+- [React Hook Form v7.45.4](https://react-hook-form.com/)
+- [Zod v3.22.2](https://github.com/colinhacks/zod)
+- [Axios v1.4.0](https://axios-http.com/ptbr/docs/intro)
+
+---
+
+<h3 id="funcionalidades">:sparkles: Features</h3>
+
+- [X] Create Account;
+- [x] Authentication;
+- [x] Profile;
+- [X] Reset Password - Resend;
+- [X] Change Password;
+- [X] Delete Account;
+- [X] Animations.
+
+---
+
+<h3 id="running">:computer: Run project</h3>
+
+If you are interested in examining the source code and experiencing how the project works, click <a href="/RUNNING.md">here</a> for a detailed preview and the opportunity to run it.
+
+---
+
+<h3 id="author">:bust_in_silhouette: Author</h3>
+
+<table>
+	<tr>
+		<td>
+			<div> 
+				<a href="https://github.com/LucasSantus">
+					<img style="border-radius: 50%;" src="https://github.com/LucasSantus.png" width="100px;" alt=""/>
+					<br />
+					Lucas Santus
+				</a>
+			</div>
+		</td>
+	</tr>
+</table>
+<br />
+
+Made with ❤️ by Lucas Santus!<br />
+Thanks for visiting and good coding!<br />
+
+---
+
+<h3 id="license">:memo: License</h3>
+
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/LucasSantus/short-dash/blob/master/LICENSE) for better details.
