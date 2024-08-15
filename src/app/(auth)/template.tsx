@@ -1,8 +1,7 @@
 import { Framing } from "@/components/framer-motion/framing";
 import { Footer } from "@/components/layout/footer";
-import { authOptions } from "@/lib/auth";
 import { bounceHorizontalAnimation } from "@/utils/framer-motion/animations/bounce-horizontal";
-import { getServerSession } from "next-auth";
+import { getUserServer } from "@/utils/get-user-server";
 import { redirect } from "next/navigation";
 import { Fragment, ReactNode } from "react";
 
@@ -11,8 +10,8 @@ interface AuthTemplateProps {
 }
 
 export default async function AuthTemplate({ children }: AuthTemplateProps) {
-  const session = await getServerSession(authOptions);
-  if (session) redirect("/");
+  const {isAuthenticated} = await getUserServer()
+  if (isAuthenticated) redirect("/");
 
   return (
     <Fragment>

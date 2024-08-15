@@ -2,9 +2,8 @@ import { Framing } from "@/components/framer-motion/framing";
 import { Header } from "@/components/layout/header";
 import { Sidebar } from "@/components/layout/sidebar";
 import { TRANSITION_DURATION } from "@/constants/globals";
-import { authOptions } from "@/lib/auth";
 import { bounceHorizontalAnimation } from "@/utils/framer-motion/animations/bounce-horizontal";
-import { getServerSession } from "next-auth";
+import { getUserServer } from "@/utils/get-user-server";
 import { redirect } from "next/navigation";
 import { Fragment, ReactNode } from "react";
 import { headerItems } from "./_constants/header-items";
@@ -16,9 +15,8 @@ interface ProjectLayoutProps {
 export default async function ProtectedLayout({
   children,
 }: ProjectLayoutProps) {
-  const session = await getServerSession(authOptions);
-
-  if (!session || !session.user) redirect("/sign-in");
+  const { isAuthenticated } = await getUserServer()
+  if (!isAuthenticated) redirect("/sign-in");
 
   return <Fragment>{children}</Fragment>;
 
