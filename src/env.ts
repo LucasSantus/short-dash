@@ -20,8 +20,8 @@ export const envSchema = z.object({
   GOOGLE_CLIENT_SECRET: z.string(),
 
   // // RESEND
-  // RESEND_API_KEY: z.string(),
-  // RESEND_TO_EMAIL: z.string().default("onboarding@resend.dev"),
+  RESEND_API_KEY: z.string(),
+  RESEND_TO_EMAIL: z.string().default("onboarding@resend.dev"),
 });
 
 const envParsed = envSchema.safeParse(process.env);

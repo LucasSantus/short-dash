@@ -14,15 +14,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useForm } from "react-hook-form";
 
-interface SearchFormProps {}
-
 import { InputPassword } from "@/components/input-password";
 import { useHelperSubmit } from "@/hooks/use-helper-submit";
 import { SignUpFormData, signUpFormSchema } from "@/validation/auth/sign-up";
+import { SaveIcon } from "lucide-react";
 import { useState } from "react";
+import { AuthProviders } from "../_components/auth-providers";
 import { authSignUpServer } from "./sign-up.action";
 
-export function SignUpForm({}: SearchFormProps) {
+export function SignUpForm() {
   const [isRedirectingToProviders, setIsRedirectingToProviders] =
     useState<boolean>(false);
 
@@ -57,31 +57,13 @@ export function SignUpForm({}: SearchFormProps) {
         <form onSubmit={handleSubmit(onSubmit)} className="grid w-full gap-2">
           <FormField
             control={control}
-            name="firstName"
+            name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Primeiro Nome</FormLabel>
+                <FormLabel>Nome</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Digite o Primeiro Nome:"
-                    disabled={isDisabled}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sobrenome</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Digite o sobrenome:"
+                    placeholder="Digite o Nome:"
                     disabled={isDisabled}
                     {...field}
                   />
@@ -130,19 +112,19 @@ export function SignUpForm({}: SearchFormProps) {
           <Button
             type="submit"
             aria-label="Submit for create new user"
-            // isLoading={isSubmitting}
+            isLoading={isSubmitting}
             disabled={isDisabled}
-            // icon={<SaveIcon className="size-4" />}
+            icon={<SaveIcon className="size-4" />}
           >
             Salvar
           </Button>
         </form>
 
-        {/* <AuthenticationProviders
+        <AuthProviders
           isDisabled={isDisabled}
           isRedirecting={isRedirectingToProviders}
           setIsRedirecting={setIsRedirectingToProviders}
-        /> */}
+        />
       </div>
     </Form>
   );

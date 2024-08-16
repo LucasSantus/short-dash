@@ -1,7 +1,6 @@
 import { LogInIcon } from "lucide-react";
 import { Metadata } from "next";
-import { Fragment } from "react";
-import { AuthenticationDescription } from "../_components/authentication-description";
+import { AuthLayout } from "../_components/_layouts";
 import { DontAlreadyAccount } from "../_components/dont-already-account";
 import { SignInForm } from "./form";
 
@@ -11,16 +10,14 @@ export const metadata: Metadata = {
 
 export default function SignIn(): JSX.Element {
   return (
-    <Fragment>
-      <AuthenticationDescription
-        title="Log In"
-        description="Insira os dados abaixo para fazer login em sua conta"
-        icon={LogInIcon}
-      />
-
+    <AuthLayout
+      title="Log In"
+      description="Insira os dados abaixo para fazer login em sua conta"
+      icon={LogInIcon}
+    >
       <SignInForm />
 
       <DontAlreadyAccount />
-    </Fragment>
+    </AuthLayout>
   );
 }

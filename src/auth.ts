@@ -1,8 +1,12 @@
-import NextAuth from "next-auth";
+import NextAuth, { User as NextAuthUser } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { authSignInServer } from "./actions/auth/sign-in";
 import { env } from "./env";
+
+type UserSessionData = NextAuthUser & {
+  id: string;
+};
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
@@ -33,8 +37,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         if (!user) return null;
 
         const userData = {
-          firstName: user.firstName,
-          lastName: user.lastName,
+          name: user.name ?? "",
           email: user.email,
           id: user.id,
         };
@@ -43,33 +46,45 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  // secret: "F(D*HFSD(*FH*AFG*SAFASDAISDJAS)",
+  secret: env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/sign-in",
     newUser: "/sign-up",
   },
   callbacks: {
-    async session({ session, token }) {
-      if (token?.user) {
-        session.user = token.user;
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update" && !!session) {
+        token.name = session?.name;
       }
-      return session;
-    },
 
-    async jwt({ token, user }) {
-      if (!!user) {
-        token.user = user;
-      }
+      if (user)
+        return {
+          ...token,
+          user,
+        };
 
       return token;
     },
-
-    signIn: async ({ user, account }) => {
-      if (account?.provider === "credentials") {
-        return true;
+    async session({ session, user, token, newSession, trigger }) {
+      if (token) {
+        session.user = {
+          ...session.user,
+          id: (token as any).user.id,
+        };
+      } else if (trigger === "update" && !!newSession) {
+        session.user.name = newSession.name;
       } else {
-        return false;
+        session.user = {
+          ...session.user,
+          id: user.id,
+        };
       }
+
+      return session;
+    },
+
+    async signIn() {
+      return true;
     },
   },
 });

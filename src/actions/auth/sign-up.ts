@@ -3,45 +3,45 @@
 import { messages } from "@/constants/messages";
 import { prismaClient } from "@/lib/prisma";
 import { SignUpFormData } from "@/validation/auth/sign-up";
-import { redirect } from "next/navigation";
 
 export async function authSignUpServer({
-  // firstName,
-  // lastName,
+  name,
   email,
-  // password,
+  password,
 }: SignUpFormData) {
+  if (!name || !email || !password)
+    throw new Error(messages.globals.ERROR_VALUES_VALIDATION);
+
   const emailExists = await prismaClient.user.findUnique({
     where: {
       email,
     },
   });
 
-  console.log(1, { emailExists });
-
   if (emailExists) throw new Error(messages.account.EMAIL_REGISTERED_ON_SYSTEM);
 
   // const hashedPassword = await bcrypt.hash(password, 10);
 
-  // await prismaClient.user.create({
+  // const user = await prismaClient.user.create({
   //   data: {
-  //     firstName,
-  //     lastName,
+  //     name,
   //     email,
-  //     hashedPassword: password,
+  //     hashedPassword,
   //   },
   // });
 
-  console.log(3);
+  // if (!user) throw new Error("erro ao criar novo usuário");
 
-  redirect("/");
-
-  // await prismaClient.account.create({
+  // const newAccount = await prismaClient.account.create({
   //   data: {
-  //     provider: "credentials",
-  //     type: "credentials",
+  //     providerId: "credentials",
+  //     providerType: "credentials",
   //     providerAccountId: crypto.randomUUID(),
   //     userId: user.id,
   //   },
   // });
+
+  // if (!newAccount) throw new Error("erro ao criar nova conta");
+
+  // return newAccount
 }

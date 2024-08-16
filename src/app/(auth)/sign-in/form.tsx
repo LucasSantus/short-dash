@@ -14,15 +14,15 @@ import { Input } from "@/components/ui/input";
 import { useHelperSubmit } from "@/hooks/use-helper-submit";
 import { SignInFormData, signInFormSchema } from "@/validation/auth/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LogInIcon } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { AuthenticationLink } from "../_components/authentication-redirect";
+import { AuthLink } from "../_components/auth-link";
+import { AuthProviders } from "../_components/auth-providers";
 
-interface SignInFormProps {}
-
-export function SignInForm({}: SignInFormProps) {
+export function SignInForm() {
   const { showToastBeforeSubmit } = useHelperSubmit();
 
   const [isRedirectingToProviders, setIsRedirectingToProviders] =
@@ -108,29 +108,26 @@ export function SignInForm({}: SignInFormProps) {
           />
 
           <div className="flex justify-end">
-            <AuthenticationLink
-              title="Esqueci minha senha"
-              href="/forget-password"
-            />
+            <AuthLink title="Esqueci minha senha" href="/forget-password" />
           </div>
 
           <Button
             type="submit"
             aria-label="log-in in system"
-            // isLoading={isSubmitting}
+            isLoading={isSubmitting}
             disabled={isDisabled}
-            // icon={<LogInIcon className="size-4" />}
+            icon={<LogInIcon className="size-4" />}
           >
             Entrar
           </Button>
         </div>
       </form>
 
-      {/* <AuthenticationProviders
+      <AuthProviders
         isDisabled={isDisabled}
         isRedirecting={isRedirectingToProviders}
         setIsRedirecting={setIsRedirectingToProviders}
-      /> */}
+      />
     </Form>
   );
 }
