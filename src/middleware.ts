@@ -1,5 +1,1 @@
-export { default } from "next-auth/middleware";
-
-export const config = {
-  matcher: ["/", "/settings/:path*"],
-};
+export { auth as middleware } from "@/auth";

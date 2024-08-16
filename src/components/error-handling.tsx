@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { ErrorHandlingData } from "@/types/error-handling";
-import { RefreshCcwIcon } from "lucide-react";
 import { useEffect } from "react";
 
 export default function ErrorHandling({ error, reset }: ErrorHandlingData) {
@@ -19,7 +18,7 @@ export default function ErrorHandling({ error, reset }: ErrorHandlingData) {
       </h2>
       <Button
         onClick={() => reset()}
-        icon={<RefreshCcwIcon className="size-4" />}
+        // icon={<RefreshCcwIcon className="size-4" />}
       >
         Tentar Novamente
       </Button>

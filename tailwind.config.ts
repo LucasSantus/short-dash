@@ -1,8 +1,7 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
-const { fontFamily } = require("tailwindcss/defaultTheme");
+import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+const config = {
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -12,22 +11,11 @@ module.exports = {
   ],
   prefix: "",
   theme: {
-    screens: {
-      xs: "425px",
-      ...defaultTheme.screens,
-      "2xl": "1600px", // 1600x900
-      "3xl": "1920px", // 1920x1080
-      "4xl": "2160px", // 2160x1080
-      "5xl": "2560px", // 2560x1440
-      "6xl": "2960px", // 2960x1440
-      "7xl": "3840px", // 3840x2160
-    },
     container: {
       center: true,
       padding: "2rem",
       screens: {
         "2xl": "1400px",
-        "3xl": "1600px",
       },
     },
     extend: {
@@ -76,29 +64,21 @@ module.exports = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
-        },
-        "collapsible-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-collapsible-content-height)" },
-        },
-        "collapsible-up": {
-          from: { height: "var(--radix-collapsible-content-height)" },
           to: { height: "0" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "collapsible-down": "collapsible-down 0.2s ease-out",
-        "collapsible-up": "collapsible-up 0.2s ease-out",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-};
+} satisfies Config;
+
+export default config;

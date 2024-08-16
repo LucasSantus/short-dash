@@ -14,19 +14,16 @@ import { Input } from "@/components/ui/input";
 import { useHelperSubmit } from "@/hooks/use-helper-submit";
 import { SignInFormData, signInFormSchema } from "@/validation/auth/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LogInIcon } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { AuthenticationProviders } from "../_components/authentication-providers";
 import { AuthenticationLink } from "../_components/authentication-redirect";
 
 interface SignInFormProps {}
 
 export function SignInForm({}: SignInFormProps) {
-  const { isRedirecting: isRedirectingNewPage, showToastBeforeSubmit } =
-    useHelperSubmit();
+  const { showToastBeforeSubmit } = useHelperSubmit();
 
   const [isRedirectingToProviders, setIsRedirectingToProviders] =
     useState<boolean>(false);
@@ -68,8 +65,7 @@ export function SignInForm({}: SignInFormProps) {
     });
   }
 
-  const isDisabled =
-    isSubmitting || isRedirectingToProviders || isRedirectingNewPage;
+  const isDisabled = isSubmitting || isRedirectingToProviders;
 
   return (
     <Form {...form}>
@@ -121,20 +117,20 @@ export function SignInForm({}: SignInFormProps) {
           <Button
             type="submit"
             aria-label="log-in in system"
-            isLoading={isSubmitting || isRedirectingNewPage}
+            // isLoading={isSubmitting}
             disabled={isDisabled}
-            icon={<LogInIcon className="size-4" />}
+            // icon={<LogInIcon className="size-4" />}
           >
             Entrar
           </Button>
         </div>
       </form>
 
-      <AuthenticationProviders
+      {/* <AuthenticationProviders
         isDisabled={isDisabled}
         isRedirecting={isRedirectingToProviders}
         setIsRedirecting={setIsRedirectingToProviders}
-      />
+      /> */}
     </Form>
   );
 }

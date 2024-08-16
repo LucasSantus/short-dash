@@ -3,11 +3,16 @@ import { messages } from "@/constants/messages";
 import { z } from "zod";
 
 export const signUpFormSchema = z.object({
-  name: z
+  firstName: z
     .string({
       required_error: messages.form.REQUIRED_FIELD,
     })
-    .min(1, "Insira o nome completo!"),
+    .min(1, "Insira o Nome!"),
+  lastName: z
+    .string({
+      required_error: messages.form.REQUIRED_FIELD,
+    })
+    .min(1, "Insira o Sobrenome!"),
   email: z
     .string({
       required_error: messages.form.REQUIRED_FIELD,
@@ -24,3 +29,12 @@ export const signUpFormSchema = z.object({
 });
 
 export type SignUpFormData = z.infer<typeof signUpFormSchema>;
+
+// hashedPassword String
+// role           String    @default("user")
+// emailVerified  DateTime?
+// image          String?
+// authProviderId String?
+// createdAt      DateTime  @default(now())
+// updatedAt      DateTime  @default(now()) @updatedAt
+// deletedAt      DateTime?

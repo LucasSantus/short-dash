@@ -6,7 +6,7 @@ import { AuthenticationDescription } from "../_components/authentication-descrip
 import { SignUpForm } from "./form";
 
 export const metadata: Metadata = {
-  title: "New User",
+  title: "New Account",
 };
 
 export default function SignUpPage(): JSX.Element {

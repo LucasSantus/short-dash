@@ -3,7 +3,6 @@
 import { messages } from "@/constants/messages";
 import { prismaClient } from "@/lib/prisma";
 import { SignInFormData } from "@/validation/auth/sign-in";
-import * as bcrypt from "bcrypt";
 
 export async function authSignInServer({ email, password }: SignInFormData) {
   if (!email || !password)
@@ -19,23 +18,25 @@ export async function authSignInServer({ email, password }: SignInFormData) {
 
   if (user.deletedAt) throw new Error("Este usuário foi deletado!");
 
-  const account = await prismaClient.account.findFirst({
-    where: {
-      userId: user.id,
-    },
-  });
+  return user;
 
-  if (!account || !account.id)
-    throw new Error(messages.account.ACCOUNT_NOT_FOUND);
+  // const account = await prismaClient.account.findFirst({
+  //   where: {
+  //     userId: user.id,
+  //   },
+  // });
 
-  if (account.provider !== "credentials" || !user.hashedPassword)
-    throw new Error(
-      "Sua conta está vinculada a um método de autenticação diferente!",
-    );
+  // if (!account || !account.id)
+  //   throw new Error(messages.account.ACCOUNT_NOT_FOUND);
 
-  const passwordMatch = await bcrypt.compare(password, user.hashedPassword);
+  // if (account.provider !== "credentials" || !user.hashedPassword)
+  //   throw new Error(
+  //     "Sua conta está vinculada a um método de autenticação diferente!",
+  //   );
 
-  if (!passwordMatch) throw new Error("A Senha informada está incorreta!");
+  // const passwordMatch = await bcrypt.compare(password, user.hashedPassword);
+
+  // if (!passwordMatch) throw new Error("A Senha informada está incorreta!");
 
   return user;
 }

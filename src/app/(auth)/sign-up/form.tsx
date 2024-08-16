@@ -16,20 +16,17 @@ import { useForm } from "react-hook-form";
 
 interface SearchFormProps {}
 
-import { authSignUpServer } from "@/actions/auth/sign-up";
 import { InputPassword } from "@/components/input-password";
 import { useHelperSubmit } from "@/hooks/use-helper-submit";
 import { SignUpFormData, signUpFormSchema } from "@/validation/auth/sign-up";
-import { SaveIcon } from "lucide-react";
 import { useState } from "react";
-import { AuthenticationProviders } from "../_components/authentication-providers";
+import { authSignUpServer } from "./sign-up.action";
 
 export function SignUpForm({}: SearchFormProps) {
-  const { isRedirecting: isRedirectingNewPage, showToastBeforeSubmit } =
-    useHelperSubmit();
-
   const [isRedirectingToProviders, setIsRedirectingToProviders] =
     useState<boolean>(false);
+
+  const { showToastBeforeSubmit } = useHelperSubmit();
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpFormSchema),
@@ -52,8 +49,7 @@ export function SignUpForm({}: SearchFormProps) {
     });
   }
 
-  const isDisabled =
-    isSubmitting || isRedirectingToProviders || isRedirectingNewPage;
+  const isDisabled = isSubmitting || isRedirectingToProviders;
 
   return (
     <Form {...form}>
@@ -61,13 +57,31 @@ export function SignUpForm({}: SearchFormProps) {
         <form onSubmit={handleSubmit(onSubmit)} className="grid w-full gap-2">
           <FormField
             control={control}
-            name="name"
+            name="firstName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nome Completo</FormLabel>
+                <FormLabel>Primeiro Nome</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Digite o nome completo:"
+                    placeholder="Digite o Primeiro Nome:"
+                    disabled={isDisabled}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sobrenome</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Digite o sobrenome:"
                     disabled={isDisabled}
                     {...field}
                   />
@@ -116,19 +130,19 @@ export function SignUpForm({}: SearchFormProps) {
           <Button
             type="submit"
             aria-label="Submit for create new user"
-            isLoading={isSubmitting || isRedirectingNewPage}
+            // isLoading={isSubmitting}
             disabled={isDisabled}
-            icon={<SaveIcon className="size-4" />}
+            // icon={<SaveIcon className="size-4" />}
           >
             Salvar
           </Button>
         </form>
 
-        <AuthenticationProviders
+        {/* <AuthenticationProviders
           isDisabled={isDisabled}
           isRedirecting={isRedirectingToProviders}
           setIsRedirecting={setIsRedirectingToProviders}
-        />
+        /> */}
       </div>
     </Form>
   );

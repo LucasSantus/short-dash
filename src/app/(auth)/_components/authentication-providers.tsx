@@ -1,6 +1,5 @@
 "use client";
 
-import { GoogleIcon } from "@/components/icons/google";
 import { Button } from "@/components/ui/button";
 import { BuiltInProviderType } from "next-auth/providers/index";
 import { LiteralUnion, signIn } from "next-auth/react";
@@ -18,7 +17,7 @@ export function AuthenticationProviders({
   setIsRedirecting,
 }: AuthenticationProviderProps): JSX.Element {
   async function onHandleSelectedProvider(
-    provider: LiteralUnion<BuiltInProviderType>,
+    provider: LiteralUnion<BuiltInProviderType>
   ) {
     setIsRedirecting(true);
 
@@ -41,10 +40,10 @@ export function AuthenticationProviders({
       </div>
 
       <Button
-        isLoading={isRedirecting}
+        // isLoading={isRedirecting}
         onClick={() => onHandleSelectedProvider("google")}
         variant="outline"
-        icon={<GoogleIcon />}
+        // icon={<GoogleIcon />}
         disabled={isDisabled}
       >
         Google
