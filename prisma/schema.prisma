@@ -21,9 +21,10 @@ model Historic {
 }
 
 model Url {
-  id               String  @id @default(cuid())
-  path             String?
-  numberOfVisitors Int     @default(0)
+  id               String @id @default(cuid())
+  redirect         String
+  token            String @unique
+  numberOfVisitors Int    @default(0)
 
   owner    User?      @relation(fields: [ownerId], references: [id])
   ownerId  String?

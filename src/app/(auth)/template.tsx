@@ -1,3 +1,5 @@
+import { getSession } from "@/lib/getSession";
+import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 interface AuthTemplateProps {
@@ -7,6 +9,9 @@ interface AuthTemplateProps {
 export default async function AuthTemplate({
   children,
 }: Readonly<AuthTemplateProps>) {
+  const { isAuthenticated } = await getSession();
+  if (isAuthenticated) redirect("/");
+
   return (
     <div className="flex h-screen flex-col items-center justify-start bg-background px-2 py-3 text-foreground sm:justify-center">
       <div className="flex w-full max-w-md rounded-lg border border-border bg-card p-4 shadow-md lg:p-8">

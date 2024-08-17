@@ -2,13 +2,13 @@ import { getSession } from "@/lib/getSession";
 import { redirect } from "next/navigation";
 import { Fragment } from "react";
 
-interface ProtectedLayoutProps {
+interface ProtectedTemplateProps {
   children: React.ReactNode;
 }
 
-export default async function ProtectedLayout({
+export default async function ProtectedTemplate({
   children,
-}: Readonly<ProtectedLayoutProps>) {
+}: Readonly<ProtectedTemplateProps>) {
   const { isAuthenticated } = await getSession();
   if (!isAuthenticated) redirect("/sign-in");
 
