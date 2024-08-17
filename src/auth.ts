@@ -1,15 +1,15 @@
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
+import { Adapter } from "next-auth/adapters";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { authSignInServer } from "./actions/auth/sign-in";
 import { env } from "./env";
-
-// type UserSessionData = NextAuthUser & {
-//   id: string;
-// };
+import { prismaClient } from "./lib/prisma";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
+  adapter: PrismaAdapter(prismaClient) as Adapter,
   providers: [
     Google({
       clientId: env.GOOGLE_CLIENT_ID,
@@ -51,37 +51,39 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     signIn: "/sign-in",
     newUser: "/sign-up",
   },
-  // callbacks: {
-  //   async jwt({ token, user, trigger, session }) {
-  //     if (trigger === "update" && !!session) {
-  //       token.name = session?.name;
-  //     }
+  callbacks: {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update" && !!session) {
+        token.name = session?.name;
+      }
 
-  //     if (user)
-  //       return {
-  //         ...token,
-  //         user,
-  //       };
+      if (user)
+        return {
+          ...token,
+          user,
+        };
 
-  //     return token;
-  //   },
-  //   async session({ session, user, token, newSession, trigger }) {
-  //     if (token) {
-  //       session.user = {
-  //         ...session.user,
-  //         id: (token as any).user.id,
-  //       };
-  //     } else if (trigger === "update" && !!newSession) {
-  //       session.user.name = newSession.name;
-  //     } else {
-  //       session.user = {
-  //         ...session.user,
-  //         id: user.id,
-  //       };
-  //     }
+      return token;
+    },
+    async session({ session, user, token, newSession, trigger }) {
+      if (token) {
+        const { user: userToken } = token as {
+          user: {
+            id: string;
+          };
+        };
 
-  //     return session;
-  //   },
+        session.user = { ...session.user, id: userToken.id };
+      } else if (trigger === "update" && !!newSession) {
+        session.user.name = newSession.name;
+      } else {
+        session.user = {
+          ...session.user,
+          id: user.id,
+        };
+      }
 
-  // },
+      return session;
+    },
+  },
 });

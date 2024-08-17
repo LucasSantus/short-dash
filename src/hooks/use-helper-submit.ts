@@ -2,6 +2,7 @@ import { messages } from "@/constants/messages";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
+
 interface ToastBeforeSubmitProps {
   message?: {
     loading?: string;
@@ -26,7 +27,7 @@ export function useHelperSubmit(): HelperSubmitResponse {
     urlToRedirect,
   }: ToastBeforeSubmitProps) {
     const toastId = toast.loading(
-      message?.loading ?? messages.form.STORING_INFORMATION
+      message?.loading ?? messages.form.STORING_INFORMATION,
     );
 
     try {
@@ -40,7 +41,7 @@ export function useHelperSubmit(): HelperSubmitResponse {
       await new Promise((resolve) =>
         setTimeout(async () => {
           resolve(null);
-        }, 1400)
+        }, 1400),
       );
 
       startTransition(async () => {
@@ -51,31 +52,9 @@ export function useHelperSubmit(): HelperSubmitResponse {
         }
       });
     } catch (error) {
-      const toastOptions = {
-        id: toastId,
-        duration: 5000,
-      };
+      console.error(error);
 
-      if (error instanceof Error) {
-        if (error.message.includes("connect with the database")) {
-          toast.error(
-            "Ocorreu um problema ao tentar conectar ao banco de dados. Por favor, tente novamente mais tarde.",
-            toastOptions
-          );
-        } else if (error.message.includes("timeout")) {
-          toast.error(
-            "Ocorreu um problema ao tentar conectar ao banco de dados. O Tempo limite de conexão expirou.",
-            toastOptions
-          );
-        } else if (error.message.includes("password authentication failed")) {
-          toast.error(
-            "Não foi possível se conectar ao banco dados, revalide os dados da conexão.",
-            toastOptions
-          );
-        } else {
-          toast.error(error.message, toastOptions);
-        }
-      }
+      toast.error("Ocorreu um erro inesperado!");
     }
   }
 
