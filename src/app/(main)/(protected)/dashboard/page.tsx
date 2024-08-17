@@ -1,9 +1,16 @@
-import { List } from "./list";
+import { Metadata } from "next";
+import { ContentLayout } from "../_components/page-layout";
+import { DashboardBreadcrumb } from "./breadcrumb";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
+
+export default function Dashboard() {
   return (
-    <>
-      <List />
-    </>
+    <ContentLayout title="Dashboard">
+      <DashboardBreadcrumb />
+      Dashboard
+    </ContentLayout>
   );
 }

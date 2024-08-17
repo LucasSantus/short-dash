@@ -1,9 +1,9 @@
-import { env } from "@/env";
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 
-type EnviromentVariableSchemaType = z.infer<typeof env>;
+import { envSchema } from "@/env";
 
 declare global {
   namespace NodeJS {
-    interface ProcessEnv extends EnviromentVariableSchemaType {}
+    interface ProcessEnv extends z.infer<typeof envSchema> {}
   }
 }

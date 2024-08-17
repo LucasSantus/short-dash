@@ -1,0 +1,18 @@
+import { Metadata } from "next";
+import { ContentLayout } from "../_components/page-layout";
+import { LinksBreadcrumb } from "./breadcrumb";
+import { ListLinks } from "./list";
+
+export const metadata: Metadata = {
+  title: "Links",
+};
+
+export default function Links() {
+  return (
+    <ContentLayout title="Links">
+      <LinksBreadcrumb />
+
+      <ListLinks />
+    </ContentLayout>
+  );
+}

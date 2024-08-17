@@ -1,4 +1,26 @@
 -- CreateTable
+CREATE TABLE "Historic" (
+    "id" TEXT NOT NULL,
+    "isAnonymous" BOOLEAN NOT NULL,
+    "urlId" TEXT NOT NULL,
+    "userId" TEXT,
+
+    CONSTRAINT "Historic_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Url" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "path" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
+    "numberOfVisitors" INTEGER NOT NULL DEFAULT 0,
+    "ownerId" TEXT,
+
+    CONSTRAINT "Url_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" TEXT,
@@ -64,6 +86,9 @@ CREATE TABLE "Authenticator" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Url_code_key" ON "Url"("code");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
@@ -71,6 +96,15 @@ CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credentialID");
+
+-- AddForeignKey
+ALTER TABLE "Historic" ADD CONSTRAINT "Historic_urlId_fkey" FOREIGN KEY ("urlId") REFERENCES "Url"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Historic" ADD CONSTRAINT "Historic_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Url" ADD CONSTRAINT "Url_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

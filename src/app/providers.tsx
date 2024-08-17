@@ -2,6 +2,7 @@
 
 import { Toaster } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import NextTopLoader from "nextjs-toploader";
@@ -37,6 +38,10 @@ export function Providers({ children }: PropsWithChildren) {
           <Suspense fallback={null}>
             <Navigation />
           </Suspense>
+
+          {process.env.NODE_ENV !== "production" && (
+            <ReactQueryDevtools initialIsOpen={false} />
+          )}
 
           {children}
         </ThemeProvider>

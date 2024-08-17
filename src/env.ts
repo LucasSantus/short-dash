@@ -24,12 +24,4 @@ export const envSchema = z.object({
   RESEND_TO_EMAIL: z.string().default("onboarding@resend.dev"),
 });
 
-const envParsed = envSchema.safeParse(process.env);
-
-if (!envParsed.success) {
-  console.log("Oops, there was a problem loading the environment variables!");
-  console.error(envParsed.error.issues);
-  process.exit(1);
-}
-
-export const env = envParsed.data;
+export const env = envSchema.parse(process.env);

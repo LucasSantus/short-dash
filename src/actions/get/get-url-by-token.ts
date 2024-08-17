@@ -5,18 +5,18 @@ import { getSession } from "@/lib/getSession";
 import { prismaClient } from "@/lib/prisma";
 import { z } from "zod";
 
-const urlByTokenSchema = z.object({
-  token: z.string({
+const urlByCodeSchema = z.object({
+  code: z.string({
     required_error: messages.form.REQUIRED_FIELD,
   }),
 });
 
-type UrlByTokenSchema = z.infer<typeof urlByTokenSchema>;
+type UrlByCodeSchema = z.infer<typeof urlByCodeSchema>;
 
-export async function getUrlByToken(values: UrlByTokenSchema) {
+export async function getUrlByCode(values: UrlByCodeSchema) {
   const { isAuthenticated, user } = await getSession();
 
-  const { success, data } = urlByTokenSchema.safeParse(values);
+  const { success, data } = urlByCodeSchema.safeParse(values);
 
   if (!success) {
     throw new Error(messages.globals.ERROR_VALUES_VALIDATION);
@@ -24,7 +24,7 @@ export async function getUrlByToken(values: UrlByTokenSchema) {
 
   const url = await prismaClient.url.findUnique({
     where: {
-      token: data.token,
+      code: data.code,
     },
   });
 
@@ -33,7 +33,7 @@ export async function getUrlByToken(values: UrlByTokenSchema) {
   await Promise.all([
     prismaClient.url.update({
       where: {
-        token: data.token,
+        code: data.code,
       },
       data: {
         numberOfVisitors: url.numberOfVisitors + 1,
