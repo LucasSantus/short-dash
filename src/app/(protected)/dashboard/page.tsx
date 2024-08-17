@@ -1,3 +1,9 @@
-export default async function Home() {
-  return <>opa</>;
+import { List } from "./list";
+
+export default function Home() {
+  return (
+    <>
+      <List />
+    </>
+  );
 }

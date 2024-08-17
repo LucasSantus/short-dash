@@ -1,12 +1,12 @@
-import NextAuth, { User as NextAuthUser } from "next-auth";
+import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { authSignInServer } from "./actions/auth/sign-in";
 import { env } from "./env";
 
-type UserSessionData = NextAuthUser & {
-  id: string;
-};
+// type UserSessionData = NextAuthUser & {
+//   id: string;
+// };
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
@@ -51,40 +51,37 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     signIn: "/sign-in",
     newUser: "/sign-up",
   },
-  callbacks: {
-    async jwt({ token, user, trigger, session }) {
-      if (trigger === "update" && !!session) {
-        token.name = session?.name;
-      }
+  // callbacks: {
+  //   async jwt({ token, user, trigger, session }) {
+  //     if (trigger === "update" && !!session) {
+  //       token.name = session?.name;
+  //     }
 
-      if (user)
-        return {
-          ...token,
-          user,
-        };
+  //     if (user)
+  //       return {
+  //         ...token,
+  //         user,
+  //       };
 
-      return token;
-    },
-    async session({ session, user, token, newSession, trigger }) {
-      if (token) {
-        session.user = {
-          ...session.user,
-          id: (token as any).user.id,
-        };
-      } else if (trigger === "update" && !!newSession) {
-        session.user.name = newSession.name;
-      } else {
-        session.user = {
-          ...session.user,
-          id: user.id,
-        };
-      }
+  //     return token;
+  //   },
+  //   async session({ session, user, token, newSession, trigger }) {
+  //     if (token) {
+  //       session.user = {
+  //         ...session.user,
+  //         id: (token as any).user.id,
+  //       };
+  //     } else if (trigger === "update" && !!newSession) {
+  //       session.user.name = newSession.name;
+  //     } else {
+  //       session.user = {
+  //         ...session.user,
+  //         id: user.id,
+  //       };
+  //     }
 
-      return session;
-    },
+  //     return session;
+  //   },
 
-    async signIn() {
-      return true;
-    },
-  },
+  // },
 });

@@ -58,15 +58,12 @@ export function SignUpForm() {
           <FormField
             control={control}
             name="name"
+            disabled={isDisabled}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Digite o Nome:"
-                    disabled={isDisabled}
-                    {...field}
-                  />
+                  <Input placeholder="Digite o Nome:" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -76,15 +73,12 @@ export function SignUpForm() {
           <FormField
             control={control}
             name="email"
+            disabled={isDisabled}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Digite o e-mail:"
-                    disabled={isDisabled}
-                    {...field}
-                  />
+                  <Input placeholder="Digite o e-mail:" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -94,15 +88,12 @@ export function SignUpForm() {
           <FormField
             control={control}
             name="password"
+            disabled={isDisabled}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <InputPassword
-                    placeholder="Digite a senha:"
-                    disabled={isDisabled}
-                    {...field}
-                  />
+                  <InputPassword placeholder="Digite a senha:" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
