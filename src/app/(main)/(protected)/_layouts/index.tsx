@@ -21,7 +21,7 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
 
       <main
         className={cn(
-          "min-h-[calc(100vh_-_56px)] bg-zinc-50 transition-[margin-left] duration-300 ease-in-out dark:bg-zinc-900",
+          "flex min-h-[calc(100vh_-_56px)] flex-col bg-zinc-50 transition-[margin-left] duration-300 ease-in-out dark:bg-zinc-900",
           !sidebar.isOpen ? "lg:ml-[90px]" : "lg:ml-72",
         )}
       >

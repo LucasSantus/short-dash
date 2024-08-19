@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { ContentLayout } from "../_components/page-layout";
+import { ContentLayout } from "../_components/content-layout";
 import { DashboardBreadcrumb } from "./breadcrumb";
 
 export const metadata: Metadata = {

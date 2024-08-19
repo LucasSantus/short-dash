@@ -1,26 +1,30 @@
 "use server";
 
+import { authProtectedAction } from "@/actions/safe-action";
 import { prismaClient } from "@/lib/prisma";
-import { protectedActionClient } from "@/lib/safe-action";
 import { z } from "zod";
 
-const schema = z.object({
+const createLinkAuthSchema = z.object({
   name: z.string(),
-  code: z.string(),
   path: z.string(),
 });
 
-export const createLinkAction = protectedActionClient
-  .schema(schema)
-  .action(async ({ parsedInput: { name, code, path }, ctx: { user } }) => {
-    const newLink = await prismaClient.url.create({
-      data: {
-        name,
-        code,
-        path,
-        ownerId: user.id,
-      },
-    });
+type CreateLinkAuthSchema = z.infer<typeof createLinkAuthSchema>;
 
-    return newLink;
+export const createLinkAuth = (input: CreateLinkAuthSchema) =>
+  authProtectedAction({
+    schema: createLinkAuthSchema,
+    input,
+    action: async (user) => {
+      const newLink = await prismaClient.url.create({
+        data: {
+          name: input.name,
+          path: input.path,
+          code: "6546456",
+          ownerId: user.id,
+        },
+      });
+
+      return newLink;
+    },
   });

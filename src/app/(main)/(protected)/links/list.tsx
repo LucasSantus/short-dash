@@ -1,25 +1,53 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { getLinks } from "./_actions/get-links";
+import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
+import QueryFailed from "@/components/query-failed";
+import { useLinksQuery } from "@/hooks/api/queries/use-links";
+import { useSearchParams } from "next/navigation";
+import { LinkTable } from "./table";
 
 export function ListLinks(): JSX.Element {
+  const params = useSearchParams();
+
+  const page = params.get("page") ? Number(params.get("page")) : 1;
+  const pageSize = params.get("per_page") ? Number(params.get("per_page")) : 10;
+
+  const name = params.get("name") ?? "";
+
+  // const status = params.get("status");
+  // const statuses: AllProductCategoryStatus[] = status
+  //   ? (status.split(".") as AllProductCategoryStatus[])
+  //   : [];
+
   const {
     data = [],
     isLoading,
     isError,
-  } = useQuery({
-    queryKey: ["links"],
-    queryFn: async () => {
-      const response = await getLinks();
-
-      return response?.data;
+    refetch,
+  } = useLinksQuery({
+    orderBy: "desc",
+    pagination: {
+      page,
+      pageSize,
+    },
+    search: {
+      name,
     },
   });
 
-  if (isLoading) return <>Carregando...</>;
+  if (isLoading)
+    return (
+      <DataTableSkeleton
+        columnCount={5}
+        // rowCount={pagination.pageSize}
+        rowCount={10}
+        searchableColumnCount={1}
+        filterableColumnCount={1}
+      />
+    );
 
-  if (isError && !data) return <>Deu ruim</>;
+  if (isError || !data)
+    return <QueryFailed refetch={refetch} isLoading={isLoading} />;
 
-  return <div>{data?.map((item) => <>{item.name}</>)}</div>;
+  return <LinkTable data={data} />;
 }

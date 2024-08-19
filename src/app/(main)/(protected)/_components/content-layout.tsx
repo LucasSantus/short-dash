@@ -10,9 +10,11 @@ export async function ContentLayout({ title, children }: ContentLayoutProps) {
   const session = await getSession();
 
   return (
-    <div>
+    <div className="flex flex-1 flex-col">
       <Navbar title={title} session={session} />
-      <div className="container px-4 pb-8 pt-8 sm:px-8">{children}</div>
+      <div className="container flex flex-1 flex-col gap-2 px-4 py-8 sm:px-8">
+        {children}
+      </div>
     </div>
   );
 }

@@ -1,22 +1,28 @@
 export const messages = {
   form: {
-    REQUIRED_FIELD: "Campo obrigatório!",
-    INSERT_VALID_EMAIL: "Insira um e-mail válido!",
-    STORING_INFORMATION: "Armazenando informações...",
-    DATA_HAS_BEEN_STORED: "Os dados foram armazenados com êxito!",
-    DATA_HAS_BEEN_UPDATED: "Os dados foram atualizados com êxito!",
+    REQUIRED_FIELD: "Este campo é obrigatório.",
+    INSERT_VALID_EMAIL: "Por favor, insira um e-mail válido.",
+    DATA_HAS_BEEN_STORED: "Dados salvos com sucesso!",
+    ERROR_DATA_HAS_BEEN_STORED: "Erro ao salvar os dados. Tente novamente.",
+    DATA_HAS_BEEN_UPDATED: "Dados atualizados com sucesso!",
+    ERROR_DATA_HAS_BEEN_UPDATED: "Erro ao atualizar os dados. Tente novamente.",
+    DATA_HAS_BEEN_BLOCKED: "Item bloqueado com sucesso!",
+    ERROR_DATA_HAS_BEEN_BLOCKED: "Erro ao bloquear o item. Tente novamente.",
+    DATA_HAS_BEEN_UNBLOCKED: "Item desbloqueado com sucesso!",
+    ERROR_DATA_HAS_BEEN_UNBLOCKED:
+      "Erro ao desbloquear o item. Tente novamente.",
+    SELECT_ONE_ITEM: "Por favor, selecione um item.",
   },
   account: {
     EMAIL_DONT_REGISTERED_ON_SYSTEM:
-      "Desculpe, este e-mail não está cadastrado no sistema.",
-    EMAIL_REGISTERED_ON_SYSTEM:
-      "Desculpe, este e-mail já está cadastrado no sistema.",
-    USER_NOT_FOUND: "Usuário não encontrado!",
-    ACCOUNT_NOT_FOUND: "Conta não encontrada!",
+      "Este e-mail não está cadastrado no sistema.",
+    EMAIL_REGISTERED_ON_SYSTEM: "Este e-mail já está cadastrado no sistema.",
+    USER_NOT_FOUND: "Usuário não encontrado.",
+    ACCOUNT_NOT_FOUND: "Conta não encontrada.",
   },
   globals: {
-    YOU_ARE_BEING_REDIRECTED: "Você está sendo redirecionado...",
+    YOU_ARE_BEING_REDIRECTED: "Redirecionando...",
     ERROR_VALUES_VALIDATION:
-      "Ops, parece que algo deu errado. Por favor, verifique os dados fornecidos e tente novamente.",
+      "Ocorreu um erro. Verifique os dados e tente novamente.",
   },
 };
