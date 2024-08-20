@@ -10,14 +10,13 @@ import {
 } from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { messages } from "@/constants/messages";
-import { updateCategoryMutation } from "@/graphql/mutations/update-category";
-import { graphQLClient } from "@/lib/graphql-request/client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { PencilIcon, SaveIcon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useCategoryOnCache } from "../../_hooks/use-category-on-cache";
+import { updateLinkAction } from "../../_actions/update-link";
 import { categorySchema, CategorySchema, LinkForm } from "../form/link-form";
 import { CategoryTableColumns } from "../table-columns";
 
@@ -31,7 +30,7 @@ export function CategoryUpdateRow({
   category,
 }: CategoryUpdateRowProps): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { updateCategoryOnCache } = useCategoryOnCache();
+  // const { updateCategoryOnCache } = useCategoryOnCache();
 
   const form = useForm<CategorySchema>({
     resolver: zodResolver(categorySchema),
@@ -40,31 +39,24 @@ export function CategoryUpdateRow({
     },
   });
 
-  const {
-    formState: { isSubmitting },
-  } = form;
-
-  async function onSubmit(values: CategorySchema) {
-    try {
-      await graphQLClient.request(updateCategoryMutation, {
-        id: categoryId,
-        input: {
-          name: values.name,
-        },
-      });
-
-      await updateCategoryOnCache({ categoryId, category: values });
+  const { mutateAsync: updateLinkFn, isPending } = useMutation({
+    mutationFn: async (values: any) => {
+      await updateLinkAction(values);
+    },
+    onSuccess: async () => {
+      // await updateCategoryOnCache({ categoryId, category: values });
 
       form.reset();
 
       setIsOpen(false);
 
       toast.success(messages.form.DATA_HAS_BEEN_UPDATED);
-    } catch (error) {
+    },
+    onError: (error) => {
       console.error(error);
       toast.error(messages.form.ERROR_DATA_HAS_BEEN_UPDATED);
-    }
-  }
+    },
+  });
 
   return (
     <Fragment>
@@ -82,25 +74,25 @@ export function CategoryUpdateRow({
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Editar Categoria</DialogTitle>
+            <DialogTitle>Editar Link</DialogTitle>
             <DialogDescription>
-              Preencha os campos abaixo para editar uma categoria.
+              Preencha os campos abaixo para editar um link.
             </DialogDescription>
           </DialogHeader>
-          <LinkForm form={form} onSubmit={onSubmit}>
+          <LinkForm form={form} onSubmit={updateLinkFn}>
             <DialogFooter className="gap-2 pt-2 sm:space-x-0">
               <DialogClose asChild>
                 <Button
                   type="button"
                   variant="secondary"
-                  disabled={isSubmitting}
+                  disabled={isPending}
                   icon={<XIcon className="size-4" />}
                 >
                   Cancelar
                 </Button>
               </DialogClose>
               <Button
-                isLoading={isSubmitting}
+                isLoading={isPending}
                 icon={<SaveIcon className="size-4" />}
               >
                 Salvar
