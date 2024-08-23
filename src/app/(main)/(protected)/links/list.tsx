@@ -14,11 +14,6 @@ export function ListLinks(): JSX.Element {
 
   const name = params.get("name") ?? "";
 
-  // const status = params.get("status");
-  // const statuses: AllProductCategoryStatus[] = status
-  //   ? (status.split(".") as AllProductCategoryStatus[])
-  //   : [];
-
   const { data, isLoading, isError, refetch } = useLinksQuery({
     orderBy: "desc",
     pagination: {

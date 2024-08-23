@@ -10,9 +10,7 @@ import {
   useReactTable,
   type ColumnFiltersState,
   type PaginationState,
-  type SortingState,
   type TableOptions,
-  type TableState,
   type VisibilityState,
 } from "@tanstack/react-table";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -71,18 +69,18 @@ interface UseDataTableProps<TData>
    */
   enableAdvancedFilter?: boolean;
 
-  initialState?: Omit<Partial<TableState>, "sorting"> & {
-    sorting?: {
-      id: Extract<keyof TData, string>;
-      desc: boolean;
-    }[];
-  };
+  // initialState?: Omit<Partial<TableState>, "sorting"> & {
+  //   sorting?: {
+  //     id: Extract<keyof TData, string>;
+  //     desc: boolean;
+  //   }[];
+  // };
 }
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),
   per_page: z.coerce.number().optional(),
-  sort: z.string().optional(),
+  // sort: z.string().optional(),
 });
 
 export function useDataTable<TData>({
@@ -100,10 +98,10 @@ export function useDataTable<TData>({
   const page = search.page;
   const perPage =
     search.per_page ?? props.initialState?.pagination?.pageSize ?? 10;
-  const sort =
-    search.sort ??
-    `${props.initialState?.sorting?.[0]?.id}.${props.initialState?.sorting?.[0]?.desc ? "desc" : "asc"}`;
-  const [column, order] = sort?.split(".") ?? [];
+  // const sort =
+  //   search.sort ??
+  //   `${props.initialState?.sorting?.[0]?.id}.${props.initialState?.sorting?.[0]?.desc ? "desc" : "asc"}`;
+  // const [column, order] = sort?.split(".") ?? [];
 
   // Memoize computation of searchableColumns and filterableColumns
   const { searchableColumns, filterableColumns } = React.useMemo(() => {
@@ -183,21 +181,21 @@ export function useDataTable<TData>({
   );
 
   // Handle server-side sorting
-  const [sorting, setSorting] = React.useState<SortingState>([
-    {
-      id: column ?? "",
-      desc: order === "desc",
-    },
-  ]);
+  // const [sorting, setSorting] = React.useState<SortingState>([
+  //   {
+  //     id: column ?? "",
+  //     desc: order === "desc",
+  //   },
+  // ]);
 
   React.useEffect(() => {
     router.push(
       `${pathname}?${createQueryString({
         page: pageIndex + 1,
         per_page: pageSize,
-        sort: sorting[0]?.id
-          ? `${sorting[0]?.id}.${sorting[0]?.desc ? "desc" : "asc"}`
-          : null,
+        // sort: sorting[0]?.id
+        //   ? `${sorting[0]?.id}.${sorting[0]?.desc ? "desc" : "asc"}`
+        //   : null,
       })}`,
       {
         scroll: false,
@@ -205,7 +203,8 @@ export function useDataTable<TData>({
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageIndex, pageSize, sorting]);
+  }, [pageIndex, pageSize]);
+  // }, [pageIndex, pageSize, sorting]);
 
   // Handle server-side filtering
   const debouncedSearchableColumnFilters = JSON.parse(
@@ -288,7 +287,7 @@ export function useDataTable<TData>({
     pageCount,
     state: {
       pagination,
-      sorting,
+      // sorting,
       columnVisibility,
       rowSelection,
       columnFilters,
@@ -296,7 +295,7 @@ export function useDataTable<TData>({
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onPaginationChange: setPagination,
-    onSortingChange: setSorting,
+    // onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),

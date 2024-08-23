@@ -1,18 +1,21 @@
 "use server";
 
+import { messages } from "@/constants/messages";
 import { prismaClient } from "@/lib/prisma";
 import { protectedActionClient } from "@/lib/safe-action";
 import { z } from "zod";
 
-const schema = z.object({
-  id: z.string(),
-  name: z.string(),
-  code: z.string(),
-  path: z.string(),
-});
-
 export const updateLinkAction = protectedActionClient
-  .schema(schema)
+  .schema(
+    z.object({
+      id: z.string({ message: messages.form.REQUIRED_FIELD }),
+      name: z.string({ message: messages.form.REQUIRED_FIELD }),
+      code: z.string({ message: messages.form.REQUIRED_FIELD }),
+      path: z
+        .string({ message: messages.form.REQUIRED_FIELD })
+        .url("Insira uma url válida!"),
+    }),
+  )
   .action(async ({ parsedInput: { id, name, code, path }, ctx: { user } }) => {
     const updateLink = await prismaClient.url.update({
       where: {

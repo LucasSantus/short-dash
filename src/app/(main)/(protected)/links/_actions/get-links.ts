@@ -6,15 +6,15 @@ import { protectedActionClient } from "@/lib/safe-action";
 import { z } from "zod";
 
 const schema = z.object({
-  pagination: z.object({
-    page: z.coerce.number(),
-    pageSize: z.coerce.number(),
-  }),
   search: z
     .object({
       name: z.string().optional(),
     })
     .optional(),
+  pagination: z.object({
+    page: z.coerce.number(),
+    pageSize: z.coerce.number(),
+  }),
   orderBy: z.enum(["desc", "asc"]),
 });
 

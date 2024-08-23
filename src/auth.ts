@@ -37,7 +37,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         if (!user) return null;
 
         const userData = {
-          name: user.name ?? "",
+          name: user.name,
           email: user.email,
           id: user.id,
         };
@@ -52,11 +52,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     newUser: "/sign-up",
   },
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
-      if (trigger === "update" && !!session) {
-        token.name = session?.name;
-      }
-
+    async jwt({ token, user }) {
       if (user)
         return {
           ...token,
@@ -65,17 +61,15 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       return token;
     },
-    async session({ session, user, token, newSession, trigger }) {
+    async session({ session, user, token }) {
       if (token) {
-        const { user: userToken } = token as {
+        const { user } = token as {
           user: {
             id: string;
           };
         };
 
-        session.user = { ...session.user, id: userToken.id };
-      } else if (trigger === "update" && !!newSession) {
-        session.user.name = newSession.name;
+        session.user = { ...session.user, id: user.id };
       } else {
         session.user = {
           ...session.user,

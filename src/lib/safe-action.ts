@@ -1,13 +1,16 @@
-import { createSafeActionClient } from "next-safe-action";
+import {
+  createSafeActionClient,
+  DEFAULT_SERVER_ERROR_MESSAGE,
+} from "next-safe-action";
 import { getSession } from "./getSession";
 
 export const protectedActionClient = createSafeActionClient({
-  handleReturnedServerError(e) {
-    if (e instanceof Error) {
-      return e.message;
+  handleReturnedServerError(error) {
+    if (error instanceof Error) {
+      return error.message;
     }
 
-    return "Erro inesperado";
+    return DEFAULT_SERVER_ERROR_MESSAGE;
   },
   handleServerErrorLog(error) {
     console.error(error);
@@ -25,7 +28,7 @@ export const protectedActionClient = createSafeActionClient({
 
   return next({
     ctx: {
-      user: user,
+      user,
     },
   });
 });

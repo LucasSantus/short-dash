@@ -9,13 +9,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { messages } from "@/constants/messages";
 import * as React from "react";
 import { type UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 export const createLinkSchema = z.object({
-  name: z.string(),
-  path: z.string(),
+  name: z.string({ message: messages.form.REQUIRED_FIELD }),
+  path: z
+    .string({ message: messages.form.REQUIRED_FIELD })
+    .url("Insira uma url válida!"),
 });
 
 export type CreateLinkSchema = z.infer<typeof createLinkSchema>;

@@ -42,7 +42,7 @@ export function useLinksQuery(
           orderBy: variables.orderBy,
         });
 
-        return response?.data as LinksResponse;
+        return response?.data as LinksResponse
       }),
     ...options,
   });

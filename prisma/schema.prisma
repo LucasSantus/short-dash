@@ -24,7 +24,7 @@ model Url {
   id               String @id @default(cuid())
   name             String
   path             String
-  code             String @unique
+  code             String @unique @default(cuid())
   numberOfVisitors Int    @default(0)
 
   owner    User?      @relation(fields: [ownerId], references: [id])
