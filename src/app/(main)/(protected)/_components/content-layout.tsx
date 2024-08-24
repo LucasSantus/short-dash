@@ -1,4 +1,4 @@
-import { getSession } from "@/lib/getSession";
+import { getSession } from "@/lib/get-session";
 import { Navbar } from "../_layouts/navbar";
 
 interface ContentLayoutProps {

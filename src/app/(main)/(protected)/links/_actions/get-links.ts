@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use server";
 
-import { getSession } from "@/lib/getSession";
+import { getSession } from "@/lib/get-session";
 import { prismaClient } from "@/lib/prisma";
 import { z } from "zod";
 

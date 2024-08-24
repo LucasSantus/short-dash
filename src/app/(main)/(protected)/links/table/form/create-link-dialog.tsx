@@ -31,7 +31,10 @@ export function CreateCategoryDialog() {
 
   const { mutateAsync: createLinkFn, isPending } = useMutation({
     mutationFn: async (values: CreateLinkSchema) =>
-      await createLinkAction(values),
+      await createLinkAction({
+        title: values.name,
+        originalUrl: values.path,
+      }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         predicate: (query) => {

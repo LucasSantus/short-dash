@@ -1,7 +1,7 @@
 "use server";
 
 import { messages } from "@/constants/messages";
-import { getSession } from "@/lib/getSession";
+import { getSession } from "@/lib/get-session";
 import { prismaClient } from "@/lib/prisma";
 import { z } from "zod";
 
