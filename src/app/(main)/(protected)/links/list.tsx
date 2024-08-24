@@ -12,7 +12,7 @@ export function ListLinks(): JSX.Element {
   const page = params.get("page") ? Number(params.get("page")) : 1;
   const pageSize = params.get("per_page") ? Number(params.get("per_page")) : 10;
 
-  const name = params.get("name") ?? "";
+  const title = params.get("title") ?? "";
 
   const { data, isLoading, isError, refetch } = useLinksQuery({
     orderBy: "desc",
@@ -21,7 +21,7 @@ export function ListLinks(): JSX.Element {
       pageSize,
     },
     search: {
-      name,
+      title,
     },
   });
 

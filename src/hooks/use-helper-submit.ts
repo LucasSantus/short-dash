@@ -26,9 +26,7 @@ export function useHelperSubmit(): HelperSubmitResponse {
     callback,
     urlToRedirect,
   }: ToastBeforeSubmitProps) {
-    const toastId = toast.loading(
-      message?.loading ?? messages.form.STORING_INFORMATION,
-    );
+    const toastId = toast.loading(message?.loading);
 
     try {
       await callback();

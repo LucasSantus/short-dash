@@ -7,6 +7,9 @@ export const envSchema = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
 
+  // PRJECT
+  NEXT_PUBLIC_BASE_URL: z.string().url().default("http://localhost:3000"),
+
   // DATABASE
   DATABASE_URL: z.string(),
   DIRECT_URL: z.string(),

@@ -17,25 +17,25 @@ import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { updateLinkAction } from "../../_actions/update-link";
-import { categorySchema, CategorySchema, LinkForm } from "../form/link-form";
-import { CategoryTableColumns } from "../table-columns";
+import {
+  createLinkSchema,
+  CreateLinkSchema,
+  LinkForm,
+} from "../form/link-form";
+import { LinkTableColumns } from "../table-columns";
 
 interface CategoryUpdateRowProps {
-  categoryId: string;
-  category: CategoryTableColumns;
+  link: LinkTableColumns;
 }
 
-export function CategoryUpdateRow({
-  categoryId,
-  category,
-}: CategoryUpdateRowProps): JSX.Element {
+export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  // const { updateCategoryOnCache } = useCategoryOnCache();
 
-  const form = useForm<CategorySchema>({
-    resolver: zodResolver(categorySchema),
+  const form = useForm<CreateLinkSchema>({
+    resolver: zodResolver(createLinkSchema),
     defaultValues: {
-      name: category.name ?? "",
+      name: link.title ?? "",
+      path: link.originalUrl ?? "",
     },
   });
 

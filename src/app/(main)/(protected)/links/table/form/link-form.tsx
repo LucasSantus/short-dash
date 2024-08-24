@@ -15,9 +15,9 @@ import { type UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 export const createLinkSchema = z.object({
-  name: z.string({ message: messages.form.REQUIRED_FIELD }),
+  name: z.string({ required_error: messages.form.REQUIRED_FIELD }),
   path: z
-    .string({ message: messages.form.REQUIRED_FIELD })
+    .string({ required_error: messages.form.REQUIRED_FIELD })
     .url("Insira uma url válida!"),
 });
 

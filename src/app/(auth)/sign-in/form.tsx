@@ -11,11 +11,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useHelperSubmit } from "@/hooks/use-helper-submit";
 import { SignInFormData, signInFormSchema } from "@/validation/auth/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogInIcon } from "lucide-react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -23,7 +23,7 @@ import { AuthLink } from "../_components/auth-link";
 import { AuthProviders } from "../_components/auth-providers";
 
 export function SignInForm() {
-  const { showToastBeforeSubmit } = useHelperSubmit();
+  const router = useRouter();
 
   const [isRedirectingToProviders, setIsRedirectingToProviders] =
     useState<boolean>(false);
@@ -39,30 +39,23 @@ export function SignInForm() {
   } = form;
 
   async function onSubmit({ email, password }: SignInFormData) {
-    await showToastBeforeSubmit({
-      urlToRedirect: "/",
-      message: {
-        loading: "Logando no sistema...",
-        success: "Logado com sucesso no sistema!",
-      },
-      callback: async () => {
-        try {
-          const response = await signIn("credentials", {
-            email,
-            password,
-            redirect: false,
-          });
+    try {
+      const response = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
 
-          if (!!response && response.error) {
-            toast.error(response.error);
-          }
-        } catch (error) {
-          if (error instanceof Error) {
-            toast.error(error.message);
-          }
-        }
-      },
-    });
+      if (!!response && response.error) {
+        toast.error(response.error);
+      }
+
+      router.push("/");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
   }
 
   const isDisabled = isSubmitting || isRedirectingToProviders;

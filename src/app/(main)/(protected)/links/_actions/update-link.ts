@@ -9,25 +9,26 @@ export const updateLinkAction = protectedActionClient
   .schema(
     z.object({
       id: z.string({ message: messages.form.REQUIRED_FIELD }),
-      name: z.string({ message: messages.form.REQUIRED_FIELD }),
-      code: z.string({ message: messages.form.REQUIRED_FIELD }),
-      path: z
+      title: z.string({ message: messages.form.REQUIRED_FIELD }),
+      description: z.string().optional(),
+      originalUrl: z
         .string({ message: messages.form.REQUIRED_FIELD })
         .url("Insira uma url válida!"),
     }),
   )
-  .action(async ({ parsedInput: { id, name, code, path }, ctx: { user } }) => {
-    const updateLink = await prismaClient.url.update({
-      where: {
-        id,
-      },
-      data: {
-        name,
-        code,
-        path,
-        ownerId: user.id,
-      },
-    });
+  .action(
+    async ({ parsedInput: { id, title, originalUrl }, ctx: { user } }) => {
+      const updateLink = await prismaClient.url.update({
+        where: {
+          id,
+        },
+        data: {
+          title,
+          originalUrl,
+          ownerId: user.id,
+        },
+      });
 
-    return updateLink;
-  });
+      return updateLink;
+    },
+  );

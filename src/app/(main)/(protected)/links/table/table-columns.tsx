@@ -16,26 +16,101 @@ export type LinkTableColumns = LinkResponse;
 
 export const getLinkLabelColumn: Record<keyof LinkTableColumns, string> = {
   id: "ID",
-  name: "Nome",
+  title: "Nome",
+  description: "Descrição",
   code: "Código",
   numberOfVisitors: "Número de Visitantes",
-  path: "Url de Redirecionamento",
+  originalUrl: "Url de Redirecionamento",
+  shortUrl: "Url Gerada",
   ownerId: "Id do Dono",
+  createdAt: "Criada em",
+  updatedAt: "Atualizada em",
+  expiresAt: "Expira em",
 };
 
 export function getLinkTableColumns(): ColumnDef<LinkTableColumns>[] {
   return [
     {
-      accessorKey: "name",
+      accessorKey: "title",
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={getLinkLabelColumn.name}
+          title={getLinkLabelColumn.title}
           className="pl-2"
         />
       ),
-      cell: ({ row }) => <span>{row.getValue("name")}</span>,
+      cell: ({ row }) => <span>{row.getValue("title")}</span>,
       enableHiding: false,
+    },
+    {
+      accessorKey: "originalUrl",
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title={getLinkLabelColumn.originalUrl}
+        />
+      ),
+      cell: ({ row }) => {
+        const redirectUrl: string = row.getValue("path");
+
+        return (
+          <div className="max-w-60 truncate">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={redirectUrl}
+                    target="_blank"
+                    className="text-blue-500 underline hover:text-blue-700"
+                  >
+                    {redirectUrl}
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <Link href={redirectUrl} target="_blank">
+                    {redirectUrl}
+                  </Link>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "shortUrl",
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title={getLinkLabelColumn.shortUrl}
+        />
+      ),
+      cell: ({ row }) => {
+        const shortUrl: string = row.getValue("shortUrl");
+
+        return (
+          <div className="max-w-60 truncate">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={shortUrl}
+                    target="_blank"
+                    className="text-blue-500 underline hover:text-blue-700"
+                  >
+                    {shortUrl}
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <Link href={shortUrl} target="_blank">
+                    {shortUrl}
+                  </Link>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        );
+      },
     },
     {
       accessorKey: "code",
@@ -63,33 +138,6 @@ export function getLinkTableColumns(): ColumnDef<LinkTableColumns>[] {
           <span className="text-muted-foreground">Visitante(s)</span>
         </div>
       ),
-    },
-    {
-      accessorKey: "path",
-      header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title={getLinkLabelColumn.path}
-        />
-      ),
-      cell: ({ row }) => {
-        const redirectUrl: string = row.getValue("path");
-
-        return (
-          <div className="max-w-60 truncate">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link href={redirectUrl}>{redirectUrl}</Link>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <Link href={redirectUrl}>{redirectUrl}</Link>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-        );
-      },
     },
     {
       id: "actions",

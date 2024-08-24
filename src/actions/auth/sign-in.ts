@@ -24,10 +24,9 @@ export async function authSignInServer({ email, password }: SignInFormData) {
     },
   });
 
-  if (!account || !account.id)
-    throw new Error(messages.account.ACCOUNT_NOT_FOUND);
+  if (!account) throw new Error(messages.account.ACCOUNT_NOT_FOUND);
 
-  if (account.providerType !== "credentials" || !user.hashedPassword)
+  if (account.type !== "credentials" || !user.hashedPassword)
     throw new Error(
       "Sua conta está vinculada a um método de autenticação diferente!",
     );

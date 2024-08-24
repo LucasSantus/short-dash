@@ -14,5 +14,5 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
 
   if (!url) return <>DEU BOSTA</>;
 
-  return redirect(url.path);
+  return redirect(url.originalUrl);
 }

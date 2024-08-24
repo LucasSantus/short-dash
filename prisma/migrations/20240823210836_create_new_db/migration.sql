@@ -1,20 +1,26 @@
 -- CreateTable
-CREATE TABLE "Historic" (
+CREATE TABLE "UrlAccess" (
     "id" TEXT NOT NULL,
     "isAnonymous" BOOLEAN NOT NULL,
+    "ipAddress" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "urlId" TEXT NOT NULL,
     "userId" TEXT,
 
-    CONSTRAINT "Historic_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "UrlAccess_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Url" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "path" TEXT NOT NULL,
-    "code" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "descrition" TEXT NOT NULL,
+    "originalUrl" TEXT NOT NULL,
+    "shortUrl" TEXT NOT NULL,
     "numberOfVisitors" INTEGER NOT NULL DEFAULT 0,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "expiresAt" TIMESTAMP(3) NOT NULL,
     "ownerId" TEXT,
 
     CONSTRAINT "Url_pkey" PRIMARY KEY ("id")
@@ -86,7 +92,7 @@ CREATE TABLE "Authenticator" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Url_code_key" ON "Url"("code");
+CREATE UNIQUE INDEX "Url_shortUrl_key" ON "Url"("shortUrl");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
@@ -98,13 +104,13 @@ CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credentialID");
 
 -- AddForeignKey
-ALTER TABLE "Historic" ADD CONSTRAINT "Historic_urlId_fkey" FOREIGN KEY ("urlId") REFERENCES "Url"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "UrlAccess" ADD CONSTRAINT "UrlAccess_urlId_fkey" FOREIGN KEY ("urlId") REFERENCES "Url"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Historic" ADD CONSTRAINT "Historic_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "UrlAccess" ADD CONSTRAINT "UrlAccess_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Url" ADD CONSTRAINT "Url_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Url" ADD CONSTRAINT "Url_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -3,7 +3,7 @@
 import { messages } from "@/constants/messages";
 import { prismaClient } from "@/lib/prisma";
 import { ResetPasswordFormData } from "@/validation/auth/reset-password";
-import * as bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export async function authResetPasswordServer({
   email,
@@ -27,7 +27,7 @@ export async function authResetPasswordServer({
     data: { hashedPassword },
   });
 
-  await prismaClient.verificationRequest.deleteMany({
+  await prismaClient.verificationToken.deleteMany({
     where: {
       user: {
         email,

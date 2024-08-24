@@ -2,7 +2,7 @@ import {
   createSafeActionClient,
   DEFAULT_SERVER_ERROR_MESSAGE,
 } from "next-safe-action";
-import { getSession } from "./getSession";
+import { getSession } from "./get-session";
 
 export const protectedActionClient = createSafeActionClient({
   handleReturnedServerError(error) {

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Links",
 };
 
-export default async function Links() {
+export default function Links() {
   return (
     <ContentLayout title="Links">
       <LinksBreadcrumb />

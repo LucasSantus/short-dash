@@ -11,10 +11,15 @@ interface LinksVariables extends GetLinksSchema {}
 
 export interface LinkResponse {
   id: string;
-  name: string;
-  path: string;
+  title: string;
   code: string;
+  description: string | null;
+  originalUrl: string;
+  shortUrl: string;
   numberOfVisitors: number;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  expiresAt: Date | string | null;
   ownerId: string | null;
 }
 
@@ -33,7 +38,7 @@ export function useLinksQuery(
     queryKey: ["links", variables],
     queryFn: async () =>
       await requestDelay<LinksResponse>(async () => {
-        const response = await getLinks({
+        return await getLinks({
           pagination: {
             page: variables.pagination.page,
             pageSize: variables.pagination.pageSize,
@@ -41,8 +46,6 @@ export function useLinksQuery(
           search: variables.search,
           orderBy: variables.orderBy,
         });
-
-        return response?.data as LinksResponse
       }),
     ...options,
   });

@@ -3,7 +3,7 @@
 import { messages } from "@/constants/messages";
 import { prismaClient } from "@/lib/prisma";
 import { ChangePasswordFormData } from "@/validation/auth/change-password";
-import * as bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export async function authChangePasswordServer({
   email,

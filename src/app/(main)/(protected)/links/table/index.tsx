@@ -23,7 +23,7 @@ export function LinkTable({ data }: LinkTableProps): JSX.Element {
   const filterFields: DataTableFilterField<LinkTableColumns>[] = [
     {
       label: "Nome",
-      value: "name",
+      value: "title",
       placeholder: "Buscar...",
     },
   ];
@@ -37,7 +37,7 @@ export function LinkTable({ data }: LinkTableProps): JSX.Element {
       columnPinning: { right: ["actions"] },
     },
     enableSorting: false,
-    getRowId: (originalRow, index) => `${originalRow.name}-${index}`,
+    getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
   });
 
   return (

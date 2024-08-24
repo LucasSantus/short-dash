@@ -2,7 +2,7 @@
 
 import { PROJECT_NAME } from "@/constants/config";
 import { messages } from "@/constants/messages";
-import EmailResetPassword from "@/emails/reset-password";
+import { EmailResetPassword } from "@/emails/reset-password";
 import { env } from "@/env";
 import { prismaClient } from "@/lib/prisma";
 import { resend } from "@/lib/resend";
@@ -23,7 +23,7 @@ export async function authForgetPasswordServer({
   if (!user || !user.name)
     throw new Error(messages.account.EMAIL_DONT_REGISTERED_ON_SYSTEM);
 
-  await prismaClient.verificationRequest.deleteMany({
+  await prismaClient.verificationToken.deleteMany({
     where: {
       user: {
         email,
@@ -35,7 +35,7 @@ export async function authForgetPasswordServer({
   const resetToken = generateHash.randomBytes();
   const passwordResetToken = generateHash.createHash(resetToken);
 
-  const verificationToken = await prismaClient.verificationRequest.create({
+  const verificationToken = await prismaClient.verificationToken.create({
     data: {
       token: passwordResetToken,
       expires: new Date(passwordResetExpires),

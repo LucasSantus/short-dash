@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use server";
 
+import { getSession } from "@/lib/getSession";
 import { prismaClient } from "@/lib/prisma";
-import { protectedActionClient } from "@/lib/safe-action";
 import { z } from "zod";
 
 const schema = z.object({
   search: z
     .object({
-      name: z.string().optional(),
+      title: z.string().optional(),
     })
     .optional(),
   pagination: z.object({
@@ -20,43 +20,48 @@ const schema = z.object({
 
 export type GetLinksSchema = z.infer<typeof schema>;
 
-export const getLinks = protectedActionClient
-  .schema(schema)
-  .action(
-    async ({ parsedInput: { pagination, search, orderBy }, ctx: { user } }) => {
-      let whereCondition = {
-        ownerId: user.id,
-      };
+export async function getLinks({
+  pagination,
+  search,
+  orderBy,
+}: GetLinksSchema) {
+  const { isAuthenticated, user } = await getSession();
 
-      if (search) {
-        whereCondition = {
-          ...whereCondition,
+  if (!isAuthenticated) throw new Error("Usuário não autenticado");
 
-          name: {
-            contains: search.name,
-            mode: "insensitive",
-          },
-        };
-      }
+  let whereCondition: any = {
+    ownerId: user.id,
+  };
 
-      const links = await prismaClient.url.findMany({
-        where: whereCondition,
-        orderBy: {
-          name: orderBy,
-        },
-        skip: (pagination.page - 1) * pagination.pageSize,
-        take: pagination.pageSize,
-      });
+  if (search) {
+    whereCondition = {
+      ...whereCondition,
 
-      const totalLinks = await prismaClient.url.count({
-        where: whereCondition,
-      });
+      title: {
+        contains: search.title,
+        mode: "insensitive",
+      },
+    };
+  }
 
-      return {
-        links,
-        totalLinks,
-        currentPage: pagination.page,
-        totalPages: Math.ceil(totalLinks / pagination.pageSize),
-      };
-    },
-  );
+  const [links, totalLinks] = await Promise.all([
+    prismaClient.url.findMany({
+      where: whereCondition,
+      orderBy: {
+        title: orderBy,
+      },
+      skip: (pagination.page - 1) * pagination.pageSize,
+      take: pagination.pageSize,
+    }),
+    prismaClient.url.count({
+      where: whereCondition,
+    }),
+  ]);
+
+  return {
+    links,
+    totalLinks,
+    currentPage: pagination.page,
+    totalPages: Math.ceil(totalLinks / pagination.pageSize),
+  };
+}
