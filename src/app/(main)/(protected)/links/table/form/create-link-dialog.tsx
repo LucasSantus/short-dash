@@ -30,11 +30,19 @@ export function CreateCategoryDialog() {
   });
 
   const { mutateAsync: createLinkFn, isPending } = useMutation({
-    mutationFn: async (values: CreateLinkSchema) =>
-      await createLinkAction({
-        title: values.name,
-        originalUrl: values.path,
-      }),
+    mutationFn: async (values: CreateLinkSchema) => {
+      try {
+        const res = await createLinkAction({
+          title: values.name,
+          originalUrl: values.path,
+        });
+
+        toast.error(res?.serverError);
+      } catch (error) {
+        console.error(error);
+        if (error instanceof Error) toast.error(error.message);
+      }
+    },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         predicate: (query) => {

@@ -30,8 +30,6 @@ export async function getUrlByCode(values: UrlByCodeSchema) {
 
   if (!url) throw new Error("Falha ao tentar procurar essa url");
 
-  const ipAddress: string = "";
-
   await Promise.all([
     prismaClient.url.update({
       where: {
@@ -43,7 +41,6 @@ export async function getUrlByCode(values: UrlByCodeSchema) {
     }),
     prismaClient.urlAccess.create({
       data: {
-        ipAddress,
         isAnonymous: !isAuthenticated,
         urlId: url.id,
         userId: user ? user.id : null,

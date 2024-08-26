@@ -16,12 +16,12 @@ import { PencilIcon, SaveIcon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { updateLinkAction } from "../../_actions/update-link";
 import {
-  createLinkSchema,
-  CreateLinkSchema,
-  LinkForm,
-} from "../form/link-form";
+  updateLinkAction,
+  updateLinkSchema,
+  UpdateLinkSchema,
+} from "../../_actions/update-link";
+import { LinkForm } from "../form/link-form";
 import { LinkTableColumns } from "../table-columns";
 
 interface CategoryUpdateRowProps {
@@ -31,18 +31,18 @@ interface CategoryUpdateRowProps {
 export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const form = useForm<CreateLinkSchema>({
-    resolver: zodResolver(createLinkSchema),
+  const form = useForm<UpdateLinkSchema>({
+    resolver: zodResolver(updateLinkSchema),
     defaultValues: {
-      name: link.title ?? "",
-      path: link.originalUrl ?? "",
+      title: link.title ?? "",
+      description: link.description ?? "",
+      originalUrl: link.originalUrl ?? "",
     },
   });
 
   const { mutateAsync: updateLinkFn, isPending } = useMutation({
-    mutationFn: async (values: any) => {
-      await updateLinkAction(values);
-    },
+    mutationFn: async (values: UpdateLinkSchema) =>
+      await updateLinkAction(values),
     onSuccess: async () => {
       // await updateCategoryOnCache({ categoryId, category: values });
 

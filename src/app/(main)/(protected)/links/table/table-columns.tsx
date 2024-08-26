@@ -51,7 +51,7 @@ export function getLinkTableColumns(): ColumnDef<LinkTableColumns>[] {
         />
       ),
       cell: ({ row }) => {
-        const redirectUrl: string = row.getValue("path");
+        const redirectUrl: string = row.getValue("originalUrl");
 
         return (
           <div className="max-w-60 truncate">

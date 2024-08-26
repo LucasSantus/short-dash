@@ -34,6 +34,8 @@ export const createLinkAction = protectedActionClient
         isUniqueCode = !!codeIfExists;
       } while (isUniqueCode);
 
+      console.log({ user });
+
       const shortUrl: string = `${process.env.NEXT_PUBLIC_BASE_URL}/${code}`;
 
       const newLink = await prismaClient.url.create({

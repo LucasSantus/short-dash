@@ -13,7 +13,6 @@ datasource db {
 model UrlAccess {
   id          String   @id @default(cuid())
   isAnonymous Boolean
-  ipAddress   String
   createdAt   DateTime @default(now())
 
   url    Url     @relation(fields: [urlId], references: [id], onDelete: Cascade)

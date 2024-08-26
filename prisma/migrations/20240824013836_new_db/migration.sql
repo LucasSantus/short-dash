@@ -14,13 +14,14 @@ CREATE TABLE "UrlAccess" (
 CREATE TABLE "Url" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "descrition" TEXT NOT NULL,
+    "description" TEXT,
     "originalUrl" TEXT NOT NULL,
     "shortUrl" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
     "numberOfVisitors" INTEGER NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "expiresAt" TIMESTAMP(3) NOT NULL,
+    "expiresAt" TIMESTAMP(3),
     "ownerId" TEXT,
 
     CONSTRAINT "Url_pkey" PRIMARY KEY ("id")
@@ -36,6 +37,7 @@ CREATE TABLE "User" (
     "hashedPassword" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -73,6 +75,7 @@ CREATE TABLE "VerificationToken" (
     "identifier" TEXT NOT NULL,
     "token" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL,
+    "userId" TEXT NOT NULL,
 
     CONSTRAINT "VerificationToken_pkey" PRIMARY KEY ("identifier","token")
 );
@@ -93,6 +96,9 @@ CREATE TABLE "Authenticator" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Url_shortUrl_key" ON "Url"("shortUrl");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Url_code_key" ON "Url"("code");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
@@ -117,6 +123,9 @@ ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "VerificationToken" ADD CONSTRAINT "VerificationToken_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Authenticator" ADD CONSTRAINT "Authenticator_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
