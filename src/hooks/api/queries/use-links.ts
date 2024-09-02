@@ -4,6 +4,7 @@ import {
   getLinks,
   GetLinksSchema,
 } from "@/app/(main)/(protected)/links/_actions/get-links";
+import { QueryKeys } from "@/constants/query-keys";
 import { requestDelay } from "@/utils/delay-graphql-request";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
@@ -35,7 +36,7 @@ export function useLinksQuery(
   options?: Omit<UseQueryOptions<LinksResponse>, "queryKey" | "queryFn">,
 ) {
   return useQuery<LinksResponse>({
-    queryKey: ["links", variables],
+    queryKey: [QueryKeys.Links, variables],
     queryFn: async () =>
       await requestDelay<LinksResponse>(async () => {
         return await getLinks({

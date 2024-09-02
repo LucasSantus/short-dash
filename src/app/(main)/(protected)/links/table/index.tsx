@@ -33,9 +33,6 @@ export function LinkTable({ data }: LinkTableProps): JSX.Element {
     columns,
     pageCount: data.totalPages,
     filterFields,
-    initialState: {
-      columnPinning: { right: ["actions"] },
-    },
     enableSorting: false,
     getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
   });

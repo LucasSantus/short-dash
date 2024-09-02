@@ -2,34 +2,45 @@ import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTrigger,
+  SheetTrigger
 } from "@/components/ui/sheet";
-import { MenuIcon, PanelsTopLeft } from "lucide-react";
+import { menuOptions } from "@/constants/menu-options";
+import { cn } from "@/lib/utils";
+import { MenuIcon } from "lucide-react";
 import Link from "next/link";
-import { Menu } from "./menu";
+import { usePathname } from "next/navigation";
 
 export function SheetMenu() {
+  const pathname = usePathname()
+
   return (
     <Sheet>
-      <SheetTrigger className="lg:hidden" asChild>
-        <Button className="h-8" variant="outline" size="icon">
-          <MenuIcon size={20} />
+      <SheetTrigger asChild>
+        <Button
+          variant="outline"
+          size="icon"
+          className="shrink-0 md:hidden"
+        >
+          <MenuIcon className="h-5 w-5" />
+          <span className="sr-only">Toggle navigation menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent className="flex h-full flex-col px-3 sm:w-72" side="left">
-        <SheetHeader>
-          <Button
-            className="flex items-center justify-center pb-2 pt-1"
-            variant="link"
-          >
-            <Link href="/dashboard" className="flex items-center gap-2">
-              <PanelsTopLeft className="mr-1 h-6 w-6" />
-              <h1 className="text-lg font-bold">Brand</h1>
-            </Link>
-          </Button>
-        </SheetHeader>
-        <Menu isOpen />
+      <SheetContent side="left">
+        <nav className="grid gap-6 text-lg font-medium">
+          {menuOptions.map(({ options }) => 
+            options.map(({ label, href }) => 
+              <Link
+                key={label}
+                href={href}
+                className={
+                  cn("transition-colors", pathname.includes(href) ? "text-foreground" : "text-muted-foreground hover:text-foreground")
+                }
+              >
+                {label}
+              </Link>
+            )
+          )}
+        </nav>
       </SheetContent>
     </Sheet>
   );

@@ -1,9 +1,9 @@
-import { LayoutDashboardIcon, LinkIcon } from "lucide-react";
+import { LayoutDashboardIcon, LinkIcon, LucideIcon } from "lucide-react";
 
 type MenuOption = {
   href: string;
   label: string;
-  icon: any;
+  icon: LucideIcon;
 };
 
 type Group = {

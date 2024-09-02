@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function Links() {
   return (
-    <ContentLayout title="Links">
+    <ContentLayout>
       <LinksBreadcrumb />
 
       <ListLinks />

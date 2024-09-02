@@ -110,11 +110,11 @@ export function Menu({ isOpen }: MenuProps) {
                     className="w-full justify-center"
                     isLoading={isRedirecting}
                   >
-                    <span className={cn(!isOpen && "hidden")}>Sign out</span>
+                    <span className={cn(!isOpen && "hidden")}>Log out</span>
                   </Button>
                 </TooltipTrigger>
                 {!isOpen && (
-                  <TooltipContent side="right">Sign out</TooltipContent>
+                  <TooltipContent side="right">Log out</TooltipContent>
                 )}
               </Tooltip>
             </TooltipProvider>
