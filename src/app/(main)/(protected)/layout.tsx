@@ -1,4 +1,4 @@
-import { getSession } from "@/lib/get-session";
+import { getSession } from "@/utils/get-session";
 import { redirect } from "next/navigation";
 import ProtectedLayout from "./_layouts";
 

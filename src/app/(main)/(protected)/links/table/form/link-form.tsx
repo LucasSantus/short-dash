@@ -9,32 +9,29 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { messages } from "@/constants/messages";
 import * as React from "react";
 import { type UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
-export const createLinkSchema = z.object({
-  name: z.string({ required_error: messages.form.REQUIRED_FIELD }),
-  path: z
-    .string({ required_error: messages.form.REQUIRED_FIELD })
-    .url("Insira uma url válida!"),
+export const linkSchema = z.object({
+  title: z.string({ message: "Title is required" }),
+  description: z.string({ message: "Description is required" }),
+  originalUrl: z
+    .string({ message: "Original URL is required" })
+    .url("Must be a valid URL"),
 });
 
-export type CreateLinkSchema = z.infer<typeof createLinkSchema>;
+export type LinkSchema = z.infer<typeof linkSchema>;
 
 interface LinkFormProps
   extends Omit<React.ComponentPropsWithRef<"form">, "onSubmit"> {
   children: React.ReactNode;
-  form: UseFormReturn<CreateLinkSchema>;
-  onSubmit: (data: CreateLinkSchema) => void;
+  form: UseFormReturn<LinkSchema>;
+  onSubmit: (data: LinkSchema) => void;
 }
 
 export function LinkForm({ form, onSubmit, children }: LinkFormProps) {
-  const {
-    control,
-    formState: { isSubmitting },
-  } = form;
+  const { control } = form;
 
   return (
     <Form {...form}>
@@ -44,8 +41,7 @@ export function LinkForm({ form, onSubmit, children }: LinkFormProps) {
       >
         <FormField
           control={control}
-          name="name"
-          disabled={isSubmitting}
+          name="title"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Título</FormLabel>
@@ -59,8 +55,21 @@ export function LinkForm({ form, onSubmit, children }: LinkFormProps) {
 
         <FormField
           control={control}
-          name="path"
-          disabled={isSubmitting}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Título</FormLabel>
+              <FormControl>
+                <Input placeholder="Insira o Título" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="originalUrl"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Url</FormLabel>

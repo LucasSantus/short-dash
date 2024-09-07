@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 
-import {
-  getLinks,
-  GetLinksSchema,
-} from "@/app/(main)/(protected)/links/_actions/get-links";
+
 import { QueryKeys } from "@/constants/query-keys";
-import { requestDelay } from "@/utils/delay-graphql-request";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
-interface LinksVariables extends GetLinksSchema {}
+interface LinksVariables {}
 
 export interface LinkResponse {
   id: string;
@@ -37,17 +33,9 @@ export function useLinksQuery(
 ) {
   return useQuery<LinksResponse>({
     queryKey: [QueryKeys.Links, variables],
-    queryFn: async () =>
-      await requestDelay<LinksResponse>(async () => {
-        return await getLinks({
-          pagination: {
-            page: variables.pagination.page,
-            pageSize: variables.pagination.pageSize,
-          },
-          search: variables.search,
-          orderBy: variables.orderBy,
-        });
-      }),
+    queryFn: async () => {
+      return [] as unknown as LinksResponse
+    },
     ...options,
   });
 }

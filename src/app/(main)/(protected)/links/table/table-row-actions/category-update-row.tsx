@@ -1,62 +1,48 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { messages } from "@/constants/messages";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { PencilIcon, SaveIcon, XIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 import { Fragment, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import {
-  updateLinkAction,
-  updateLinkSchema,
-  UpdateLinkSchema,
-} from "../../_actions/update-link";
-import { LinkForm } from "../form/link-form";
 import { LinkTableColumns } from "../table-columns";
 
 interface CategoryUpdateRowProps {
   link: LinkTableColumns;
 }
 
-export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
+export function LinkUpdateRow({  }: CategoryUpdateRowProps): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const form = useForm<UpdateLinkSchema>({
-    resolver: zodResolver(updateLinkSchema),
-    defaultValues: {
-      title: link.title ?? "",
-      description: link.description ?? "",
-      originalUrl: link.originalUrl ?? "",
-    },
-  });
+  // const form = useForm<UpdateLinkSchema>({
+  //   resolver: zodResolver(updateLinkSchema),
+  //   defaultValues: {
+  //     title: link.title ?? "",
+  //     description: link.description ?? "",
+  //     originalUrl: link.originalUrl ?? "",
+  //   },
+  // });
 
-  const { mutateAsync: updateLinkFn, isPending } = useMutation({
-    mutationFn: async (values: UpdateLinkSchema) =>
-      await updateLinkAction(values),
-    onSuccess: async () => {
-      // await updateCategoryOnCache({ categoryId, category: values });
+  // const { mutateAsync: updateLinkFn, isPending } = useMutation({
+  //   mutationFn: async (values: UpdateLinkSchema) =>
+  //     await updateLinkAction(values),
+  //   onSuccess: async () => {
+  //     // await updateCategoryOnCache({ categoryId, category: values });
 
-      form.reset();
+  //     form.reset();
 
-      setIsOpen(false);
+  //     setIsOpen(false);
 
-      toast.success(messages.form.DATA_HAS_BEEN_UPDATED);
-    },
-    onError: (error) => {
-      console.error(error);
-      toast.error(messages.form.ERROR_DATA_HAS_BEEN_UPDATED);
-    },
-  });
+  //     toast.success(messages.form.DATA_HAS_BEEN_UPDATED);
+  //   },
+  //   onError: (error) => {
+  //     console.error(error);
+  //     toast.error(messages.form.ERROR_DATA_HAS_BEEN_UPDATED);
+  //   },
+  // });
 
   return (
     <Fragment>
@@ -79,7 +65,7 @@ export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
               Preencha os campos abaixo para editar um link.
             </DialogDescription>
           </DialogHeader>
-          <LinkForm form={form} onSubmit={updateLinkFn}>
+          {/* <LinkForm form={form} onSubmit={updateLinkFn}>
             <DialogFooter className="gap-2 pt-2 sm:space-x-0">
               <DialogClose asChild>
                 <Button
@@ -98,7 +84,7 @@ export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
                 Salvar
               </Button>
             </DialogFooter>
-          </LinkForm>
+          </LinkForm> */}
         </DialogContent>
       </Dialog>
     </Fragment>

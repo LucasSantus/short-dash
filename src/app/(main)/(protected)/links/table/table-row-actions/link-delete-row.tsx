@@ -13,21 +13,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SaveIcon, Trash2Icon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { toast } from "sonner";
-import { deleteLinkAction } from "../../_actions/delete-link";
 
 interface LinkDeleteRowProps {
   linkId: string;
 }
 
-export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
+export function LinkDeleteRow({ }: LinkDeleteRowProps): JSX.Element {
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { mutateAsync: updateLinkFn, isPending } = useMutation({
     mutationFn: async () =>
-      await deleteLinkAction({
-        id: linkId,
-      }),
+      {},
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         predicate: (query) => {

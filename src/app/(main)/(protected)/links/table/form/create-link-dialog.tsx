@@ -11,57 +11,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { messages } from "@/constants/messages";
+import { trpc } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PlusIcon, SaveIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { createLinkAction } from "../../_actions/create-link";
-import { createLinkSchema, CreateLinkSchema, LinkForm } from "./link-form";
+import { LinkForm, LinkSchema, linkSchema } from "./link-form";
 
 export function CreateCategoryDialog() {
   const [open, setOpen] = useState(false);
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
-  const form = useForm<CreateLinkSchema>({
-    resolver: zodResolver(createLinkSchema),
+  const { mutate, isPending } = trpc.createLink.useMutation();
+
+  const form = useForm<LinkSchema>({
+    resolver: zodResolver(linkSchema),
   });
 
-  const { mutateAsync: createLinkFn, isPending } = useMutation({
-    mutationFn: async (values: CreateLinkSchema) => {
-      try {
-        const res = await createLinkAction({
-          title: values.name,
-          originalUrl: values.path,
-        });
-
-        toast.error(res?.serverError);
-      } catch (error) {
-        console.error(error);
-        if (error instanceof Error) toast.error(error.message);
-      }
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        predicate: (query) => {
-          return query.queryKey[0] === "links";
-        },
-      });
-
-      form.reset();
-
-      setOpen(false);
-
-      toast.success(messages.form.DATA_HAS_BEEN_STORED);
-    },
-    onError: (error) => {
-      console.error(error);
-
-      if (error instanceof Error) toast.error(error.message);
-    },
-  });
+  function onHandleSubmit(input: LinkSchema) {
+    mutate(input);
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -80,21 +49,24 @@ export function CreateCategoryDialog() {
             Preencha os campos abaixo para criar um novo link.
           </DialogDescription>
         </DialogHeader>
-        <LinkForm form={form} onSubmit={createLinkFn}>
+
+        {/* {error && <p>Something went wrong! {error.message}</p>} */}
+
+        <LinkForm form={form} onSubmit={onHandleSubmit}>
           <DialogFooter className="gap-2 pt-2 sm:space-x-0">
             <DialogClose asChild>
               <Button
                 type="button"
                 variant="secondary"
-                disabled={isPending}
                 icon={<XIcon className="size-4" />}
+                disabled={isPending}
               >
                 Cancelar
               </Button>
             </DialogClose>
             <Button
-              isLoading={isPending}
               icon={<SaveIcon className="size-4" />}
+              isLoading={isPending}
             >
               Salvar
             </Button>

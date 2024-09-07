@@ -9,7 +9,7 @@
     "source.organizeImports": "always"
   },
 
-  // prisma
+  // prismas
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
   },

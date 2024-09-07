@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+
 "use client";
 
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
-import { LinksResponse } from "@/hooks/api/queries/use-links";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTableFilterField } from "@/types/data-table";
 import { useMemo } from "react";
@@ -13,11 +14,9 @@ import {
   LinkTableColumns,
 } from "./table-columns";
 
-interface LinkTableProps {
-  data: LinksResponse;
-}
+interface LinkTableProps {}
 
-export function LinkTable({ data }: LinkTableProps): JSX.Element {
+export function LinkTable({}: LinkTableProps): JSX.Element {
   const columns = useMemo(() => getLinkTableColumns(), []);
 
   const filterFields: DataTableFilterField<LinkTableColumns>[] = [
@@ -29,9 +28,9 @@ export function LinkTable({ data }: LinkTableProps): JSX.Element {
   ];
 
   const { table } = useDataTable({
-    data: data.links,
+    data: [],
     columns,
-    pageCount: data.totalPages,
+    pageCount: 10,
     filterFields,
     enableSorting: false,
     getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
