@@ -6,17 +6,22 @@ import { DataTable } from "@/components/data-table/data-table";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import { DataTableFilterField } from "@/types/data-table";
+import { Url } from "@prisma/client";
 import { useMemo } from "react";
+import { LinkStatus, linkStatusDescription } from "../_types/links";
 import { CreateCategoryDialog } from "./form/create-link-dialog";
 import {
   getLinkLabelColumn,
+  getLinkStatusIcon,
   getLinkTableColumns,
   LinkTableColumns,
 } from "./table-columns";
 
-interface LinkTableProps {}
+interface LinkTableProps {
+  links: Url[];
+}
 
-export function LinkTable({}: LinkTableProps): JSX.Element {
+export function LinkTable({ links }: LinkTableProps): JSX.Element {
   const columns = useMemo(() => getLinkTableColumns(), []);
 
   const filterFields: DataTableFilterField<LinkTableColumns>[] = [
@@ -25,10 +30,23 @@ export function LinkTable({}: LinkTableProps): JSX.Element {
       value: "title",
       placeholder: "Buscar...",
     },
+    {
+      label: "Status",
+      value: "status",
+      options: Object.keys(linkStatusDescription).map((item) => {
+        const enumStatus = item as LinkStatus;
+
+        return {
+          label: linkStatusDescription[enumStatus],
+          value: enumStatus,
+          icon: getLinkStatusIcon(enumStatus),
+        };
+      }),
+    },
   ];
 
   const { table } = useDataTable({
-    data: [],
+    data: links,
     columns,
     pageCount: 10,
     filterFields,

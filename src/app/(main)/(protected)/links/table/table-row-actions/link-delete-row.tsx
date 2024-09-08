@@ -9,7 +9,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { messages } from "@/constants/messages";
+import { trpc } from "@/trpc/client";
+import { useQueryClient } from "@tanstack/react-query";
 import { SaveIcon, Trash2Icon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { toast } from "sonner";
@@ -18,29 +20,30 @@ interface LinkDeleteRowProps {
   linkId: string;
 }
 
-export function LinkDeleteRow({ }: LinkDeleteRowProps): JSX.Element {
-  const queryClient = useQueryClient();
+export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { mutateAsync: updateLinkFn, isPending } = useMutation({
-    mutationFn: async () =>
-      {},
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        predicate: (query) => {
-          return query.queryKey[0] === "links";
-        },
-      });
+  const queryClient = useQueryClient();
 
-      toast.success("foi po carai");
+  const { mutate, isPending } = trpc.link.deleteLink.useMutation({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["link", "getLinks"] });
+
+      toast.success(messages.form.DATA_HAS_BEEN_DELETED);
 
       setIsOpen(false);
     },
     onError: (error) => {
       console.error(error);
-      toast.error("deu erro na hora de ir po carai");
+      toast.error(messages.form.ERROR_DATA_HAS_BEEN_DELETED);
     },
   });
+
+  function onHandleSubmit() {
+    mutate({
+      id: linkId,
+    });
+  }
 
   return (
     <Fragment>
@@ -76,9 +79,7 @@ export function LinkDeleteRow({ }: LinkDeleteRowProps): JSX.Element {
             <Button
               isLoading={isPending}
               icon={<SaveIcon className="size-4" />}
-              onClick={() => {
-                updateLinkFn();
-              }}
+              onClick={onHandleSubmit}
             >
               Salvar
             </Button>

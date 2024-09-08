@@ -9,19 +9,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { LinkSchema } from "@/validation/main/link";
+import { LinkIcon } from "lucide-react";
 import * as React from "react";
 import { type UseFormReturn } from "react-hook-form";
-import { z } from "zod";
-
-export const linkSchema = z.object({
-  title: z.string({ message: "Title is required" }),
-  description: z.string({ message: "Description is required" }),
-  originalUrl: z
-    .string({ message: "Original URL is required" })
-    .url("Must be a valid URL"),
-});
-
-export type LinkSchema = z.infer<typeof linkSchema>;
 
 interface LinkFormProps
   extends Omit<React.ComponentPropsWithRef<"form">, "onSubmit"> {
@@ -58,9 +50,13 @@ export function LinkForm({ form, onSubmit, children }: LinkFormProps) {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Título</FormLabel>
+              <FormLabel>Descrição</FormLabel>
               <FormControl>
-                <Input placeholder="Insira o Título" {...field} />
+                <Textarea
+                  placeholder="Insira o Descrição"
+                  {...field}
+                  className="min-h-28 resize-none"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -72,9 +68,13 @@ export function LinkForm({ form, onSubmit, children }: LinkFormProps) {
           name="originalUrl"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Url</FormLabel>
+              <FormLabel>Url de Redirecionamento</FormLabel>
               <FormControl>
-                <Input placeholder="Insira a Url" {...field} />
+                <Input
+                  placeholder="Insira a Url de Redirecionamento"
+                  startComponent={<LinkIcon className="size-4" />}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

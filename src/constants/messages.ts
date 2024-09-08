@@ -6,12 +6,15 @@ export const messages = {
     ERROR_DATA_HAS_BEEN_STORED: "Erro ao salvar os dados. Tente novamente.",
     DATA_HAS_BEEN_UPDATED: "Dados atualizados com sucesso!",
     ERROR_DATA_HAS_BEEN_UPDATED: "Erro ao atualizar os dados. Tente novamente.",
+    DATA_HAS_BEEN_DELETED: "Dados deletados com sucesso!",
+    ERROR_DATA_HAS_BEEN_DELETED: "Erro ao deletar os dados. Tente novamente.",
     DATA_HAS_BEEN_BLOCKED: "Item bloqueado com sucesso!",
     ERROR_DATA_HAS_BEEN_BLOCKED: "Erro ao bloquear o item. Tente novamente.",
     DATA_HAS_BEEN_UNBLOCKED: "Item desbloqueado com sucesso!",
     ERROR_DATA_HAS_BEEN_UNBLOCKED:
       "Erro ao desbloquear o item. Tente novamente.",
     SELECT_ONE_ITEM: "Por favor, selecione um item.",
+    MUST_BE_URL_VALID: "Deve ser uma URL válida.",
   },
   account: {
     EMAIL_DONT_REGISTERED_ON_SYSTEM:

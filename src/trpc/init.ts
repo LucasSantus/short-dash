@@ -1,25 +1,49 @@
-import { initTRPC } from "@trpc/server";
-import { cache } from "react";
+import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
+import { TRPCContext } from "./context";
 
-export const createTRPCContext = cache(async () => {
-  /**
-   * @see: https://trpc.io/docs/server/context
-   */
-  return { userId: "user_123" };
-});
-
-// Avoid exporting the entire t-object
-// since it's not very descriptive.
-// For instance, the use of a t variable
-// is common in i18n libraries.
-const t = initTRPC.create({
-  /**
-   * @see https://trpc.io/docs/server/data-transformers
-   */
+const t = initTRPC.context<TRPCContext>().create({
   transformer: superjson,
 });
 
-// Base router and procedure helpers
+/**
+ * create trpc routers
+ */
 export const createTRPCRouter = t.router;
-export const baseProcedure = t.procedure;
+
+/**
+ * wrapper with merge routers
+ */
+export const mergeRouters = t.mergeRouters;
+
+/**
+ * Unprotected procedure
+ */
+export const publicProcedure = t.procedure;
+
+/**
+ * Protected procedure
+ */
+export const protectedProcedure = t.procedure.use(function isAuthed(opts) {
+  const {
+    ctx: { isAuthenticated, user },
+  } = opts;
+
+  if (!isAuthenticated) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Not authenticated",
+    });
+  }
+
+  if (!user || !user.id) {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "User not found" });
+  }
+
+  return opts.next({
+    ctx: {
+      user,
+      userId: user.id,
+    },
+  });
+});

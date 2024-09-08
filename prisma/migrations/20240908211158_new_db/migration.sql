@@ -1,8 +1,10 @@
+-- CreateEnum
+CREATE TYPE "UrlStatus" AS ENUM ('active', 'inactive');
+
 -- CreateTable
 CREATE TABLE "UrlAccess" (
     "id" TEXT NOT NULL,
     "isAnonymous" BOOLEAN NOT NULL,
-    "ipAddress" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "urlId" TEXT NOT NULL,
     "userId" TEXT,
@@ -19,6 +21,7 @@ CREATE TABLE "Url" (
     "shortUrl" TEXT NOT NULL,
     "code" TEXT NOT NULL,
     "numberOfVisitors" INTEGER NOT NULL DEFAULT 0,
+    "status" "UrlStatus" NOT NULL DEFAULT 'active',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "expiresAt" TIMESTAMP(3),

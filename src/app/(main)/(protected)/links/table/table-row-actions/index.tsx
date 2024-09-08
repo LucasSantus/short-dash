@@ -18,6 +18,8 @@ interface DataTableRowActionsProps {
 }
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
+  const link = row.original;
+
   return (
     <div className="flex justify-center">
       <DropdownMenu>
@@ -31,9 +33,9 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-40">
-          <LinkUpdateRow link={row.original} />
+          <LinkUpdateRow link={link} />
           <DropdownMenuSeparator />
-          <LinkDeleteRow linkId={row.original.id} />
+          <LinkDeleteRow linkId={link.id} />
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UrlStatus {
+  active
+  inactive
+}
+
 model UrlAccess {
   id          String   @id @default(cuid())
   isAnonymous Boolean
@@ -29,9 +34,11 @@ model Url {
   shortUrl         String    @unique
   code             String    @unique
   numberOfVisitors Int       @default(0)
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-  expiresAt        DateTime?
+  status           UrlStatus @default(active)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  expiresAt DateTime?
 
   owner     User?       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId   String?

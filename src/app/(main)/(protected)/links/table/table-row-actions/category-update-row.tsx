@@ -1,48 +1,66 @@
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { PencilIcon } from "lucide-react";
+import { messages } from "@/constants/messages";
+import { trpc } from "@/trpc/client";
+import { linkSchema, LinkSchema } from "@/validation/main/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
+import { PencilIcon, SaveIcon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { LinkForm } from "../form/link-form";
 import { LinkTableColumns } from "../table-columns";
 
 interface CategoryUpdateRowProps {
   link: LinkTableColumns;
 }
 
-export function LinkUpdateRow({  }: CategoryUpdateRowProps): JSX.Element {
+export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  // const form = useForm<UpdateLinkSchema>({
-  //   resolver: zodResolver(updateLinkSchema),
-  //   defaultValues: {
-  //     title: link.title ?? "",
-  //     description: link.description ?? "",
-  //     originalUrl: link.originalUrl ?? "",
-  //   },
-  // });
+  const queryClient = useQueryClient();
 
-  // const { mutateAsync: updateLinkFn, isPending } = useMutation({
-  //   mutationFn: async (values: UpdateLinkSchema) =>
-  //     await updateLinkAction(values),
-  //   onSuccess: async () => {
-  //     // await updateCategoryOnCache({ categoryId, category: values });
+  const form = useForm<LinkSchema>({
+    resolver: zodResolver(linkSchema),
+    defaultValues: {
+      title: link.title ?? "",
+      description: link.description ?? "",
+      originalUrl: link.originalUrl ?? "",
+    },
+  });
 
-  //     form.reset();
+  const { mutate, isPending } = trpc.link.updateLink.useMutation({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["link", "getLinks"] });
 
-  //     setIsOpen(false);
+      form.reset();
 
-  //     toast.success(messages.form.DATA_HAS_BEEN_UPDATED);
-  //   },
-  //   onError: (error) => {
-  //     console.error(error);
-  //     toast.error(messages.form.ERROR_DATA_HAS_BEEN_UPDATED);
-  //   },
-  // });
+      setIsOpen(false);
+
+      toast.success(messages.form.DATA_HAS_BEEN_UPDATED);
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error(messages.form.ERROR_DATA_HAS_BEEN_UPDATED);
+    },
+  });
+
+  function onHandleSubmit(input: LinkSchema) {
+    mutate({
+      ...input,
+      id: link.id,
+    });
+  }
 
   return (
     <Fragment>
@@ -65,7 +83,7 @@ export function LinkUpdateRow({  }: CategoryUpdateRowProps): JSX.Element {
               Preencha os campos abaixo para editar um link.
             </DialogDescription>
           </DialogHeader>
-          {/* <LinkForm form={form} onSubmit={updateLinkFn}>
+          <LinkForm form={form} onSubmit={onHandleSubmit}>
             <DialogFooter className="gap-2 pt-2 sm:space-x-0">
               <DialogClose asChild>
                 <Button
@@ -84,7 +102,7 @@ export function LinkUpdateRow({  }: CategoryUpdateRowProps): JSX.Element {
                 Salvar
               </Button>
             </DialogFooter>
-          </LinkForm> */}
+          </LinkForm>
         </DialogContent>
       </Dialog>
     </Fragment>
