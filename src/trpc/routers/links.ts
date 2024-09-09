@@ -1,7 +1,9 @@
+import { LinkStatus } from "@/app/(main)/(protected)/links/_types/links";
 import { messages } from "@/constants/messages";
 import { prismaClient } from "@/lib/prisma";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { createNewCode } from "@/utils/create-new-code";
+import { Prisma } from "@prisma/client";
 import { z } from "zod";
 
 export const linksRouter = createTRPCRouter({
@@ -18,12 +20,15 @@ export const linksRouter = createTRPCRouter({
             page: z.coerce.number(),
             pageSize: z.coerce.number(),
           }),
-          orderBy: z.enum(["desc", "asc"]),
+          statuses: z.array(z.nativeEnum(LinkStatus)).optional(),
         }),
       )
       .query(
-        async ({ input: { search, orderBy, pagination }, ctx: { userId } }) => {
-          let whereCondition: any = {
+        async ({
+          input: { search, pagination, statuses },
+          ctx: { userId },
+        }) => {
+          let whereCondition: Prisma.UrlWhereInput = {
             ownerId: userId,
           };
 
@@ -38,11 +43,20 @@ export const linksRouter = createTRPCRouter({
             };
           }
 
+          if (statuses && statuses.length > 0) {
+            whereCondition = {
+              ...whereCondition,
+              status: {
+                in: statuses,
+              },
+            };
+          }
+
           const [links, totalLinks] = await Promise.all([
             prismaClient.url.findMany({
               where: whereCondition,
               orderBy: {
-                title: orderBy,
+                createdAt: "desc",
               },
               skip: (pagination.page - 1) * pagination.pageSize,
               take: pagination.pageSize,

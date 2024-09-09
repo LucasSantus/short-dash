@@ -19,9 +19,10 @@ import {
 
 interface LinkTableProps {
   links: Url[];
+  pageCount: number;
 }
 
-export function LinkTable({ links }: LinkTableProps): JSX.Element {
+export function LinkTable({ links, pageCount }: LinkTableProps): JSX.Element {
   const columns = useMemo(() => getLinkTableColumns(), []);
 
   const filterFields: DataTableFilterField<LinkTableColumns>[] = [
@@ -48,9 +49,8 @@ export function LinkTable({ links }: LinkTableProps): JSX.Element {
   const { table } = useDataTable({
     data: links,
     columns,
-    pageCount: 10,
+    pageCount,
     filterFields,
-    enableSorting: false,
     getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
   });
 

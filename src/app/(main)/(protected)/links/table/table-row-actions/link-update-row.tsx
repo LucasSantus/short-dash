@@ -83,7 +83,7 @@ export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
               Preencha os campos abaixo para editar um link.
             </DialogDescription>
           </DialogHeader>
-          <LinkForm form={form} onSubmit={onHandleSubmit}>
+          <LinkForm form={form} onSubmit={onHandleSubmit} isPending={isPending}>
             <DialogFooter className="gap-2 pt-2 sm:space-x-0">
               <DialogClose asChild>
                 <Button

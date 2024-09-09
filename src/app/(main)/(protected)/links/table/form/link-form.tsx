@@ -17,12 +17,18 @@ import { type UseFormReturn } from "react-hook-form";
 
 interface LinkFormProps
   extends Omit<React.ComponentPropsWithRef<"form">, "onSubmit"> {
-  children: React.ReactNode;
   form: UseFormReturn<LinkSchema>;
   onSubmit: (data: LinkSchema) => void;
+  isPending: boolean;
+  children: React.ReactNode;
 }
 
-export function LinkForm({ form, onSubmit, children }: LinkFormProps) {
+export function LinkForm({
+  form,
+  onSubmit,
+  isPending,
+  children,
+}: LinkFormProps) {
   const { control } = form;
 
   return (
@@ -34,6 +40,7 @@ export function LinkForm({ form, onSubmit, children }: LinkFormProps) {
         <FormField
           control={control}
           name="title"
+          disabled={isPending}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Título</FormLabel>
@@ -48,6 +55,7 @@ export function LinkForm({ form, onSubmit, children }: LinkFormProps) {
         <FormField
           control={control}
           name="description"
+          disabled={isPending}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Descrição</FormLabel>
@@ -66,6 +74,7 @@ export function LinkForm({ form, onSubmit, children }: LinkFormProps) {
         <FormField
           control={control}
           name="originalUrl"
+          disabled={isPending}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Url de Redirecionamento</FormLabel>

@@ -69,9 +69,7 @@ export function CreateCategoryDialog() {
           </DialogDescription>
         </DialogHeader>
 
-        {/* {error && <p>Something went wrong! {error.message}</p>} */}
-
-        <LinkForm form={form} onSubmit={onHandleSubmit}>
+        <LinkForm form={form} onSubmit={onHandleSubmit} isPending={isPending}>
           <DialogFooter className="gap-2 pt-2 sm:space-x-0">
             <DialogClose asChild>
               <Button

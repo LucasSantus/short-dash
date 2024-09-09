@@ -10,8 +10,9 @@ import {
 import { Row } from "@tanstack/react-table";
 import { EllipsisIcon } from "lucide-react";
 import { LinkTableColumns } from "../table-columns";
-import { LinkUpdateRow } from "./category-update-row";
 import { LinkDeleteRow } from "./link-delete-row";
+import { LinkDetailsRow } from "./link-details-row";
+import { LinkUpdateRow } from "./link-update-row";
 
 interface DataTableRowActionsProps {
   row: Row<LinkTableColumns>;
@@ -34,6 +35,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-40">
           <LinkUpdateRow link={link} />
+          <LinkDetailsRow link={link} />
           <DropdownMenuSeparator />
           <LinkDeleteRow linkId={link.id} />
         </DropdownMenuContent>
