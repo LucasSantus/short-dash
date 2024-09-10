@@ -2,7 +2,7 @@
 
 import { Fragment, PropsWithChildren, useEffect, useState } from "react";
 
-interface RenderOnClientProps extends PropsWithChildren {}
+type RenderOnClientProps = PropsWithChildren;
 
 export function RenderOnClient({ children }: RenderOnClientProps) {
   const [isClient, setIsClient] = useState(false);

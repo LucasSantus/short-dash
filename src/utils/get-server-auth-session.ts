@@ -1,7 +1,7 @@
 import session from "@/lib/auth";
-import { User } from "next-auth";
+import { type User } from "next-auth";
 
-export type AuthSession =
+export type ServerAuthSession =
   | {
       user: User;
       isAuthenticated: true;
@@ -11,7 +11,7 @@ export type AuthSession =
       isAuthenticated: false;
     };
 
-export async function getSession(): Promise<AuthSession> {
+export async function getServerAuthSession(): Promise<ServerAuthSession> {
   const data = await session();
 
   if (!data)

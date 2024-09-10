@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { menuOptions } from "@/constants/menu-options";
 import { cn } from "@/lib/utils";
-import { AuthSession } from "@/utils/get-session";
+import { ServerAuthSession } from "@/utils/get-server-auth-session";
 import { LogOutIcon, UserIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -20,13 +20,11 @@ import { usePathname } from "next/navigation";
 import { SheetMenu } from "./sheet-menu";
 
 interface NavbarProps {
-  session: AuthSession;
+  session: ServerAuthSession;
 }
 
-export function Navbar({
-  session: { isAuthenticated, user },
-}: NavbarProps) {
-  const pathname = usePathname()
+export function Navbar({ session: { isAuthenticated, user } }: NavbarProps) {
+  const pathname = usePathname();
 
   function onHandleLogout() {
     signOut();
@@ -37,18 +35,21 @@ export function Navbar({
       <div className="mx-4 flex h-14 items-center justify-between sm:mx-8">
         <div className="flex items-center space-x-4 lg:space-x-0">
           <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-            {menuOptions.map(({ options }) => 
-              options.map(({ label, href }) => 
+            {menuOptions.map(({ options }) =>
+              options.map(({ label, href }) => (
                 <Link
                   key={label}
                   href={href}
-                  className={
-                    cn("transition-colors", pathname.includes(href) ? "text-foreground" : "text-muted-foreground hover:text-foreground")
-                  }
+                  className={cn(
+                    "transition-colors",
+                    pathname.includes(href)
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
                 >
                   {label}
                 </Link>
-              )
+              )),
             )}
           </nav>
           <SheetMenu />

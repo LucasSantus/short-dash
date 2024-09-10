@@ -42,5 +42,28 @@ export function ListLinks(): JSX.Element {
   if (isError || !data)
     return <QueryFailed refetch={refetch} isLoading={isLoading} />;
 
-  return <LinkTable links={data.links} pageCount={data.totalPages} />;
+  // return (
+  //   <div className="mt-2 flex flex-1 items-center justify-center rounded-lg border-2 border-dashed shadow-sm">
+  //     <div className="flex flex-col items-center gap-1 text-center">
+  //       <h3 className="text-2xl font-bold tracking-tight">
+  //         Voce não tem links registrados
+  //       </h3>
+  //       <p className="text-sm text-muted-foreground">
+  //         Pode começar a gerencia-los assim que adicionar um novo link.
+  //       </p>
+  //       <Button className="mt-4">Adicionar novo link</Button>
+  //       <CreateCategoryDialog />
+  //     </div>
+  //   </div>
+  // );
+
+  console.log({ data });
+
+  return (
+    <LinkTable
+      links={data.links}
+      pageCount={data.pagination.pageCount}
+      totalCount={data.pagination.totalCount}
+    />
+  );
 }

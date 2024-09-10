@@ -1,4 +1,4 @@
-import { getSession } from "@/utils/get-session";
+import { getServerAuthSession } from "@/utils/get-server-auth-session";
 import { redirect } from "next/navigation";
 import ProtectedLayout from "./_layouts";
 
@@ -7,7 +7,7 @@ interface LayoutProps {
 }
 
 export default async function Layout({ children }: Readonly<LayoutProps>) {
-  const { isAuthenticated } = await getSession();
+  const { isAuthenticated } = await getServerAuthSession();
   if (!isAuthenticated) redirect("/sign-in");
 
   return <ProtectedLayout>{children}</ProtectedLayout>;

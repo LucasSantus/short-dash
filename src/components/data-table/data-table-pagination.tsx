@@ -1,25 +1,49 @@
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { type Table } from "@tanstack/react-table";
-import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronsLeftIcon,
+  ChevronsRightIcon,
+} from "lucide-react";
 
+const pageSizeOptions: number[] = [10, 20, 30, 40, 50];
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
-  pageSizeOptions?: number[];
+  totalCount: number;
 }
 
 export function DataTablePagination<TData>({
   table,
-  pageSizeOptions = [10, 20, 30, 40, 50],
+  totalCount = 0,
 }: DataTablePaginationProps<TData>) {
+  const pageIndex = table.getState().pagination.pageIndex;
+  const pageSize = table.getState().pagination.pageSize;
+  const from = pageIndex * pageSize + 1;
+  const to = Math.min((pageIndex + 1) * pageSize, totalCount);
+
   return (
-    <div className="flex w-full flex-col-reverse items-center gap-4 overflow-auto p-1 sm:flex-row sm:gap-8 justify-end">
+    <div className="flex w-full flex-col-reverse items-center justify-between gap-4 overflow-auto p-1 sm:flex-row sm:gap-8">
+      <div>
+        <p className="whitespace-nowrap text-sm font-medium text-muted-foreground">
+          Mostrando de {from} até {to} de {totalCount} resultados
+        </p>
+      </div>
       <div className="flex flex-col-reverse items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
         <div className="flex items-center space-x-2">
-          <p className="whitespace-nowrap text-sm font-medium">Linhas por página</p>
+          <p className="whitespace-nowrap text-sm font-medium">
+            Linhas por página
+          </p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
-            onValueChange={value => {
+            onValueChange={(value) => {
               table.setPageSize(Number(value));
             }}
           >
@@ -27,7 +51,7 @@ export function DataTablePagination<TData>({
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
-              {pageSizeOptions.map(pageSize => (
+              {pageSizeOptions.map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>
@@ -36,7 +60,8 @@ export function DataTablePagination<TData>({
           </Select>
         </div>
         <div className="flex items-center justify-center text-sm font-medium">
-          Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
+          Página {table.getState().pagination.pageIndex + 1} de{" "}
+          {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-2">
           <Button

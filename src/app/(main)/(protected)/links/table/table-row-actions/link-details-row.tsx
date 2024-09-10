@@ -57,7 +57,7 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
       </DropdownMenuItem>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Visualizar Link</DialogTitle>
             <DialogDescription>Link</DialogDescription>
@@ -77,7 +77,7 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
                       </Badge>
                       <div className="flex items-center space-x-2">
                         <Users className="size-4" />
-                        <span>{link.numberOfVisitors} visitantes</span>
+                        <span>{link.amountOfAccesses} Acessos</span>
                       </div>
                     </div>
 

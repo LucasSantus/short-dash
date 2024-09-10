@@ -1,4 +1,4 @@
-import { getUrlByCode } from "@/actions/get/get-url-by-token";
+import { trpcServer } from "@/trpc/server";
 import { redirect } from "next/navigation";
 
 interface RedirectPageProps {
@@ -8,11 +8,15 @@ interface RedirectPageProps {
 }
 
 export default async function RedirectPage({ params }: RedirectPageProps) {
-  const url = await getUrlByCode({
+  const link = await trpcServer.link.redirectUrlByCode({
     code: params.code,
   });
 
-  if (!url) return <>DEU BOSTA</>;
+  // const url = await getUrlByCode({
+  //   code: params.code,
+  // });
 
-  return redirect(url.originalUrl);
+  if (!link) return <>DEU RUIM</>;
+
+  return redirect(link.originalUrl);
 }

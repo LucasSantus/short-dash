@@ -1,4 +1,4 @@
-import { getSession } from "@/utils/get-session";
+import { getServerAuthSession } from "@/utils/get-server-auth-session";
 import { Navbar } from "../_layouts/navbar";
 
 interface ContentLayoutProps {
@@ -6,7 +6,7 @@ interface ContentLayoutProps {
 }
 
 export async function ContentLayout({ children }: ContentLayoutProps) {
-  const session = await getSession();
+  const session = await getServerAuthSession();
 
   return (
     <div className="flex flex-1 flex-col">

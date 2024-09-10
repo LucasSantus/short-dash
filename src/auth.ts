@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/consistent-type-imports */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import { Adapter } from "next-auth/adapters";
@@ -7,7 +11,7 @@ import { authSignInServer } from "./actions/auth/sign-in";
 import { env } from "./env";
 import { prismaClient } from "./lib/prisma";
 
-export const { auth, handlers, signIn, signOut } = NextAuth({
+export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
   session: { strategy: "jwt" },
   adapter: PrismaAdapter(prismaClient) as Adapter,
   providers: [
@@ -45,6 +49,15 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         return userData;
       },
     }),
+    /**
+     * ...add more providers here.
+     *
+     * Most other providers require a bit more work than the Discord provider. For example, the
+     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
+     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
+     *
+     * @see https://next-auth.js.org/providers/github
+     */
   ],
   secret: env.NEXTAUTH_SECRET,
   pages: {

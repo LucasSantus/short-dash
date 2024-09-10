@@ -1,5 +1,12 @@
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { getCommonPinningStyles } from "@/utils/data-table";
 import { flexRender, type Table as TanstackTable } from "@tanstack/react-table";
@@ -11,18 +18,29 @@ interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
    * @type TanstackTable<TData>
    */
   table: TanstackTable<TData>;
+
+  totalCount: number;
 }
 
-export function DataTable<TData>({ table, children, className, ...props }: DataTableProps<TData>) {
+export function DataTable<TData>({
+  table,
+  children,
+  className,
+  totalCount = 0,
+  ...props
+}: DataTableProps<TData>) {
   return (
-    <div className={cn("w-full space-y-2.5 overflow-auto", className)} {...props}>
+    <div
+      className={cn("w-full space-y-2.5 overflow-auto", className)}
+      {...props}
+    >
       {children}
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map(headerGroup => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
+                {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
@@ -31,7 +49,12 @@ export function DataTable<TData>({ table, children, className, ...props }: DataT
                         ...getCommonPinningStyles({ column: header.column }),
                       }}
                     >
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
                   );
                 })}
@@ -40,23 +63,32 @@ export function DataTable<TData>({ table, children, className, ...props }: DataT
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
-                  {row.getVisibleCells().map(cell => (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
                       style={{
                         ...getCommonPinningStyles({ column: cell.column }),
                       }}
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={table.getAllColumns().length} className="h-24 text-center">
+                <TableCell
+                  colSpan={table.getAllColumns().length}
+                  className="h-24 text-center"
+                >
                   Não tem dados disponiveis.
                 </TableCell>
               </TableRow>
@@ -65,7 +97,7 @@ export function DataTable<TData>({ table, children, className, ...props }: DataT
         </Table>
       </div>
       <div className="flex flex-col gap-2.5">
-        <DataTablePagination table={table} />
+        <DataTablePagination table={table} totalCount={totalCount} />
       </div>
     </div>
   );

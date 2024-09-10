@@ -30,6 +30,8 @@ export function CreateCategoryDialog() {
     resolver: zodResolver(linkSchema),
   });
 
+  const utils = trpc.useUtils();
+
   const { mutate, isPending } = trpc.link.createLink.useMutation({
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["link", "getLinks"] });
@@ -45,6 +47,9 @@ export function CreateCategoryDialog() {
 
       if (error instanceof Error) toast.error(error.message);
     },
+    onSettled() {
+      utils.link.getLinks.invalidate();
+    },
   });
 
   function onHandleSubmit(input: LinkSchema) {
@@ -58,7 +63,7 @@ export function CreateCategoryDialog() {
           size="sm"
           icon={<PlusIcon className="size-4" aria-hidden="true" />}
         >
-          Novo Link
+          Adicionar Link
         </Button>
       </DialogTrigger>
       <DialogContent>

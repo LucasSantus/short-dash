@@ -24,7 +24,7 @@ export const getLinkLabelColumn: Record<keyof LinkTableColumns, string> = {
   title: "Nome",
   description: "Descrição",
   code: "Código",
-  numberOfVisitors: "Número de Visitantes",
+  amountOfAccesses: "Número de Acessos",
   originalUrl: "Redirecionamento",
   shortUrl: "Url Gerada",
   status: "Status",
@@ -135,20 +135,20 @@ export function getLinkTableColumns(): ColumnDef<LinkTableColumns>[] {
       },
     },
     {
-      accessorKey: "numberOfVisitors",
+      accessorKey: "amountOfAccesses",
       header: ({ column }) => (
         <DataTableColumnHeader
           column={column}
-          title={getLinkLabelColumn.numberOfVisitors}
+          title={getLinkLabelColumn.amountOfAccesses}
         />
       ),
       cell: ({ row }) => {
-        const numberOfVisitors = row.original.numberOfVisitors;
+        const amountOfAccesses = row.original.amountOfAccesses;
 
         return (
           <div className="flex items-center gap-2">
-            <span className="text-muted-foreground">{numberOfVisitors}</span>
-            <span className="text-muted-foreground">Visitante(s)</span>
+            <span className="text-muted-foreground">{amountOfAccesses}</span>
+            <span className="text-muted-foreground">Acesso(s)</span>
           </div>
         );
       },

@@ -1,5 +1,4 @@
-
-import { getSession } from "@/utils/get-session";
+import { getServerAuthSession } from "@/utils/get-server-auth-session";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -10,7 +9,7 @@ interface AuthTemplateProps {
 export default async function AuthTemplate({
   children,
 }: Readonly<AuthTemplateProps>) {
-  const { isAuthenticated } = await getSession();
+  const { isAuthenticated } = await getServerAuthSession();
   if (isAuthenticated) redirect("/");
 
   return (
