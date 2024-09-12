@@ -1,13 +1,15 @@
-import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
@@ -58,15 +60,26 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
         Deletar
       </DropdownMenuItem>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Deletar Link</DialogTitle>
-            <DialogDescription>Confirme para deletar o link</DialogDescription>
-          </DialogHeader>
+      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmação de Exclusão de Link</AlertDialogTitle>
+            <AlertDialogDescription>
+              Você está prestes a excluir permanentemente este link do sistema.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
 
-          <DialogFooter className="gap-2 pt-2 sm:space-x-0">
-            <DialogClose asChild>
+          <Alert variant="destructive">
+            <Trash2Icon className="h-4 w-4" />
+            <AlertTitle>Atenção!</AlertTitle>
+            <AlertDescription>
+              Essa ação é irreversível e resultará na remoção definitiva do
+              acesso ao link excluido. Deseja continuar com a exclusão?
+            </AlertDescription>
+          </Alert>
+
+          <AlertDialogFooter className="gap-2 pt-2 sm:space-x-0">
+            <AlertDialogCancel asChild>
               <Button
                 type="button"
                 variant="secondary"
@@ -75,17 +88,19 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
               >
                 Cancelar
               </Button>
-            </DialogClose>
-            <Button
-              isLoading={isPending}
-              icon={<SaveIcon className="size-4" />}
-              onClick={onHandleSubmit}
-            >
-              Salvar
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            </AlertDialogCancel>
+            <AlertDialogAction asChild>
+              <Button
+                isLoading={isPending}
+                icon={<SaveIcon className="size-4" />}
+                onClick={onHandleSubmit}
+              >
+                Continuar
+              </Button>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Fragment>
   );
 }

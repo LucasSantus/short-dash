@@ -15,7 +15,6 @@ import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
 import { linkSchema, LinkSchema } from "@/validation/main/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
 import { PlusIcon, SaveIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,7 +23,6 @@ import { LinkForm } from "./link-form";
 
 export function CreateCategoryDialog() {
   const [open, setOpen] = useState(false);
-  const queryClient = useQueryClient();
 
   const form = useForm<LinkSchema>({
     resolver: zodResolver(linkSchema),
@@ -33,22 +31,19 @@ export function CreateCategoryDialog() {
   const utils = trpc.useUtils();
 
   const { mutate, isPending } = trpc.link.createLink.useMutation({
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["link", "getLinks"] });
+    onError: (error) => {
+      console.error(error);
+
+      if (error instanceof Error) toast.error(error.message);
+    },
+    onSettled: async () => {
+      await utils.link.getLinks.invalidate();
 
       form.reset();
 
       setOpen(false);
 
       toast.success(messages.form.DATA_HAS_BEEN_STORED);
-    },
-    onError: (error) => {
-      console.error(error);
-
-      if (error instanceof Error) toast.error(error.message);
-    },
-    onSettled() {
-      utils.link.getLinks.invalidate();
     },
   });
 

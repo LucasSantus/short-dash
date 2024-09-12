@@ -7,9 +7,10 @@ import NextAuth from "next-auth";
 import { Adapter } from "next-auth/adapters";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-import { authSignInServer } from "./actions/auth/sign-in";
 import { env } from "./env";
 import { prismaClient } from "./lib/prisma";
+import { trpcServer } from "./trpc/server";
+import { signInFormSchema } from "./validation/auth/sign-in";
 
 export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
   session: { strategy: "jwt" },
@@ -26,16 +27,14 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const emailCredentials = credentials.email as string | undefined;
-        const passwordCredentials = credentials.password as string | undefined;
+        const { email, password } =
+          await signInFormSchema.parseAsync(credentials);
 
-        if (!emailCredentials || !passwordCredentials) {
-          throw new Error("Erro");
-        }
+        return null;
 
-        const user = await authSignInServer({
-          email: emailCredentials,
-          password: passwordCredentials,
+        const user = await trpcServer.auth.signIn({
+          email,
+          password,
         });
 
         if (!user) return null;

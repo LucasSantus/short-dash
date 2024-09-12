@@ -9,7 +9,7 @@ import { createNewCode } from "@/utils/create-new-code";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
 
-export const linkRouter = createTRPCRouter({
+export const linkRoute = createTRPCRouter({
   getLinks: protectedProcedure
     .input(
       z.object({
