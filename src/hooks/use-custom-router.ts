@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import type { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter as useNextRouter, usePathname } from "next/navigation";
 import * as NProgress from "nprogress";
 import { useCallback } from "react";
@@ -14,7 +14,7 @@ export function useCustomRouter(): ReturnType<typeof useNextRouter> {
       href !== pathname && NProgress.start();
       router.replace(href, options);
     },
-    [router, pathname],
+    [router, pathname]
   );
 
   const push: typeof router.push = useCallback(
@@ -22,7 +22,7 @@ export function useCustomRouter(): ReturnType<typeof useNextRouter> {
       href !== pathname && NProgress.start();
       router.push(href, options);
     },
-    [router, pathname],
+    [router, pathname]
   );
 
   return {

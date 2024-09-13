@@ -18,10 +18,7 @@ interface DataTableViewOptionsProps<TData> {
   getLabelColumns?: Record<keyof TData, string>;
 }
 
-export function DataTableViewOptions<TData>({
-  table,
-  getLabelColumns,
-}: DataTableViewOptionsProps<TData>) {
+export function DataTableViewOptions<TData>({ table, getLabelColumns }: DataTableViewOptionsProps<TData>) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -40,14 +37,9 @@ export function DataTableViewOptions<TData>({
         <DropdownMenuSeparator />
         {table
           .getAllColumns()
-          .filter(
-            (column) =>
-              typeof column.accessorFn !== "undefined" && column.getCanHide(),
-          )
+          .filter((column) => typeof column.accessorFn !== "undefined" && column.getCanHide())
           .map((column) => {
-            const label = getLabelColumns
-              ? getLabelColumns[column.id as keyof TData]
-              : column.id;
+            const label = getLabelColumns ? getLabelColumns[column.id as keyof TData] : column.id;
 
             return (
               <DropdownMenuCheckboxItem

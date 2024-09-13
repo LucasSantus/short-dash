@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { ContentLayout } from "../_components/content-layout";
 import { DashboardBreadcrumb } from "./breadcrumb";
 

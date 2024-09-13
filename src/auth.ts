@@ -3,13 +3,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import { compare } from "bcryptjs";
 import NextAuth from "next-auth";
-import { Adapter } from "next-auth/adapters";
+import type { Adapter } from "next-auth/adapters";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
+import { messages } from "./constants/messages";
 import { env } from "./env";
 import { prismaClient } from "./lib/prisma";
-import { trpcServer } from "./trpc/server";
 import { signInFormSchema } from "./validation/auth/sign-in";
 
 export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
@@ -27,17 +28,31 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const { email, password } =
-          await signInFormSchema.parseAsync(credentials);
+        const { email, password } = await signInFormSchema.parseAsync(credentials);
 
-        return null;
-
-        const user = await trpcServer.auth.signIn({
-          email,
-          password,
+        const user = await prismaClient.user.findUnique({
+          where: {
+            email,
+          },
         });
 
-        if (!user) return null;
+        if (!user) throw new Error(messages.account.USER_NOT_FOUND);
+
+        if (user.deletedAt) throw new Error("Este usuário foi deletado!");
+
+        const account = await prismaClient.account.findFirst({
+          where: {
+            userId: user.id,
+          },
+        });
+
+        if (!account) throw new Error(messages.account.ACCOUNT_NOT_FOUND);
+
+        if (!user.hashedPassword) throw new Error("Ocorreu um problema ao tentar recuperar a Conta!");
+
+        const passwordMatch = compare(password, user.hashedPassword);
+
+        if (!passwordMatch) throw new Error("A Senha informada está incorreta!");
 
         const userData = {
           name: user.name,

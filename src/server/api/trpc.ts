@@ -1,6 +1,6 @@
 import { prismaClient } from "@/lib/prisma";
 import { getServerAuthSession } from "@/utils/get-server-auth-session";
-import { initTRPC, TRPCError } from "@trpc/server";
+import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
@@ -40,8 +40,7 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
       ...shape,
       data: {
         ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
+        zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
       },
     };
   },
@@ -86,9 +85,7 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
   const result = await next();
 
   const end = Date.now();
-  console.log(
-    `\n [TRPC] ${path} took ${end - start}ms to execute - artificial delay in dev \n`,
-  );
+  console.info(`\n [TRPC] ${path} took ${end - start}ms to execute - artificial delay in dev \n`);
 
   return result;
 });
@@ -110,22 +107,20 @@ export const publicProcedure = t.procedure.use(timingMiddleware);
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure
-  .use(timingMiddleware)
-  .use(({ ctx, next }) => {
-    if (!ctx.session || !ctx.session.user) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "Usuário não autenticado!",
-      });
-    }
-
-    return next({
-      ctx: {
-        session: {
-          ...ctx.session,
-          user: ctx.session.user,
-        },
-      },
+export const protectedProcedure = t.procedure.use(timingMiddleware).use(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Usuário não autenticado!",
     });
+  }
+
+  return next({
+    ctx: {
+      session: {
+        ...ctx.session,
+        user: ctx.session.user,
+      },
+    },
   });
+});

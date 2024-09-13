@@ -21,11 +21,7 @@ export function useHelperSubmit(): HelperSubmitResponse {
   const router = useRouter();
   const [isRedirecting, startTransition] = useTransition();
 
-  async function showToastBeforeSubmit({
-    message,
-    callback,
-    urlToRedirect,
-  }: ToastBeforeSubmitProps) {
+  async function showToastBeforeSubmit({ message, callback, urlToRedirect }: ToastBeforeSubmitProps) {
     const toastId = toast.loading(message?.loading);
 
     try {
@@ -39,7 +35,7 @@ export function useHelperSubmit(): HelperSubmitResponse {
       await new Promise((resolve) =>
         setTimeout(async () => {
           resolve(null);
-        }, 1400),
+        }, 1400)
       );
 
       startTransition(async () => {

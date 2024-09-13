@@ -2,16 +2,9 @@
 
 import { InputPassword } from "@/components/input-password";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SignInFormData, signInFormSchema } from "@/validation/auth/sign-in";
+import { type SignInFormData, signInFormSchema } from "@/validation/auth/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogInIcon } from "lucide-react";
 import { signIn } from "next-auth/react";
@@ -25,8 +18,7 @@ import { AuthProviders } from "../_components/auth-providers";
 export function SignInForm() {
   const router = useRouter();
 
-  const [isRedirectingToProviders, setIsRedirectingToProviders] =
-    useState<boolean>(false);
+  const [isRedirectingToProviders, setIsRedirectingToProviders] = useState<boolean>(false);
 
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInFormSchema),
@@ -71,11 +63,7 @@ export function SignInForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Digite o e-mail:"
-                    disabled={isDisabled}
-                    {...field}
-                  />
+                  <Input placeholder="Digite o e-mail:" disabled={isDisabled} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -89,11 +77,7 @@ export function SignInForm() {
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <InputPassword
-                    placeholder="Digite a senha:"
-                    disabled={isDisabled}
-                    {...field}
-                  />
+                  <InputPassword placeholder="Digite a senha:" disabled={isDisabled} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

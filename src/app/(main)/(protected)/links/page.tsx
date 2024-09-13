@@ -1,7 +1,7 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { ContentLayout } from "../_components/content-layout";
-import { LinksBreadcrumb } from "./breadcrumb";
-import { ListLinks } from "./list";
+import { LinksBreadcrumb } from "./_components/breadcrumb";
+import { LinkList } from "./list";
 
 export const metadata: Metadata = {
   title: "Links",
@@ -12,7 +12,7 @@ export default function Links() {
     <ContentLayout>
       <LinksBreadcrumb />
 
-      <ListLinks />
+      <LinkList />
     </ContentLayout>
   );
 }

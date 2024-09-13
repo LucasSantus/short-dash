@@ -1,5 +1,5 @@
 import { KeyRoundIcon } from "lucide-react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { AuthLayout } from "../_components/_layouts";
 import { AlreadyAccount } from "../_components/already-account";
 import { SignUpForm } from "./form";

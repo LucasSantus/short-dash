@@ -8,7 +8,7 @@ import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import NextTopLoader from "nextjs-toploader";
-import { PropsWithChildren, Suspense, useState } from "react";
+import { type PropsWithChildren, Suspense, useState } from "react";
 import SuperJSON from "superjson";
 import { Navigation } from "./navigation";
 import { NoScript } from "./no-script";
@@ -21,8 +21,7 @@ export function Providers({ children }: PropsWithChildren) {
       links: [
         loggerLink({
           enabled: (op) =>
-            process.env.NODE_ENV === "development" ||
-            (op.direction === "down" && op.result instanceof Error),
+            process.env.NODE_ENV === "development" || (op.direction === "down" && op.result instanceof Error),
         }),
         unstable_httpBatchStreamLink({
           transformer: SuperJSON,
@@ -34,7 +33,7 @@ export function Providers({ children }: PropsWithChildren) {
           },
         }),
       ],
-    }),
+    })
   );
 
   // const [queryClient] = useState(() => new QueryClient());
@@ -75,9 +74,7 @@ export function Providers({ children }: PropsWithChildren) {
               <Navigation />
             </Suspense>
 
-            {process.env.NODE_ENV !== "production" && (
-              <ReactQueryDevtools initialIsOpen={false} />
-            )}
+            {process.env.NODE_ENV !== "production" && <ReactQueryDevtools initialIsOpen={false} />}
 
             {children}
           </ThemeProvider>

@@ -1,14 +1,12 @@
 import { getServerAuthSession } from "@/utils/get-server-auth-session";
 import { redirect } from "next/navigation";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface AuthTemplateProps {
   children: ReactNode;
 }
 
-export default async function AuthTemplate({
-  children,
-}: Readonly<AuthTemplateProps>) {
+export default async function AuthTemplate({ children }: Readonly<AuthTemplateProps>) {
   const { isAuthenticated } = await getServerAuthSession();
   if (isAuthenticated) redirect("/");
 

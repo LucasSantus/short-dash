@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Providers } from "./providers";
 
 import "../styles/globals.css";
@@ -27,10 +27,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-        )}
+        className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}
         suppressHydrationWarning
       >
         <Providers>{children}</Providers>

@@ -8,11 +8,7 @@ export interface QueryFailedProps {
   error?: Error | null;
 }
 
-export default function QueryFailed({
-  refetch,
-  isLoading,
-  error,
-}: QueryFailedProps) {
+export default function QueryFailed({ refetch, isLoading, error }: QueryFailedProps) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-5">
       <h2 className="text-center text-sm font-medium text-red-600">

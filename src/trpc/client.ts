@@ -1,7 +1,7 @@
-import { AppRouter } from "@/server/api/root";
-import { QueryClient } from "@tanstack/react-query";
+import type { AppRouter } from "@/server/api/root";
+import type { QueryClient } from "@tanstack/react-query";
 import { createTRPCReact } from "@trpc/react-query";
-import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
+import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import { createQueryClient } from "./query-client";
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;

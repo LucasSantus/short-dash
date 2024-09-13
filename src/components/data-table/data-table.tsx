@@ -1,16 +1,9 @@
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { getCommonPinningStyles } from "@/utils/data-table";
-import { flexRender, type Table as TanstackTable } from "@tanstack/react-table";
-import * as React from "react";
+import { type Table as TanstackTable, flexRender } from "@tanstack/react-table";
+import type * as React from "react";
 
 interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -22,18 +15,9 @@ interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
   totalCount: number;
 }
 
-export function DataTable<TData>({
-  table,
-  children,
-  className,
-  totalCount = 0,
-  ...props
-}: DataTableProps<TData>) {
+export function DataTable<TData>({ table, children, className, totalCount = 0, ...props }: DataTableProps<TData>) {
   return (
-    <div
-      className={cn("w-full space-y-2.5 overflow-auto", className)}
-      {...props}
-    >
+    <div className={cn("w-full space-y-2.5 overflow-auto", className)} {...props}>
       {children}
       <div className="overflow-hidden rounded-md border">
         <Table>
@@ -49,12 +33,7 @@ export function DataTable<TData>({
                         ...getCommonPinningStyles({ column: header.column }),
                       }}
                     >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
                 })}
@@ -64,10 +43,7 @@ export function DataTable<TData>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
@@ -75,20 +51,14 @@ export function DataTable<TData>({
                         ...getCommonPinningStyles({ column: cell.column }),
                       }}
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={table.getAllColumns().length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={table.getAllColumns().length} className="h-24 text-center">
                   Não tem dados disponiveis.
                 </TableCell>
               </TableRow>

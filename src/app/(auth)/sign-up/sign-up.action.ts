@@ -2,7 +2,7 @@
 
 import { messages } from "@/constants/messages";
 import { prismaClient } from "@/lib/prisma";
-import { SignUpFormData } from "@/validation/auth/sign-up";
+import type { SignUpFormData } from "@/validation/auth/sign-up";
 import { redirect } from "next/navigation";
 
 export async function authSignUpServer({
@@ -17,8 +17,6 @@ export async function authSignUpServer({
     },
   });
 
-  console.log(1, { emailExists });
-
   if (emailExists) throw new Error(messages.account.EMAIL_REGISTERED_ON_SYSTEM);
 
   // const hashedPassword = await bcrypt.hash(password, 10);
@@ -31,8 +29,6 @@ export async function authSignUpServer({
   //     hashedPassword: password,
   //   },
   // });
-
-  console.log(3);
 
   redirect("/");
 

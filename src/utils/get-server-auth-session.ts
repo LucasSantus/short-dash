@@ -1,5 +1,5 @@
 import session from "@/lib/auth";
-import { type User } from "next-auth";
+import type { User } from "next-auth";
 
 export type ServerAuthSession =
   | {

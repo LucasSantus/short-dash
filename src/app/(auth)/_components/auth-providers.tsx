@@ -2,9 +2,9 @@
 
 import { GoogleIcon } from "@/components/icons/google";
 import { Button } from "@/components/ui/button";
-import { BuiltInProviderType } from "next-auth/providers/index";
-import { LiteralUnion, signIn } from "next-auth/react";
-import { Dispatch, Fragment, SetStateAction } from "react";
+import type { BuiltInProviderType } from "next-auth/providers/index";
+import { type LiteralUnion, signIn } from "next-auth/react";
+import { type Dispatch, Fragment, type SetStateAction } from "react";
 
 interface AuthProvidersProps {
   isDisabled: boolean;
@@ -12,14 +12,8 @@ interface AuthProvidersProps {
   setIsRedirecting: Dispatch<SetStateAction<boolean>>;
 }
 
-export function AuthProviders({
-  isDisabled,
-  isRedirecting,
-  setIsRedirecting,
-}: AuthProvidersProps): JSX.Element {
-  async function onHandleSelectedProvider(
-    provider: LiteralUnion<BuiltInProviderType>,
-  ) {
+export function AuthProviders({ isDisabled, isRedirecting, setIsRedirecting }: AuthProvidersProps): JSX.Element {
+  async function onHandleSelectedProvider(provider: LiteralUnion<BuiltInProviderType>) {
     setIsRedirecting(true);
 
     await signIn(provider);
@@ -34,9 +28,7 @@ export function AuthProviders({
           <span className="w-full border-t border-border" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-card px-2 text-muted-foreground">
-            OU CONTINUAR COM
-          </span>
+          <span className="bg-card px-2 text-muted-foreground">OU CONTINUAR COM</span>
         </div>
       </div>
 

@@ -1,14 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -16,15 +9,14 @@ import { useForm } from "react-hook-form";
 
 import { InputPassword } from "@/components/input-password";
 import { useHelperSubmit } from "@/hooks/use-helper-submit";
-import { SignUpFormData, signUpFormSchema } from "@/validation/auth/sign-up";
+import { type SignUpFormData, signUpFormSchema } from "@/validation/auth/sign-up";
 import { SaveIcon } from "lucide-react";
 import { useState } from "react";
 import { AuthProviders } from "../_components/auth-providers";
 import { authSignUpServer } from "./sign-up.action";
 
 export function SignUpForm() {
-  const [isRedirectingToProviders, setIsRedirectingToProviders] =
-    useState<boolean>(false);
+  const [isRedirectingToProviders, setIsRedirectingToProviders] = useState<boolean>(false);
 
   const { showToastBeforeSubmit } = useHelperSubmit();
 

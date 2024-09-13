@@ -1,5 +1,5 @@
-import { LucideIcon } from "lucide-react";
-import { Fragment, PropsWithChildren } from "react";
+import type { LucideIcon } from "lucide-react";
+import { Fragment, type PropsWithChildren } from "react";
 
 interface AuthLayoutProps extends PropsWithChildren {
   title: string;
@@ -7,12 +7,7 @@ interface AuthLayoutProps extends PropsWithChildren {
   icon: LucideIcon;
 }
 
-export function AuthLayout({
-  title,
-  description,
-  icon: Icon,
-  children,
-}: AuthLayoutProps): JSX.Element {
+export function AuthLayout({ title, description, icon: Icon, children }: AuthLayoutProps): JSX.Element {
   return (
     <Fragment>
       <div className="flex flex-col items-center justify-center gap-1 text-center">

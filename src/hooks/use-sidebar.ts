@@ -18,6 +18,6 @@ export const useSidebarToggle = create(
     {
       name: SIDEBAR_KEY_LOCAL_STORAGE,
       storage: createJSONStorage(() => localStorage),
-    },
-  ),
+    }
+  )
 );

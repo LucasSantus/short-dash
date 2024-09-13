@@ -1,15 +1,13 @@
-import { type Column } from "@tanstack/react-table"
+import type { Column } from "@tanstack/react-table";
 
 export function getCommonPinningStyles<TData>({
   column,
 }: {
-  column: Column<TData>
+  column: Column<TData>;
 }): React.CSSProperties {
-  const isPinned = column.getIsPinned()
-  const isLastLeftPinnedColumn =
-    isPinned === "left" && column.getIsLastColumn("left")
-  const isFirstRightPinnedColumn =
-    isPinned === "right" && column.getIsFirstColumn("right")
+  const isPinned = column.getIsPinned();
+  const isLastLeftPinnedColumn = isPinned === "left" && column.getIsLastColumn("left");
+  const isFirstRightPinnedColumn = isPinned === "right" && column.getIsFirstColumn("right");
 
   return {
     boxShadow: isLastLeftPinnedColumn
@@ -24,5 +22,5 @@ export function getCommonPinningStyles<TData>({
     background: isPinned ? "hsl(var(--background))" : undefined,
     width: column.getSize(),
     zIndex: isPinned ? 1 : 0,
-  }
+  };
 }

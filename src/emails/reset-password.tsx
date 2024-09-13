@@ -7,11 +7,7 @@ interface EmailResetPasswordProps {
   applicationName: string;
 }
 
-export const EmailResetPassword = ({
-  url,
-  username,
-  applicationName,
-}: EmailResetPasswordProps) => {
+export const EmailResetPassword = ({ url, username, applicationName }: EmailResetPasswordProps) => {
   const previewText = `Recuperação de Senha | ${applicationName}`;
 
   return (
@@ -23,8 +19,8 @@ export const EmailResetPassword = ({
         <Text>Olá {username},</Text>
 
         <Text>
-          Alguém solicitou recentemente uma alteração de senha da sua conta do{" "}
-          {applicationName}. Se foi você, você pode definir uma nova senha aqui
+          Alguém solicitou recentemente uma alteração de senha da sua conta do {applicationName}. Se foi você, você pode
+          definir uma nova senha aqui
         </Text>
       </Section>
 
@@ -40,13 +36,8 @@ export const EmailResetPassword = ({
       <Hr className="mx-0 my-5 w-full border border-solid border-gray-200" />
 
       <Section className="text-sm leading-6 text-gray-400">
-        <Text>
-          Se você não deseja alterar sua senha ou não solicitou isso, basta
-          ignorar e excluir esta mensagem.
-        </Text>
-        <Text>
-          Para manter sua conta segura, não encaminhe este e-mail para ninguém.
-        </Text>
+        <Text>Se você não deseja alterar sua senha ou não solicitou isso, basta ignorar e excluir esta mensagem.</Text>
+        <Text>Para manter sua conta segura, não encaminhe este e-mail para ninguém.</Text>
       </Section>
     </EmailTemplate>
   );

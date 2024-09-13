@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, PropsWithChildren, useEffect, useState } from "react";
+import { type PropsWithChildren, useEffect, useState } from "react";
 
 type RenderOnClientProps = PropsWithChildren;
 
@@ -11,5 +11,5 @@ export function RenderOnClient({ children }: RenderOnClientProps) {
     setIsClient(true);
   }, []);
 
-  return <Fragment>{isClient ? children : null}</Fragment>;
+  return isClient ? children : null;
 }

@@ -1,14 +1,14 @@
-import * as crypto from "crypto";
+import * as crypto from "node:crypto";
 
 class Hash {
-  private static readonly defaultBytes: number = 20;
+  private static readonly DEFAULT_BYTES = 20;
 
   static createHash(textToHash: string): string {
     return crypto.createHash("sha256").update(textToHash).digest("hex");
   }
 
   static randomBytes(): string {
-    return crypto.randomBytes(this.defaultBytes).toString("hex");
+    return crypto.randomBytes(Hash.DEFAULT_BYTES).toString("hex");
   }
 }
 

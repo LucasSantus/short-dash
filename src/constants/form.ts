@@ -4,7 +4,7 @@
  * @returns A string informing that the minimum number of allowed characters is equal to the provided value.
  */
 export function FORM_MIN_CHAR_LENGTH(value: number): string {
-  return "O mínimo de caracteres é " + value;
+  return `O mínimo de caracteres é ${value}`;
 }
 
 /**
@@ -13,5 +13,5 @@ export function FORM_MIN_CHAR_LENGTH(value: number): string {
  * @returns A string informing that the maximum number of allowed characters is equal to the provided value.
  */
 export function FORM_MAX_CHAR_LENGTH(value: number): string {
-  return "O máximo de caracteres é " + value;
+  return `O máximo de caracteres é ${value}`;
 }

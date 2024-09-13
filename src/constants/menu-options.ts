@@ -1,4 +1,4 @@
-import { LayoutDashboardIcon, LinkIcon, LucideIcon } from "lucide-react";
+import { LayoutDashboardIcon, LinkIcon, type LucideIcon } from "lucide-react";
 
 type MenuOption = {
   href: string;

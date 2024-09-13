@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 
-import { env } from "@/env";
+import type { env } from "@/env";
 
 declare global {
   namespace NodeJS {

@@ -8,7 +8,7 @@ interface RedirectPageProps {
 }
 
 export default async function RedirectPage({ params }: RedirectPageProps) {
-  const link = await trpcServer.link.redirectUrlByCode({
+  const link = await trpcServer.link.redirectUrlByCodeMutation({
     code: params.code,
   });
 

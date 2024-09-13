@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { type Column } from "@tanstack/react-table";
+import type { Column } from "@tanstack/react-table";
 import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon, EyeOffIcon } from "lucide-react";
 
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
@@ -53,21 +53,30 @@ export function DataTableColumnHeader<TData, TValue>({
         <DropdownMenuContent align="start">
           {column.getCanSort() && (
             <>
-              <DropdownMenuItem aria-label="Sort ascending" onClick={() => column.toggleSorting(false)}>
-                <ArrowUpIcon className="mr-2 size-3.5 text-muted-foreground/70" aria-hidden="true" />
-                Asc
+              <DropdownMenuItem
+                aria-label="Sort ascending"
+                onClick={() => column.toggleSorting(false)}
+                icon={<ArrowUpIcon className="size-3.5 text-muted-foreground/70" aria-hidden="true" />}
+              >
+                Crescente
               </DropdownMenuItem>
-              <DropdownMenuItem aria-label="Sort descending" onClick={() => column.toggleSorting(true)}>
-                <ArrowDownIcon className="mr-2 size-3.5 text-muted-foreground/70" aria-hidden="true" />
-                Desc
+              <DropdownMenuItem
+                aria-label="Sort descending"
+                onClick={() => column.toggleSorting(true)}
+                icon={<ArrowDownIcon className="size-3.5 text-muted-foreground/70" aria-hidden="true" />}
+              >
+                Decrescente
               </DropdownMenuItem>
             </>
           )}
           {column.getCanSort() && column.getCanHide() && <DropdownMenuSeparator />}
           {column.getCanHide() && (
-            <DropdownMenuItem aria-label="Hide column" onClick={() => column.toggleVisibility(false)}>
-              <EyeOffIcon className="mr-2 size-3.5 text-muted-foreground/70" aria-hidden="true" />
-              Hide
+            <DropdownMenuItem
+              aria-label="Hide column"
+              onClick={() => column.toggleVisibility(false)}
+              icon={<EyeOffIcon className="size-3.5 text-muted-foreground/70" aria-hidden="true" />}
+            >
+              Esconder
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>

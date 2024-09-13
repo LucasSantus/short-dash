@@ -5,7 +5,7 @@ import { DataTableViewOptions } from "@/components/data-table/data-table-view-op
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { DataTableFilterField } from "@/types/data-table";
+import type { DataTableFilterField } from "@/types/data-table";
 import type { Table } from "@tanstack/react-table";
 import { XIcon } from "lucide-react";
 import * as React from "react";
@@ -29,8 +29,8 @@ export function DataTableToolbar<TData>({
   // Memoize computation of searchableColumns and filterableColumns
   const { searchableColumns, filterableColumns } = React.useMemo(() => {
     return {
-      searchableColumns: filterFields.filter(field => !field.options),
-      filterableColumns: filterFields.filter(field => field.options),
+      searchableColumns: filterFields.filter((field) => !field.options),
+      filterableColumns: filterFields.filter((field) => field.options),
     };
   }, [filterFields]);
 
@@ -39,20 +39,20 @@ export function DataTableToolbar<TData>({
       <div className="flex items-center space-x-2">
         {searchableColumns.length > 0 &&
           searchableColumns.map(
-            column =>
+            (column) =>
               table.getColumn(column.value ? String(column.value) : "") && (
                 <Input
                   key={String(column.value)}
                   placeholder={column.placeholder}
                   value={(table.getColumn(String(column.value))?.getFilterValue() as string) ?? ""}
-                  onChange={event => table.getColumn(String(column.value))?.setFilterValue(event.target.value)}
+                  onChange={(event) => table.getColumn(String(column.value))?.setFilterValue(event.target.value)}
                   className="h-9 w-40 lg:w-64"
                 />
-              ),
+              )
           )}
         {filterableColumns.length > 0 &&
           filterableColumns.map(
-            column =>
+            (column) =>
               table.getColumn(column.value ? String(column.value) : "") && (
                 <DataTableFacetedFilter
                   key={String(column.value)}
@@ -60,7 +60,7 @@ export function DataTableToolbar<TData>({
                   title={column.label}
                   options={column.options ?? []}
                 />
-              ),
+              )
           )}
         {isFiltered && (
           <Button

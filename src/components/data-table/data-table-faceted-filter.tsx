@@ -12,9 +12,10 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Option } from "@/types/data-table";
-import { Column } from "@tanstack/react-table";
+import type { Option } from "@/types/data-table";
+import type { Column } from "@tanstack/react-table";
 import { CheckIcon, PlusCircleIcon } from "lucide-react";
+import { Fragment } from "react";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -32,11 +33,10 @@ export function DataTableFacetedFilter<TData, TValue>({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="h-9 border-dashed">
-          <PlusCircleIcon className="size-4" />
+        <Button variant="outline" size="sm" className="border-dashed" icon={<PlusCircleIcon className="size-4" />}>
           {title}
           {selectedValues?.size > 0 && (
-            <>
+            <Fragment>
               <Separator orientation="vertical" className="mx-2 h-4" />
               <Badge variant="secondary" className="rounded-sm px-1 font-normal lg:hidden">
                 {selectedValues.size}
@@ -48,15 +48,15 @@ export function DataTableFacetedFilter<TData, TValue>({
                   </Badge>
                 ) : (
                   options
-                    .filter(option => selectedValues.has(option.value))
-                    .map(option => (
+                    .filter((option) => selectedValues.has(option.value))
+                    .map((option) => (
                       <Badge variant="secondary" key={option.value} className="rounded-sm px-1 font-normal">
                         {option.label}
                       </Badge>
                     ))
                 )}
               </div>
-            </>
+            </Fragment>
           )}
         </Button>
       </PopoverTrigger>
@@ -64,9 +64,9 @@ export function DataTableFacetedFilter<TData, TValue>({
         <Command>
           <CommandInput placeholder={title} />
           <CommandList>
-            <CommandEmpty>Resultado nao encontrado.</CommandEmpty>
+            <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
             <CommandGroup>
-              {options.map(option => {
+              {options.map((option) => {
                 const isSelected = selectedValues.has(option.value);
 
                 return (
@@ -85,7 +85,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     <div
                       className={cn(
                         "mr-2 flex size-4 items-center justify-center rounded-sm border border-primary",
-                        isSelected ? "bg-primary text-primary-foreground" : "opacity-50 [&_svg]:invisible",
+                        isSelected ? "bg-primary text-primary-foreground" : "opacity-50 [&_svg]:invisible"
                       )}
                     >
                       <CheckIcon className="size-4" aria-hidden="true" />
@@ -102,7 +102,7 @@ export function DataTableFacetedFilter<TData, TValue>({
               })}
             </CommandGroup>
             {selectedValues.size > 0 && (
-              <>
+              <Fragment>
                 <CommandSeparator />
                 <CommandGroup>
                   <CommandItem
@@ -112,7 +112,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     Limpar Filtros
                   </CommandItem>
                 </CommandGroup>
-              </>
+              </Fragment>
             )}
           </CommandList>
         </Command>

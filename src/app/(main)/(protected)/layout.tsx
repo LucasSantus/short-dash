@@ -1,6 +1,6 @@
 import { getServerAuthSession } from "@/utils/get-server-auth-session";
 import { redirect } from "next/navigation";
-import ProtectedLayout from "./_layouts";
+import ProtectedLayout from "./_components/layout";
 
 interface LayoutProps {
   children: React.ReactNode;
