@@ -1,6 +1,6 @@
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { useCustomRouter } from "@/hooks/use-custom-router";
 import { HistoryIcon, Loader2Icon } from "lucide-react";
+import { useRouter } from "nextjs-toploader/app";
 import { useTransition } from "react";
 
 interface LinkHistoricRowProps {
@@ -8,7 +8,7 @@ interface LinkHistoricRowProps {
 }
 
 export function LinkHistoricRow({ linkId }: LinkHistoricRowProps): JSX.Element {
-  const router = useCustomRouter();
+  const router = useRouter();
   const [isPendingRedirectHistoric, startRedirectHistoricTransition] = useTransition();
 
   return (
@@ -22,6 +22,7 @@ export function LinkHistoricRow({ linkId }: LinkHistoricRowProps): JSX.Element {
       icon={
         isPendingRedirectHistoric ? <Loader2Icon className="size-4 animate-spin" /> : <HistoryIcon className="size-4" />
       }
+      disabled={isPendingRedirectHistoric}
     >
       Historico
     </DropdownMenuItem>

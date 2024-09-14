@@ -1,37 +1,37 @@
 -- CreateEnum
-CREATE TYPE "UrlStatus" AS ENUM ('active', 'inactive');
+CREATE TYPE "UrlStatus" AS ENUM ('Active', 'Inactive');
 
 -- CreateTable
-CREATE TABLE "UrlAccess" (
+CREATE TABLE "historics" (
     "id" TEXT NOT NULL,
     "isAnonymous" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "urlId" TEXT NOT NULL,
     "userId" TEXT,
 
-    CONSTRAINT "UrlAccess_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "historics_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Url" (
+CREATE TABLE "urls" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT,
     "originalUrl" TEXT NOT NULL,
     "shortUrl" TEXT NOT NULL,
     "code" TEXT NOT NULL,
-    "numberOfVisitors" INTEGER NOT NULL DEFAULT 0,
-    "status" "UrlStatus" NOT NULL DEFAULT 'active',
+    "amountOfAccesses" INTEGER NOT NULL DEFAULT 0,
+    "status" "UrlStatus" NOT NULL DEFAULT 'Active',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "expiresAt" TIMESTAMP(3),
     "ownerId" TEXT,
 
-    CONSTRAINT "Url_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "urls_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "User" (
+CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "name" TEXT,
     "email" TEXT NOT NULL,
@@ -42,11 +42,11 @@ CREATE TABLE "User" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Account" (
+CREATE TABLE "accounts" (
     "userId" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "provider" TEXT NOT NULL,
@@ -61,11 +61,11 @@ CREATE TABLE "Account" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Account_pkey" PRIMARY KEY ("provider","providerAccountId")
+    CONSTRAINT "accounts_pkey" PRIMARY KEY ("provider","providerAccountId")
 );
 
 -- CreateTable
-CREATE TABLE "Session" (
+CREATE TABLE "sessions" (
     "sessionToken" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL,
@@ -74,17 +74,17 @@ CREATE TABLE "Session" (
 );
 
 -- CreateTable
-CREATE TABLE "VerificationToken" (
+CREATE TABLE "verification-tokens" (
     "identifier" TEXT NOT NULL,
     "token" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
 
-    CONSTRAINT "VerificationToken_pkey" PRIMARY KEY ("identifier","token")
+    CONSTRAINT "verification-tokens_pkey" PRIMARY KEY ("identifier","token")
 );
 
 -- CreateTable
-CREATE TABLE "Authenticator" (
+CREATE TABLE "authenticators" (
     "credentialID" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "providerAccountId" TEXT NOT NULL,
@@ -94,41 +94,41 @@ CREATE TABLE "Authenticator" (
     "credentialBackedUp" BOOLEAN NOT NULL,
     "transports" TEXT,
 
-    CONSTRAINT "Authenticator_pkey" PRIMARY KEY ("userId","credentialID")
+    CONSTRAINT "authenticators_pkey" PRIMARY KEY ("userId","credentialID")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Url_shortUrl_key" ON "Url"("shortUrl");
+CREATE UNIQUE INDEX "urls_shortUrl_key" ON "urls"("shortUrl");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Url_code_key" ON "Url"("code");
+CREATE UNIQUE INDEX "urls_code_key" ON "urls"("code");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
+CREATE UNIQUE INDEX "sessions_sessionToken_key" ON "sessions"("sessionToken");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Authenticator_credentialID_key" ON "Authenticator"("credentialID");
+CREATE UNIQUE INDEX "authenticators_credentialID_key" ON "authenticators"("credentialID");
 
 -- AddForeignKey
-ALTER TABLE "UrlAccess" ADD CONSTRAINT "UrlAccess_urlId_fkey" FOREIGN KEY ("urlId") REFERENCES "Url"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "historics" ADD CONSTRAINT "historics_urlId_fkey" FOREIGN KEY ("urlId") REFERENCES "urls"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UrlAccess" ADD CONSTRAINT "UrlAccess_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "historics" ADD CONSTRAINT "historics_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Url" ADD CONSTRAINT "Url_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "urls" ADD CONSTRAINT "urls_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "accounts" ADD CONSTRAINT "accounts_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "sessions" ADD CONSTRAINT "sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "VerificationToken" ADD CONSTRAINT "VerificationToken_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "verification-tokens" ADD CONSTRAINT "verification-tokens_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Authenticator" ADD CONSTRAINT "Authenticator_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "authenticators" ADD CONSTRAINT "authenticators_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -1,6 +1,7 @@
 import { authRoute } from "./routers/auth";
 import { historicRoute } from "./routers/historic";
 import { linkRoute } from "./routers/link";
+import { userRoute } from "./routers/user";
 import { createCallerFactory, createTRPCRouter } from "./trpc";
 
 /**
@@ -12,6 +13,7 @@ export const appRouter = createTRPCRouter({
   auth: authRoute,
   link: linkRoute,
   historic: historicRoute,
+  user: userRoute,
 });
 
 // export type definition of API

@@ -13,9 +13,24 @@ interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
   table: TanstackTable<TData>;
 
   totalCount: number;
+
+  /**
+   * The floating bar to render at the bottom of the table on row selection.
+   * @default null
+   * @type React.ReactNode | null
+   * @example floatingBar={<TasksTableFloatingBar table={table} />}
+   */
+  floatingBar?: React.ReactNode | null;
 }
 
-export function DataTable<TData>({ table, children, className, totalCount = 0, ...props }: DataTableProps<TData>) {
+export function DataTable<TData>({
+  table,
+  children,
+  className,
+  totalCount = 0,
+  floatingBar = null,
+  ...props
+}: DataTableProps<TData>) {
   return (
     <div className={cn("w-full space-y-2.5 overflow-auto", className)} {...props}>
       {children}
@@ -68,6 +83,7 @@ export function DataTable<TData>({ table, children, className, totalCount = 0, .
       </div>
       <div className="flex flex-col gap-2.5">
         <DataTablePagination table={table} totalCount={totalCount} />
+        {table.getFilteredSelectedRowModel().rows.length > 0 && floatingBar}
       </div>
     </div>
   );

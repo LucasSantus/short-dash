@@ -4,39 +4,40 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DontHaveItems } from "@/components/dont-have-items";
 import QueryFailed from "@/components/query-failed";
 import { trpc } from "@/trpc/client";
-import { parseAsInteger, parseAsString, useQueryStates } from "nuqs";
 import { LinkTable } from "./_components/table";
 import { CreateCategoryDialog } from "./_components/table/form/create-link-dialog";
-import type { LinkStatus } from "./_types/links";
+import { getLinkColumns } from "./_components/table/table-columns";
+import { useLinkFilters } from "./_hooks/use-link-filters";
 
 export function LinkList(): JSX.Element {
-  const [filters] = useQueryStates({
-    page: parseAsInteger.withDefault(1),
-    per_page: parseAsInteger.withDefault(10),
+  const columns = getLinkColumns();
 
-    title: parseAsString.withDefault(""),
-    status: parseAsString.withDefault(""),
-  });
-
-  const statuses = filters.status ? filters.status.split(".") : [];
+  const { page, pageSize, title, statuses } = useLinkFilters();
 
   const { data, isLoading, isError, refetch } = trpc.link.getLinksQuery.useQuery({
     pagination: {
-      page: filters.page,
-      pageSize: filters.per_page,
+      page,
+      pageSize,
     },
     search: {
-      title: filters.title,
+      title,
     },
-    statuses: statuses as LinkStatus[],
+    statuses,
   });
 
   if (isLoading)
-    return <DataTableSkeleton columnCount={6} rowCount={10} searchableColumnCount={1} filterableColumnCount={1} />;
+    return (
+      <DataTableSkeleton
+        columnCount={columns.length}
+        rowCount={1}
+        searchableColumnCount={1}
+        filterableColumnCount={1}
+      />
+    );
 
   if (isError || !data) return <QueryFailed refetch={refetch} isLoading={isLoading} />;
 
-  if (!filters.title && !data.links.length)
+  if (!title && !data.links.length)
     return (
       <DontHaveItems
         title="Você não tem links registrados no momento."

@@ -14,7 +14,7 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { SaveIcon, Trash2Icon, XIcon } from "lucide-react";
+import { Trash2Icon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { toast } from "sonner";
 
@@ -85,7 +85,7 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
               </Button>
             </AlertDialogCancel>
             <AlertDialogAction asChild>
-              <Button isLoading={isPending} icon={<SaveIcon className="size-4" />} onClick={onHandleSubmit}>
+              <Button isLoading={isPending} icon={<Trash2Icon className="size-4" />} onClick={onHandleSubmit}>
                 Continuar
               </Button>
             </AlertDialogAction>

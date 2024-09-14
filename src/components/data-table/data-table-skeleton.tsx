@@ -91,16 +91,16 @@ export function DataTableSkeleton(props: DataTableSkeletonProps) {
         <div className="flex flex-1 items-center space-x-2">
           {searchableColumnCount > 0
             ? Array.from({ length: searchableColumnCount }).map((_, i) => (
-                <Skeleton key={i} className="h-7 w-40 lg:w-60" />
+                <Skeleton key={i} className="h-9 w-52 lg:w-60" />
               ))
             : null}
           {filterableColumnCount > 0
             ? Array.from({ length: filterableColumnCount }).map((_, i) => (
-                <Skeleton key={i} className="h-7 w-20 border-dashed" />
+                <Skeleton key={i} className="h-9 w-20 border-dashed" />
               ))
             : null}
         </div>
-        {showViewOptions ? <Skeleton className="ml-auto hidden h-7 w-40 lg:flex" /> : null}
+        {showViewOptions ? <Skeleton className="ml-auto hidden h-9 w-40 lg:flex" /> : null}
       </div>
       <div className="rounded-md border">
         <Table>
@@ -152,20 +152,20 @@ export function DataTableSkeleton(props: DataTableSkeletonProps) {
       </div>
       {withPagination ? (
         <div className="flex w-full items-center justify-between gap-4 overflow-auto p-1 sm:gap-8">
-          <Skeleton className="h-7 w-40 shrink-0" />
+          <Skeleton className="h-8 w-64 shrink-0" />
           <div className="flex items-center gap-4 sm:gap-6 lg:gap-8">
             <div className="flex items-center space-x-2">
-              <Skeleton className="h-7 w-24" />
-              <Skeleton className="h-7 w-[4.5rem]" />
+              <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-8 w-16" />
             </div>
             <div className="flex items-center justify-center text-sm font-medium">
-              <Skeleton className="h-7 w-20" />
+              <Skeleton className="h-8 w-20" />
             </div>
             <div className="flex items-center space-x-2">
-              <Skeleton className="hidden size-7 lg:block" />
-              <Skeleton className="size-7" />
-              <Skeleton className="size-7" />
-              <Skeleton className="hidden size-7 lg:block" />
+              <Skeleton className="hidden size-8 lg:block" />
+              <Skeleton className="size-8" />
+              <Skeleton className="size-8" />
+              <Skeleton className="hidden size-8 lg:block" />
             </div>
           </div>
         </div>

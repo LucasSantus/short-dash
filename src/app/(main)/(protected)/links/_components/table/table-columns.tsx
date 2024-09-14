@@ -1,6 +1,7 @@
 "use client";
 
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
+import { Checkbox } from "@/components/ui/checkbox";
 import type { Url } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
@@ -34,13 +35,31 @@ export const getLinkLabelColumn: Record<keyof LinkTableColumns, string> = {
   expiresAt: "Expira em",
 };
 
-export function getLinkTableColumns(): Array<ColumnDef<LinkTableColumns>> {
+export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
   return [
     {
-      accessorKey: "title",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={getLinkLabelColumn.title} className="pl-2" />
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="translate-y-0.5"
+        />
       ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          className="translate-y-0.5"
+        />
+      ),
+      enableHiding: false,
+    },
+    {
+      accessorKey: "title",
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.title} />,
       cell: ({ row }) => {
         const title = row.original.title;
 
@@ -68,17 +87,7 @@ export function getLinkTableColumns(): Array<ColumnDef<LinkTableColumns>> {
       header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.code} />,
       cell: ({ row }) => <span>{row.getValue("code")}</span>,
     },
-    {
-      accessorKey: "createdAt",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.createdAt} />,
-      cell: ({ row }) => {
-        const createdAt = row.original.createdAt as Date;
 
-        const createdAtFormmated = format(createdAt, "dd/MM/yyyy");
-
-        return <span className="text-muted-foreground">{createdAtFormmated}</span>;
-      },
-    },
     {
       accessorKey: "status",
       header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.status} />,
@@ -113,6 +122,17 @@ export function getLinkTableColumns(): Array<ColumnDef<LinkTableColumns>> {
             <span className="text-muted-foreground">Acesso(s)</span>
           </div>
         );
+      },
+    },
+    {
+      accessorKey: "createdAt",
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.createdAt} />,
+      cell: ({ row }) => {
+        const createdAt = row.original.createdAt as Date;
+
+        const createdAtFormmated = format(createdAt, "dd/MM/yyyy");
+
+        return <span className="text-muted-foreground">{createdAtFormmated}</span>;
       },
     },
     {

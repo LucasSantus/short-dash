@@ -8,9 +8,8 @@ import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import NextTopLoader from "nextjs-toploader";
-import { type PropsWithChildren, Suspense, useState } from "react";
+import { type PropsWithChildren, useState } from "react";
 import SuperJSON from "superjson";
-import { Navigation } from "./navigation";
 import { NoScript } from "./no-script";
 
 export function Providers({ children }: PropsWithChildren) {
@@ -36,19 +35,6 @@ export function Providers({ children }: PropsWithChildren) {
     })
   );
 
-  // const [queryClient] = useState(() => new QueryClient());
-
-  // const [trpcClient] = useState(() =>
-  //   trpc.createClient({
-  //     links: [
-  //       httpBatchLink({
-  //         transformer: SuperJSON,
-  //         url: "http://localhost:3000/api/trpc",
-  //       }),
-  //     ],
-  //   }),
-  // );
-
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <SessionProvider refetchOnWindowFocus>
@@ -69,10 +55,6 @@ export function Providers({ children }: PropsWithChildren) {
               showSpinner={false}
               crawl
             />
-
-            <Suspense fallback={null}>
-              <Navigation />
-            </Suspense>
 
             {process.env.NODE_ENV !== "production" && <ReactQueryDevtools initialIsOpen={false} />}
 

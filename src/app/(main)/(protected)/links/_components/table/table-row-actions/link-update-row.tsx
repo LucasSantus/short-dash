@@ -1,14 +1,14 @@
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
 import { type LinkSchema, linkSchema } from "@/validation/main/link";
@@ -75,26 +75,32 @@ export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
         Atualizar
       </DropdownMenuItem>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Atualizar Link</DialogTitle>
-            <DialogDescription>Preencha os campos abaixo para atualizar as informações do link.</DialogDescription>
-          </DialogHeader>
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetContent className="max-w-3xl w-full">
+          <SheetHeader>
+            <SheetTitle>Atualizar Link</SheetTitle>
+            <SheetDescription>Preencha os campos abaixo para atualizar as informações do link.</SheetDescription>
+          </SheetHeader>
           <LinkForm form={form} onSubmit={onHandleSubmit} isPending={isPending}>
-            <DialogFooter className="gap-2 pt-2 sm:space-x-0">
-              <DialogClose asChild>
-                <Button type="button" variant="secondary" disabled={isPending} icon={<XIcon className="size-4" />}>
+            <SheetFooter className="gap-2 pt-2 sm:space-x-0 justify-between">
+              <SheetClose asChild>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  disabled={isPending}
+                  icon={<XIcon className="size-4" />}
+                  className="w-full"
+                >
                   Cancelar
                 </Button>
-              </DialogClose>
-              <Button isLoading={isPending} icon={<SaveIcon className="size-4" />}>
+              </SheetClose>
+              <Button isLoading={isPending} icon={<SaveIcon className="size-4" />} className="w-full">
                 Salvar
               </Button>
-            </DialogFooter>
+            </SheetFooter>
           </LinkForm>
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
     </Fragment>
   );
 }

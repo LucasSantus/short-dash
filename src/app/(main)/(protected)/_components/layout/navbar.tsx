@@ -13,10 +13,11 @@ import {
 import { menuOptions } from "@/constants/menu-options";
 import { cn } from "@/lib/utils";
 import type { ServerAuthSession } from "@/utils/get-server-auth-session";
-import { LogOutIcon, UserIcon } from "lucide-react";
+import { Loader2Icon, LogOutIcon, UserIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useTransition } from "react";
 import { SheetMenu } from "./sheet-menu";
 
 interface NavbarProps {
@@ -25,9 +26,11 @@ interface NavbarProps {
 
 export function Navbar({ session: { isAuthenticated, user } }: NavbarProps) {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isPendingLogout, startLogoutTransition] = useTransition();
 
   function onHandleLogout() {
-    signOut();
+    startLogoutTransition(() => signOut());
   }
 
   return (
@@ -54,7 +57,7 @@ export function Navbar({ session: { isAuthenticated, user } }: NavbarProps) {
         </div>
 
         {isAuthenticated && (
-          <DropdownMenu>
+          <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
             <DropdownMenuTrigger asChild>
               <Avatar>
                 <AvatarImage className="cursor-pointer select-none" src={user.image ?? ""} />
@@ -86,10 +89,14 @@ export function Navbar({ session: { isAuthenticated, user } }: NavbarProps) {
 
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={onHandleLogout}
+                onClick={(event) => {
+                  event.preventDefault();
+
+                  onHandleLogout();
+                }}
                 className="space-x-2"
-                icon={<LogOutIcon className="size-4" />}
-                // disabled={isRedirecting}
+                icon={isPendingLogout ? <Loader2Icon className="size-4" /> : <LogOutIcon className="size-4" />}
+                disabled={isPendingLogout}
               >
                 Log out
               </DropdownMenuItem>
