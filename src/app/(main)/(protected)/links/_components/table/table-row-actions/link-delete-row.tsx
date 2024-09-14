@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
-import { Trash2Icon, XIcon } from "lucide-react";
+import { OctagonAlertIcon, Trash2Icon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { toast } from "sonner";
 
@@ -71,7 +71,7 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
           </AlertDialogHeader>
 
           <Alert variant="destructive">
-            <Trash2Icon className="h-4 w-4" />
+            <OctagonAlertIcon className="size-4" />
             <AlertTitle>Atenção!</AlertTitle>
             <AlertDescription>
               Essa ação é irreversível e resultará na remoção definitiva do acesso ao link excluido. Deseja continuar

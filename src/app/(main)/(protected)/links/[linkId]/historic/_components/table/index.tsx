@@ -6,6 +6,7 @@ import { DataTable } from "@/components/data-table/data-table";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { useDataTable } from "@/hooks/use-data-table";
 import type { DataTableFilterField } from "@/types/data-table";
+import { generateUrl } from "@/utils/generate-url";
 import type { Prisma } from "@prisma/client";
 import { useMemo } from "react";
 import { type HistoricTableColumns, getHistoricLabelColumn, getHistoricTableColumns } from "./table-columns";
@@ -50,12 +51,14 @@ export function HistoricTable({ data, pageCount, totalCount }: HistoricTableProp
     return data?.map(({ id, isAnonymous, url, createdAt, user }) => {
       const userName = !isAnonymous && user && user?.name ? user.name : "-";
 
+      const shortUrl = generateUrl(url.code);
+
       return {
         id,
         userName,
+        shortUrl,
         isAnonymousAccess: isAnonymous,
         originalUrl: url.originalUrl,
-        shortUrl: url.shortUrl,
         dateTimeOfAccess: createdAt,
       };
     });
@@ -66,14 +69,6 @@ export function HistoricTable({ data, pageCount, totalCount }: HistoricTableProp
     columns,
     pageCount,
     filterFields,
-    initialState: {
-      sorting: [
-        {
-          desc: true,
-          id: "createdAt",
-        },
-      ],
-    },
     enableSorting: false,
     getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
   });

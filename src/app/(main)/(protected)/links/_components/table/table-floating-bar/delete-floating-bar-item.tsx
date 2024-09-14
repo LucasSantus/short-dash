@@ -1,7 +1,6 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -100,15 +99,14 @@ export function DeleteFloatingBarItem({ table, isDisabled, startTransition }: De
 
         <AlertDialogFooter className="gap-2 pt-2 sm:space-x-0">
           <AlertDialogCancel asChild>
-            <Button variant="secondary" icon={<XIcon className="size-4" />}>
+            <Button variant="secondary" icon={<XIcon className="size-4" />} disabled={isPending}>
               Cancelar
             </Button>
           </AlertDialogCancel>
-          <AlertDialogAction asChild>
-            <Button icon={<Trash2Icon className="size-4" />} onClick={handleDeleteLinks}>
-              Continuar
-            </Button>
-          </AlertDialogAction>
+
+          <Button icon={<Trash2Icon className="size-4" />} onClick={handleDeleteLinks} isLoading={isPending}>
+            Continuar
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

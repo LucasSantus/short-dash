@@ -51,7 +51,8 @@
         "noSvgWithoutTitle": "off",
         "noRedundantRoles": "off",
         "useSemanticElements": "off",
-        "useFocusableInteractive": "off"
+        "useFocusableInteractive": "off",
+        "useKeyWithClickEvents": "off"
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"

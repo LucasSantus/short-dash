@@ -1,15 +1,18 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { generateUrl } from "@/utils/generate-url";
 import type { UrlStatus } from "@prisma/client";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Calendar, CalendarIcon, ExternalLink, EyeIcon, Users } from "lucide-react";
+import { Calendar, CalendarIcon, ExternalLinkIcon, EyeIcon, Users } from "lucide-react";
 import Link from "next/link";
 import { Fragment, useState } from "react";
+import { toast } from "sonner";
 import { linkStatusDescription } from "../../../_types/links";
 import type { LinkTableColumns } from "../table-columns";
 
@@ -31,6 +34,17 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
     Inactive: "bg-yellow-500",
   };
 
+  async function handleCopyUrl(copyUrl: string) {
+    try {
+      await navigator.clipboard.writeText(copyUrl);
+      toast.success("Url copiada com sucesso!");
+    } catch {
+      toast.error("Ocorreu uma falha ao tentar copiar a url!");
+    }
+  }
+
+  const shortUrl = generateUrl(link.code);
+
   return (
     <Fragment>
       <DropdownMenuItem
@@ -47,8 +61,11 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Visualizar Link</DialogTitle>
-            <DialogDescription>Link</DialogDescription>
+            <DialogTitle>Detalhes do Link</DialogTitle>
+            <DialogDescription>
+              Revise as informações detalhadas do link selecionado. Aqui você pode visualizar o status atual, data de
+              criação, últimas atualizações e outras propriedades essenciais.
+            </DialogDescription>
           </DialogHeader>
 
           <ScrollArea className="h-80 rounded-md border">
@@ -76,27 +93,44 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
                     <div className="space-y-2">
                       <span className="text-base font-semibold">URLs</span>
                       <div className="grid gap-2">
-                        <div className="flex items-center space-x-2">
-                          <ExternalLink className="h-4 w-4" />
-                          <Link
-                            href={link.originalUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm text-blue-500 hover:underline"
-                          >
-                            URL Original
-                          </Link>
+                        <div className="grid text-sm space-y-2">
+                          <span className="text-sm font-semibold text-muted-foreground">URL Original:</span>
+                          <div className="flex w-full">
+                            <div
+                              className="cursor-pointer flex-1 rounded-e-none rounded-s-md bg-muted p-2 font-mono text-sm text-muted-foreground flex items-center"
+                              onClick={() => handleCopyUrl(link.originalUrl)}
+                            >
+                              {link.originalUrl}
+                            </div>
+                            <Link href={link.originalUrl} target="_blank" rel="noopener noreferrer">
+                              <Button
+                                className="rounded-s-none"
+                                size="icon"
+                                variant="outline"
+                                icon={<ExternalLinkIcon className="size-4" />}
+                              />
+                            </Link>
+                          </div>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <ExternalLink className="h-4 w-4" />
-                          <Link
-                            href={link.shortUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm text-blue-500 hover:underline"
-                          >
-                            URL Encurtada
-                          </Link>
+
+                        <div className="grid text-sm space-y-2">
+                          <span className="text-sm font-semibold text-muted-foreground">URL Encurtada:</span>
+                          <div className="flex w-full">
+                            <div
+                              className="cursor-pointer flex-1 rounded-e-none rounded-s-md bg-muted p-2 font-mono text-sm text-muted-foreground flex items-center"
+                              onClick={() => handleCopyUrl(shortUrl)}
+                            >
+                              {shortUrl}
+                            </div>
+                            <Link href={shortUrl} target="_blank" rel="noopener noreferrer">
+                              <Button
+                                className="rounded-s-none"
+                                size="icon"
+                                variant="outline"
+                                icon={<ExternalLinkIcon className="size-4" />}
+                              />
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -1,7 +1,7 @@
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
-import { BanIcon, Loader2Icon } from "lucide-react";
+import { Loader2Icon, UnlockIcon } from "lucide-react";
 import { toast } from "sonner";
 import { LinkStatus } from "../../../_types/links";
 
@@ -41,7 +41,7 @@ export function LinkUnBlockRow({ linkId }: LinkUnBlockRowProps): JSX.Element {
         onHandleSubmit();
       }}
       className="flex items-center gap-2"
-      icon={isPending ? <Loader2Icon className="size-4 animate-spin" /> : <BanIcon className="size-4" />}
+      icon={isPending ? <Loader2Icon className="size-4 animate-spin" /> : <UnlockIcon className="size-4" />}
     >
       Desbloquear
     </DropdownMenuItem>

@@ -25,15 +25,12 @@ export const createLinkMutationRoute = protectedProcedure
       isUniqueCode = !!codeIfExists;
     } while (isUniqueCode);
 
-    const shortUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${code}`;
-
     await db.url.create({
       data: {
         title,
         description,
         code,
         originalUrl,
-        shortUrl,
         ownerId: session.user.id,
       },
     });

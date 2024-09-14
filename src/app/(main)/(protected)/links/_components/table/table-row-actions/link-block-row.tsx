@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
-import { BanIcon, Trash2Icon, XIcon } from "lucide-react";
+import { LockIcon, OctagonAlertIcon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { toast } from "sonner";
 import { LinkStatus } from "../../../_types/links";
@@ -58,7 +58,7 @@ export function LinkBlockRow({ linkId }: LinkBlockRowProps): JSX.Element {
           setIsOpen(true);
         }}
         className="flex items-center gap-2"
-        icon={<BanIcon className="size-4" />}
+        icon={<LockIcon className="size-4" />}
       >
         Bloquear
       </DropdownMenuItem>
@@ -71,7 +71,7 @@ export function LinkBlockRow({ linkId }: LinkBlockRowProps): JSX.Element {
           </AlertDialogHeader>
 
           <Alert>
-            <BanIcon className="h-4 w-4" />
+            <OctagonAlertIcon className="h-4 w-4" />
             <AlertTitle>Atenção!</AlertTitle>
             <AlertDescription className="text-muted-foreground">
               Esta ação resultará no bloqueio do link, impactando diretamente a gestão e o controle de acessos
@@ -86,7 +86,7 @@ export function LinkBlockRow({ linkId }: LinkBlockRowProps): JSX.Element {
               </Button>
             </AlertDialogCancel>
 
-            <Button isLoading={isPending} icon={<Trash2Icon className="size-4" />} onClick={onHandleSubmit}>
+            <Button isLoading={isPending} icon={<LockIcon className="size-4" />} onClick={onHandleSubmit}>
               Continuar
             </Button>
           </AlertDialogFooter>

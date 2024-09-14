@@ -11,7 +11,6 @@ async function main() {
         title: faker.internet.domainName(),
         description: faker.lorem.sentence(),
         originalUrl: faker.internet.url(),
-        shortUrl: faker.internet.url(),
         code: faker.string.alphanumeric(6),
         amountOfAccesses: faker.number.int({ min: 0, max: 1000 }),
         status: "Active", // Assumindo que UrlStatus enum tem "Active"

@@ -33,7 +33,6 @@ model Url {
   title            String
   description      String?
   originalUrl      String
-  shortUrl         String    @unique
   code             String    @unique
   amountOfAccesses Int       @default(0)
   status           UrlStatus @default(Active)

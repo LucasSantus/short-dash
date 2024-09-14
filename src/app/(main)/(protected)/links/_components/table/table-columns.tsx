@@ -27,7 +27,6 @@ export const getLinkLabelColumn: Record<keyof LinkTableColumns, string> = {
   code: "Código",
   amountOfAccesses: "Número de Acessos",
   originalUrl: "Redirecionamento",
-  shortUrl: "Url Gerada",
   status: "Status",
   ownerId: "Id do Dono",
   createdAt: "Criada em",

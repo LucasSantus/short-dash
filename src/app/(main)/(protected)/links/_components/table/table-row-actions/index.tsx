@@ -39,11 +39,10 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
             <EllipsisIcon className="size-4" aria-hidden="true" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-44">
+        <DropdownMenuContent align="end" className="w-40">
           <LinkUpdateRow link={link} />
-          <DropdownMenuSeparator />
-          <LinkHistoricRow linkId={link.id} />
           <LinkDetailsRow link={link} />
+          <LinkHistoricRow linkId={link.id} />
           <DropdownMenuSeparator />
           {linkStatus[link.status]}
           <DropdownMenuSeparator />
