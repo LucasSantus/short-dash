@@ -17,7 +17,7 @@ export function HistoricList({ linkId }: HistoricListProps): JSX.Element {
     per_page: parseAsInteger.withDefault(10),
   });
 
-  const { data, isLoading, isError, refetch } = trpc.historic.getHistoricPerLinkQuery.useQuery({
+  const { data, isLoading, isError, refetch } = trpc.historic.list.useQuery({
     linkId,
     pagination: {
       page: filters.page,

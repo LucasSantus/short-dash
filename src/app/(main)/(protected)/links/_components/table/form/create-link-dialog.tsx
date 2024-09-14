@@ -30,20 +30,21 @@ export function CreateCategoryDialog() {
 
   const utils = trpc.useUtils();
 
-  const { mutate, isPending } = trpc.link.createLinkMutation.useMutation({
+  const { mutate, isPending } = trpc.link.create.useMutation({
     onError: (error) => {
       console.error(error);
 
       if (error instanceof Error) toast.error(error.message);
     },
-    onSettled: async () => {
-      await utils.link.getLinksQuery.invalidate();
-
+    onSuccess: () => {
       form.reset();
 
-      setOpen(false);
-
       toast.success(messages.form.DATA_HAS_BEEN_STORED);
+    },
+    onSettled: async () => {
+      await utils.link.list.invalidate();
+
+      setOpen(false);
     },
   });
 
@@ -69,6 +70,7 @@ export function CreateCategoryDialog() {
                 Cancelar
               </Button>
             </DialogClose>
+
             <Button icon={<SaveIcon className="size-4" />} isLoading={isPending}>
               Salvar
             </Button>

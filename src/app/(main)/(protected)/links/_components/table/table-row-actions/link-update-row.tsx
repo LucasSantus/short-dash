@@ -39,7 +39,7 @@ export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
     },
   });
 
-  const { mutate, isPending } = trpc.link.updateLinkMutation.useMutation({
+  const { mutate, isPending } = trpc.link.update.useMutation({
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["link", "getLinks"] });
 

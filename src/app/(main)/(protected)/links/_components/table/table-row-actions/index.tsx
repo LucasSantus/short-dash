@@ -9,10 +9,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { Row } from "@tanstack/react-table";
 import { EllipsisIcon } from "lucide-react";
+import { ReactNode } from "react";
+import { LinkStatus } from "../../../_types/links";
 import type { LinkTableColumns } from "../table-columns";
+import { LinkBlockRow } from "./link-block-row";
 import { LinkDeleteRow } from "./link-delete-row";
 import { LinkDetailsRow } from "./link-details-row";
 import { LinkHistoricRow } from "./link-historic-row";
+import { LinkUnBlockRow } from "./link-unblock-row";
 import { LinkUpdateRow } from "./link-update-row";
 
 interface DataTableRowActionsProps {
@@ -21,6 +25,11 @@ interface DataTableRowActionsProps {
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   const link = row.original;
+
+  const linkStatus: Record<LinkStatus, ReactNode> = {
+    Active: <LinkBlockRow linkId={link.id} />,
+    Inactive: <LinkUnBlockRow linkId={link.id} />,
+  };
 
   return (
     <div className="flex justify-center">
@@ -35,6 +44,8 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
           <DropdownMenuSeparator />
           <LinkHistoricRow linkId={link.id} />
           <LinkDetailsRow link={link} />
+          <DropdownMenuSeparator />
+          {linkStatus[link.status]}
           <DropdownMenuSeparator />
           <LinkDeleteRow linkId={link.id} />
         </DropdownMenuContent>

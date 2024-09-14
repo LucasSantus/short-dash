@@ -70,7 +70,7 @@ export function HistoricTable({ data, pageCount, totalCount }: HistoricTableProp
       sorting: [
         {
           desc: true,
-          id: "updatedAt",
+          id: "createdAt",
         },
       ],
     },

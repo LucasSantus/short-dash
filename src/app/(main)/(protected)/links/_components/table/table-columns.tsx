@@ -40,20 +40,24 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
     {
       id: "select",
       header: ({ table }) => (
-        <Checkbox
-          checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-          className="translate-y-0.5"
-        />
+        <div className="max-w-4">
+          <Checkbox
+            checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
+            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+            aria-label="Select all"
+            className="translate-y-0.5"
+          />
+        </div>
       ),
       cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-          className="translate-y-0.5"
-        />
+        <div className="max-w-4">
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+            className="translate-y-0.5"
+          />
+        </div>
       ),
       enableHiding: false,
     },
@@ -87,7 +91,6 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
       header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.code} />,
       cell: ({ row }) => <span>{row.getValue("code")}</span>,
     },
-
     {
       accessorKey: "status",
       header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.status} />,

@@ -47,7 +47,7 @@ export const linksQueryRoute = protectedProcedure
       db.url.findMany({
         where,
         orderBy: {
-          updatedAt: "desc",
+          createdAt: "desc",
         },
         skip: (pagination.page - 1) * pagination.pageSize,
         take: pagination.pageSize,

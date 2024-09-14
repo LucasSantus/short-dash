@@ -3,7 +3,7 @@ import { getUserPerNameQueryRoute } from "./user-per-name-query";
 
 export const userRoute = createTRPCRouter({
   // QUERIES
-  getUserPerNameQuery: getUserPerNameQueryRoute,
+  listUserPerName: getUserPerNameQueryRoute,
 
   // MUTATIONS
 });

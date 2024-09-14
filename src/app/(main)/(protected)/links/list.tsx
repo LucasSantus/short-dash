@@ -14,7 +14,7 @@ export function LinkList(): JSX.Element {
 
   const { page, pageSize, title, statuses } = useLinkFilters();
 
-  const { data, isLoading, isError, refetch } = trpc.link.getLinksQuery.useQuery({
+  const { data, isLoading, isError, refetch } = trpc.link.list.useQuery({
     pagination: {
       page,
       pageSize,

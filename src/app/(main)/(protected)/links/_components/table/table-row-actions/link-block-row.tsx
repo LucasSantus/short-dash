@@ -1,7 +1,6 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -13,30 +12,31 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
-import { Trash2Icon, XIcon } from "lucide-react";
+import { BanIcon, Trash2Icon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { toast } from "sonner";
+import { LinkStatus } from "../../../_types/links";
 
-interface LinkDeleteRowProps {
+interface LinkBlockRowProps {
   linkId: string;
 }
 
-export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
+export function LinkBlockRow({ linkId }: LinkBlockRowProps): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const utils = trpc.useUtils();
 
-  const { mutate, isPending } = trpc.link.delete.useMutation({
+  const { mutate, isPending } = trpc.link.updateStatus.useMutation({
     onError: (error) => {
       console.error(error);
 
-      toast.error(messages.form.ERROR_DATA_HAS_BEEN_DELETED);
+      toast.error(messages.form.DATA_HAS_BEEN_BLOCKED);
     },
-    onSuccess: async () => {
-      toast.success(messages.form.DATA_HAS_BEEN_DELETED);
+    onSuccess: () => {
+      toast.success(messages.form.DATA_HAS_BEEN_BLOCKED);
     },
     onSettled: async () => {
-      utils.link.list.invalidate();
+      await utils.link.list.invalidate();
 
       setIsOpen(false);
     },
@@ -45,6 +45,7 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
   function onHandleSubmit() {
     mutate({
       id: linkId,
+      status: LinkStatus.Inactive,
     });
   }
 
@@ -53,29 +54,28 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
       <DropdownMenuItem
         onSelect={(event) => {
           event.preventDefault();
+
           setIsOpen(true);
         }}
         className="flex items-center gap-2"
-        icon={<Trash2Icon className="size-4" />}
+        icon={<BanIcon className="size-4" />}
       >
-        Deletar
+        Bloquear
       </DropdownMenuItem>
 
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirmação de Exclusão de Link</AlertDialogTitle>
-            <AlertDialogDescription>
-              Você está prestes a excluir permanentemente este link do sistema.
-            </AlertDialogDescription>
+            <AlertDialogTitle>Confirmação de Bloqueio de Link</AlertDialogTitle>
+            <AlertDialogDescription>Você está prestes a bloquear este link.</AlertDialogDescription>
           </AlertDialogHeader>
 
-          <Alert variant="destructive">
-            <Trash2Icon className="h-4 w-4" />
+          <Alert>
+            <BanIcon className="h-4 w-4" />
             <AlertTitle>Atenção!</AlertTitle>
-            <AlertDescription>
-              Essa ação é irreversível e resultará na remoção definitiva do acesso ao link excluido. Deseja continuar
-              com a exclusão?
+            <AlertDescription className="text-muted-foreground">
+              Esta ação resultará no bloqueio do link, impactando diretamente a gestão e o controle de acessos
+              associados. Deseja realmente prosseguir com este bloqueio?
             </AlertDescription>
           </Alert>
 
@@ -85,11 +85,10 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
                 Cancelar
               </Button>
             </AlertDialogCancel>
-            <AlertDialogAction asChild>
-              <Button isLoading={isPending} icon={<Trash2Icon className="size-4" />} onClick={onHandleSubmit}>
-                Continuar
-              </Button>
-            </AlertDialogAction>
+
+            <Button isLoading={isPending} icon={<Trash2Icon className="size-4" />} onClick={onHandleSubmit}>
+              Continuar
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

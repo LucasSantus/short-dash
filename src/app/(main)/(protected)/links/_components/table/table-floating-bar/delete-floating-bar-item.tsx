@@ -16,26 +16,32 @@ import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
 import { Table } from "@tanstack/react-table";
 import { Loader2Icon, Trash2Icon, TrashIcon, XIcon } from "lucide-react";
+import { TransitionStartFunction } from "react";
 import { toast } from "sonner";
 import { LinkTableColumns } from "../table-columns";
 
 interface DeleteFloatingBarItemProps {
   table: Table<LinkTableColumns>;
+  isDisabled: boolean;
+  startTransition: TransitionStartFunction;
 }
 
-export function DeleteFloatingBarItem({ table }: DeleteFloatingBarItemProps): JSX.Element {
+export function DeleteFloatingBarItem({ table, isDisabled, startTransition }: DeleteFloatingBarItemProps): JSX.Element {
   const utils = trpc.useUtils();
 
-  const { mutateAsync, isPending } = trpc.link.deleteMultipleLinksMutation.useMutation({
+  const { mutateAsync, isPending } = trpc.link.deleteMultiple.useMutation({
     onError: (error) => {
       console.error(error);
 
       if (error instanceof Error) toast.error(error.message);
     },
-    onSettled: async () => {
-      await utils.link.getLinksQuery.invalidate();
-
+    onSuccess: () => {
       toast.success(messages.form.DATA_HAS_BEEN_DELETED);
+    },
+    onSettled: async () => {
+      await utils.link.list.invalidate();
+
+      table.toggleAllRowsSelected(false);
     },
   });
 
@@ -44,23 +50,23 @@ export function DeleteFloatingBarItem({ table }: DeleteFloatingBarItemProps): JS
   async function handleDeleteLinks() {
     const ids = rows.map((row) => row.original.id);
 
-    await mutateAsync({
-      ids,
-    });
-
-    table.toggleAllRowsSelected(false);
+    startTransition(() =>
+      mutateAsync({
+        ids,
+      })
+    );
   }
 
   return (
-    <Tooltip delayDuration={250}>
-      <TooltipTrigger asChild>
-        <AlertDialog>
+    <AlertDialog>
+      <Tooltip>
+        <TooltipTrigger asChild>
           <AlertDialogTrigger asChild>
             <Button
               variant="secondary"
               size="icon"
               className="size-7 border"
-              disabled={isPending}
+              disabled={isPending || isDisabled}
               icon={
                 isPending ? (
                   <Loader2Icon className="size-3.5 animate-spin" aria-hidden="true" />
@@ -70,41 +76,41 @@ export function DeleteFloatingBarItem({ table }: DeleteFloatingBarItemProps): JS
               }
             />
           </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Confirmação de Exclusão de Links</AlertDialogTitle>
-              <AlertDialogDescription>
-                Você está prestes a excluir permanentemente varias links do sistema.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
+        </TooltipTrigger>
+        <TooltipContent className="border bg-accent font-semibold text-foreground dark:bg-zinc-900">
+          <p>Deletar Links</p>
+        </TooltipContent>
+      </Tooltip>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Confirmação de Exclusão de Links</AlertDialogTitle>
+          <AlertDialogDescription>
+            Você está prestes a excluir permanentemente varias links do sistema.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
 
-            <Alert variant="destructive">
-              <Trash2Icon className="h-4 w-4" />
-              <AlertTitle>Atenção!</AlertTitle>
-              <AlertDescription>
-                Essa ação é irreversível e resultará na remoção definitiva do acesso aos links excluidos. Deseja
-                continuar com a exclusão?
-              </AlertDescription>
-            </Alert>
+        <Alert variant="destructive">
+          <Trash2Icon className="h-4 w-4" />
+          <AlertTitle>Atenção!</AlertTitle>
+          <AlertDescription>
+            Essa ação é irreversível e resultará na remoção definitiva do acesso aos links excluidos. Deseja continuar
+            com a exclusão?
+          </AlertDescription>
+        </Alert>
 
-            <AlertDialogFooter className="gap-2 pt-2 sm:space-x-0">
-              <AlertDialogCancel asChild>
-                <Button variant="secondary" icon={<XIcon className="size-4" />}>
-                  Cancelar
-                </Button>
-              </AlertDialogCancel>
-              <AlertDialogAction asChild>
-                <Button icon={<Trash2Icon className="size-4" />} onClick={handleDeleteLinks}>
-                  Continuar
-                </Button>
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </TooltipTrigger>
-      <TooltipContent className="border bg-accent font-semibold text-foreground dark:bg-zinc-900">
-        <p>Deletar Links</p>
-      </TooltipContent>
-    </Tooltip>
+        <AlertDialogFooter className="gap-2 pt-2 sm:space-x-0">
+          <AlertDialogCancel asChild>
+            <Button variant="secondary" icon={<XIcon className="size-4" />}>
+              Cancelar
+            </Button>
+          </AlertDialogCancel>
+          <AlertDialogAction asChild>
+            <Button icon={<Trash2Icon className="size-4" />} onClick={handleDeleteLinks}>
+              Continuar
+            </Button>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
