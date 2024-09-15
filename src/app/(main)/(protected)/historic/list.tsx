@@ -4,37 +4,38 @@ import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DontHaveItems } from "@/components/dont-have-items";
 import QueryFailed from "@/components/query-failed";
 import { trpc } from "@/trpc/client";
-import { parseAsInteger, useQueryStates } from "nuqs";
 import { HistoricTable } from "./_components/table";
+import { getHistoricColumns } from "./_components/table/table-columns";
+import { useHistoricFilters } from "./_hooks/use-historic-filters";
 
-interface HistoricListProps {
-  linkId: string;
-}
+export function HistoricList(): JSX.Element {
+  const columns = getHistoricColumns();
 
-export function HistoricList({ linkId }: HistoricListProps): JSX.Element {
-  const [filters] = useQueryStates({
-    page: parseAsInteger.withDefault(1),
-    per_page: parseAsInteger.withDefault(10),
-  });
+  const {
+    filters: { page, per_page, userName, linkIds },
+  } = useHistoricFilters();
 
   const { data, isLoading, isError, refetch } = trpc.historic.list.useQuery({
-    linkId,
     pagination: {
-      page: filters.page,
-      pageSize: filters.per_page,
+      page,
+      pageSize: per_page,
+    },
+    search: {
+      userName,
+      linkIds,
     },
   });
 
   if (isLoading)
-    return <DataTableSkeleton columnCount={5} rowCount={10} searchableColumnCount={1} filterableColumnCount={1} />;
+    return <DataTableSkeleton columnCount={columns.length} rowCount={per_page} searchableColumnCount={1} />;
 
   if (isError || !data) return <QueryFailed refetch={refetch} isLoading={isLoading} />;
 
-  if (!data.historic.length)
+  if (!userName && !data.historic.length)
     return (
       <DontHaveItems
-        title="Nenhum histórico registrado até o momento."
-        description="Após a adição de um novo registro, você poderá começar a gerenciar o histórico associado."
+        title="Você não tem links registrados no momento."
+        description="Para começar a gerenciar seus links, adicione um novo link."
       />
     );
 

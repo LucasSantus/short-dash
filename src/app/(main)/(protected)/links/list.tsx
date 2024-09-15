@@ -29,7 +29,7 @@ export function LinkList(): JSX.Element {
     return (
       <DataTableSkeleton
         columnCount={columns.length}
-        rowCount={1}
+        rowCount={pageSize}
         searchableColumnCount={1}
         filterableColumnCount={1}
       />

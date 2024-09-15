@@ -13,10 +13,18 @@ export function LinkHistoricRow({ linkId }: LinkHistoricRowProps): JSX.Element {
 
   return (
     <DropdownMenuItem
-      onSelect={(event) => {
+      onSelect={async (event) => {
         event.preventDefault();
 
-        startRedirectHistoricTransition(() => router.push(`/links/${linkId}/historic`));
+        // await setFilters({
+        //   page: 1,
+        //   per_page: 10,
+        //   linkIds: [linkId],
+        // });
+
+        // logica para montar url
+
+        startRedirectHistoricTransition(() => router.push("/historic"));
       }}
       className="flex items-center gap-2"
       icon={

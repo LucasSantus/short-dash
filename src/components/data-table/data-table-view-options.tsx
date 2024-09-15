@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Columns2Icon } from "lucide-react";
+import { Settings2Icon } from "lucide-react";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
@@ -27,7 +27,7 @@ export function DataTableViewOptions<TData>({ table, getLabelColumns }: DataTabl
           variant="outline"
           size="sm"
           className="ml-auto hidden lg:flex"
-          icon={<Columns2Icon className="size-4" />}
+          icon={<Settings2Icon className="size-4" />}
         >
           Colunas
         </Button>

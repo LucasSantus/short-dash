@@ -1,24 +1,18 @@
 import type { Metadata } from "next";
-import { ContentLayout } from "../../../_components/content-layout";
+import { ContentLayout } from "../_components/content-layout";
 import { HistoricBreadcrumb } from "./_components/breadcrumb";
 import { HistoricList } from "./list";
 
 export const metadata: Metadata = {
-  title: "Historico",
+  title: "Histórico",
 };
 
-interface HistoricProps {
-  params: {
-    linkId: string;
-  };
-}
-
-export default function Historic({ params }: HistoricProps) {
+export default function Historic() {
   return (
     <ContentLayout>
       <HistoricBreadcrumb />
 
-      <HistoricList linkId={params.linkId} />
+      <HistoricList />
     </ContentLayout>
   );
 }

@@ -1,4 +1,4 @@
-import { LayoutDashboardIcon, LinkIcon, type LucideIcon } from "lucide-react";
+import { HistoryIcon, LayoutDashboardIcon, LinkIcon, type LucideIcon } from "lucide-react";
 
 type MenuOption = {
   href: string;
@@ -28,6 +28,11 @@ export const menuOptions: Group[] = [
         href: "/links",
         label: "Links",
         icon: LinkIcon,
+      },
+      {
+        href: "/historic",
+        label: "Histórico",
+        icon: HistoryIcon,
       },
     ],
   },

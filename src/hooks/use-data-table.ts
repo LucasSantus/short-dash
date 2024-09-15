@@ -13,12 +13,13 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import * as React from "react";
 import { z } from "zod";
 
 import { useDebounce } from "@/hooks/use-debounce";
 import type { DataTableFilterField } from "@/types/data-table";
+import { useRouter } from "nextjs-toploader/app";
 
 interface UseDataTableProps<TData>
   extends Omit<
@@ -174,7 +175,7 @@ export function useDataTable<TData>({
   // ]);
 
   React.useEffect(() => {
-    router.push(
+    router.replace(
       `${pathname}?${createQueryString({
         page: pageIndex + 1,
         per_page: pageSize,
@@ -252,8 +253,8 @@ export function useDataTable<TData>({
       }
     }
 
-    // After cumulating all the changes, push new params
-    router.push(`${pathname}?${createQueryString(newParamsObject)}`);
+    // After cumulating all the changes, replace new params
+    router.replace(`${pathname}?${createQueryString(newParamsObject)}`);
 
     table.setPageIndex(0);
 

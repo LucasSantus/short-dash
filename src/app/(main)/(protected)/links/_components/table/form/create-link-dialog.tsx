@@ -15,7 +15,7 @@ import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
 import { type LinkSchema, linkSchema } from "@/validation/main/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SaveIcon, XIcon } from "lucide-react";
+import { PlusIcon, SaveIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -55,7 +55,9 @@ export function CreateCategoryDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm">Adicionar Link</Button>
+        <Button size="sm" icon={<PlusIcon className="size-4" />}>
+          Adicionar Link
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
