@@ -8,17 +8,13 @@ import { type SignInFormData, signInFormSchema } from "@/validation/auth/sign-in
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogInIcon } from "lucide-react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter } from "nextjs-toploader/app";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { AuthLink } from "../_components/auth-link";
-import { AuthProviders } from "../_components/auth-providers";
+import { AuthLink } from "../../_components/auth-link";
 
 export function SignInForm() {
   const router = useRouter();
-
-  const [isRedirectingToProviders, setIsRedirectingToProviders] = useState<boolean>(false);
 
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInFormSchema),
@@ -50,8 +46,6 @@ export function SignInForm() {
     }
   }
 
-  const isDisabled = isSubmitting || isRedirectingToProviders;
-
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -63,7 +57,7 @@ export function SignInForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Digite o e-mail:" disabled={isDisabled} {...field} />
+                  <Input placeholder="Digite o e-mail:" isLoading={isSubmitting} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -77,7 +71,7 @@ export function SignInForm() {
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <InputPassword placeholder="Digite a senha:" disabled={isDisabled} {...field} />
+                  <InputPassword placeholder="Digite a senha:" isLoading={isSubmitting} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -92,19 +86,12 @@ export function SignInForm() {
             type="submit"
             aria-label="log-in in system"
             isLoading={isSubmitting}
-            disabled={isDisabled}
             icon={<LogInIcon className="size-4" />}
           >
             Entrar
           </Button>
         </div>
       </form>
-
-      <AuthProviders
-        isDisabled={isDisabled}
-        isRedirecting={isRedirectingToProviders}
-        setIsRedirecting={setIsRedirectingToProviders}
-      />
     </Form>
   );
 }

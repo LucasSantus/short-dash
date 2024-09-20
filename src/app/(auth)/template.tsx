@@ -8,6 +8,7 @@ interface AuthTemplateProps {
 
 export default async function AuthTemplate({ children }: Readonly<AuthTemplateProps>) {
   const { isAuthenticated } = await getServerAuthSession();
+
   if (isAuthenticated) redirect("/");
 
   return (

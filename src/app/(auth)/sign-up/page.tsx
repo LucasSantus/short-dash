@@ -1,7 +1,7 @@
 import { KeyRoundIcon } from "lucide-react";
 import type { Metadata } from "next";
-import { AuthLayout } from "../_components/_layouts";
 import { AlreadyAccount } from "../_components/already-account";
+import { AuthLayout } from "../_components/layout";
 import { SignUpForm } from "./form";
 
 export const metadata: Metadata = {

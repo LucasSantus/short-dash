@@ -2,7 +2,7 @@ import { AuthLink } from "./auth-link";
 
 export function DontAlreadyAccount(): JSX.Element {
   return (
-    <div className="flex items-center justify-center gap-1">
+    <div className="flex items-center justify-center gap-1 mt-1">
       <span className="text-sm text-muted-foreground">Não possuí uma conta?</span>
 
       <AuthLink title="Crie uma gratis!" href="/sign-up" />

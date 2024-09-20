@@ -1,47 +1,27 @@
 "use client";
 
+import { InputPassword } from "@/components/input-password";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { trpc } from "@/trpc/client";
+import { type SignUpFormData, signUpFormSchema } from "@/validation/auth/sign-up";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { SaveIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
-import { InputPassword } from "@/components/input-password";
-import { useHelperSubmit } from "@/hooks/use-helper-submit";
-import { type SignUpFormData, signUpFormSchema } from "@/validation/auth/sign-up";
-import { SaveIcon } from "lucide-react";
-import { useState } from "react";
-import { AuthProviders } from "../_components/auth-providers";
-import { authSignUpServer } from "./sign-up.action";
-
 export function SignUpForm() {
-  const [isRedirectingToProviders, setIsRedirectingToProviders] = useState<boolean>(false);
-
-  const { showToastBeforeSubmit } = useHelperSubmit();
+  const { mutateAsync, isPending } = trpc.auth.signUp.useMutation();
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpFormSchema),
   });
 
-  const {
-    handleSubmit,
-    control,
-    formState: { isSubmitting },
-  } = form;
+  const { handleSubmit, control } = form;
 
   async function onSubmit(values: SignUpFormData) {
-    await showToastBeforeSubmit({
-      urlToRedirect: "/sign-in",
-      message: {
-        loading: "Registrando novo usuário...",
-        success: "Usuário registrado com sucesso!",
-      },
-      callback: async () => await authSignUpServer(values),
-    });
+    mutateAsync(values);
   }
-
-  const isDisabled = isSubmitting || isRedirectingToProviders;
 
   return (
     <Form {...form}>
@@ -50,12 +30,11 @@ export function SignUpForm() {
           <FormField
             control={control}
             name="name"
-            disabled={isDisabled}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input placeholder="Digite o Nome:" {...field} />
+                  <Input placeholder="Digite o Nome:" {...field} isLoading={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -65,12 +44,11 @@ export function SignUpForm() {
           <FormField
             control={control}
             name="email"
-            disabled={isDisabled}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Digite o e-mail:" {...field} />
+                  <Input placeholder="Digite o e-mail:" {...field} isLoading={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -80,12 +58,11 @@ export function SignUpForm() {
           <FormField
             control={control}
             name="password"
-            disabled={isDisabled}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <InputPassword placeholder="Digite a senha:" {...field} />
+                  <InputPassword placeholder="Digite a senha:" {...field} isLoading={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -95,19 +72,13 @@ export function SignUpForm() {
           <Button
             type="submit"
             aria-label="Submit for create new user"
-            isLoading={isSubmitting}
-            disabled={isDisabled}
+            isLoading={isPending}
             icon={<SaveIcon className="size-4" />}
+            className="mt-2"
           >
             Salvar
           </Button>
         </form>
-
-        <AuthProviders
-          isDisabled={isDisabled}
-          isRedirecting={isRedirectingToProviders}
-          setIsRedirecting={setIsRedirectingToProviders}
-        />
       </div>
     </Form>
   );

@@ -45,7 +45,7 @@ export function Providers({ children }: PropsWithChildren) {
             <NoScript />
 
             <NextTopLoader
-              color="#2299DD"
+              color="hsl(var(--primary))"
               initialPosition={0.1}
               crawlSpeed={200}
               height={3}
