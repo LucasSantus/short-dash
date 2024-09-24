@@ -7,15 +7,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+
     "typecheck": "tsc --noEmit",
+
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
     "db:migrate": "prisma generate && prisma migrate dev",
+
     "biome:format": "biome format --write ./src",
     "biome:check": "biome check --write ./src",
     "biome:lint": "biome lint --write ./src",
+
     "shadcn:add": "shadcn@latest add",
-    "seed": "ts-node --transpile-only prisma/seed.ts"
+
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.2",
@@ -75,13 +80,14 @@
     "@biomejs/biome": "1.9.0",
     "@faker-js/faker": "^9.0.0",
     "@types/bcryptjs": "^2.4.6",
-    "@types/node": "^20",
+    "@types/node": "^20.16.5",
     "@types/nprogress": "^0.2.3",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "postcss": "^8",
     "prisma": "^5.18.0",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.19.1",
     "typescript": "^5"
   }
 }

@@ -13,7 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { type VariantProps, cva } from "class-variance-authority";
-import { CheckIcon, ChevronDown, XIcon } from "lucide-react";
+import { CheckIcon, ChevronDown, Loader2Icon, XIcon } from "lucide-react";
 import * as React from "react";
 
 /**
@@ -34,6 +34,15 @@ const multiSelectVariants = cva("p-1.5 transition ease-in-out delay-150 duration
   },
 });
 
+export type MultiSelectOptions = Array<{
+  /** The text to display for the option. */
+  label: string;
+  /** The unique value associated with the option. */
+  value: string;
+  /** Optional icon component to display alongside the option. */
+  icon?: React.ComponentType<{ className?: string }>;
+}>;
+
 /**
  * Props for MultiSelect component
  */
@@ -44,14 +53,7 @@ interface MultiSelectProps
    * An array of option objects to be displayed in the multi-select component.
    * Each option object has a label, value, and an optional icon.
    */
-  options: {
-    /** The text to display for the option. */
-    label: string;
-    /** The unique value associated with the option. */
-    value: string;
-    /** Optional icon component to display alongside the option. */
-    icon?: React.ComponentType<{ className?: string }>;
-  }[];
+  options: MultiSelectOptions;
 
   /**
    * Callback function triggered when the selected values change.
@@ -92,6 +94,8 @@ interface MultiSelectProps
    * Optional, can be used to add custom styles.
    */
   className?: string;
+
+  isLoading?: boolean;
 }
 
 export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
@@ -104,8 +108,10 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
       placeholder = "Selecione as Opcoes",
       maxCount = 2,
       modalPopover = false,
-      // asChild = false,
+      asChild = false,
       className,
+      isLoading,
+      disabled,
       ...props
     },
     ref
@@ -163,6 +169,8 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
       }
     };
 
+    const isDisabled = isLoading || disabled;
+
     return (
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen} modal={modalPopover}>
         <PopoverTrigger asChild>
@@ -174,6 +182,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
               "flex h-auto min-h-10 w-full items-center justify-between rounded-md border bg-inherit p-1 hover:bg-inherit",
               className
             )}
+            isLoading={isDisabled}
           >
             {selectedValues.length > 0 ? (
               <div className="flex w-full items-center justify-between">
@@ -223,13 +232,21 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                     }}
                   />
                   <Separator orientation="vertical" className="flex h-full min-h-6" />
-                  <ChevronDown className="mx-2 h-4 cursor-pointer text-muted-foreground" />
+                  {isLoading ? (
+                    <Loader2Icon className="mx-2 h-4 cursor-pointer text-muted-foreground animate-spin" />
+                  ) : (
+                    <ChevronDown className="mx-2 h-4 cursor-pointer text-muted-foreground" />
+                  )}
                 </div>
               </div>
             ) : (
               <div className="mx-auto flex w-full items-center justify-between">
                 <span className="mx-3 text-sm text-muted-foreground">{placeholder}</span>
-                <ChevronDown className="mx-2 h-4 cursor-pointer text-muted-foreground" />
+                {isLoading ? (
+                  <Loader2Icon className="mx-2 h-4 cursor-pointer text-muted-foreground animate-spin" />
+                ) : (
+                  <ChevronDown className="mx-2 h-4 cursor-pointer text-muted-foreground" />
+                )}
               </div>
             )}
           </Button>
@@ -254,7 +271,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                   <span>Selecionar Todos</span>
                 </CommandItem>
 
-                {options.map((option) => {
+                {options.slice(0, 49).map((option) => {
                   const isSelected = selectedValues.includes(option.value);
 
                   return (

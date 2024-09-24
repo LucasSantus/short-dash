@@ -8,12 +8,13 @@ import { cn } from "@/lib/utils";
 import type { DataTableFilterField } from "@/types/data-table";
 import type { Table } from "@tanstack/react-table";
 import { XIcon } from "lucide-react";
-import * as React from "react";
+import { ReactNode, useMemo } from "react";
 
 interface DataTableToolbarProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
   table: Table<TData>;
   filterFields?: DataTableFilterField<TData>[];
   getLabelColumns?: Record<keyof TData, string>;
+  filterOptions?: ReactNode;
 }
 
 export function DataTableToolbar<TData>({
@@ -22,12 +23,13 @@ export function DataTableToolbar<TData>({
   children,
   className,
   getLabelColumns,
+  filterOptions,
   ...props
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
   // Memoize computation of searchableColumns and filterableColumns
-  const { searchableColumns, filterableColumns } = React.useMemo(() => {
+  const { searchableColumns, filterableColumns } = useMemo(() => {
     return {
       searchableColumns: filterFields.filter((field) => !field.options),
       filterableColumns: filterFields.filter((field) => field.options),
@@ -76,7 +78,10 @@ export function DataTableToolbar<TData>({
       </div>
       <div className="flex items-center gap-2">
         {children}
+
         <DataTableViewOptions table={table} getLabelColumns={getLabelColumns} />
+
+        {filterOptions}
       </div>
     </div>
   );

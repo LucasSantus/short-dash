@@ -4,45 +4,61 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  // Seed URLs
-  const urlPromises = Array.from({ length: 10 }).map(() => {
-    return prisma.url.create({
+  console.error("Usuário dasdasd");
+
+  await Promise.all([prisma.url.deleteMany(), prisma.historic.deleteMany()]);
+
+  // Criar múltiplos usuários fictícios de forma paralela
+  const user = await prisma.user.findUnique({
+    where: {
+      email: "lucas.santuuuus@gmail.com",
+    },
+  });
+
+  if (!user) {
+    console.error("Usuário não encontrado!");
+    return null;
+  }
+
+  // Criar múltiplas URLs e históricos de forma paralela
+  const urlPromises = Array.from({ length: 5 }).map(async () => {
+    const url = await prisma.url.create({
       data: {
-        title: faker.internet.domainName(),
-        description: faker.lorem.sentence(),
+        title: faker.lorem.sentence(),
+        description: faker.lorem.paragraph(),
         originalUrl: faker.internet.url(),
-        code: faker.string.alphanumeric(6),
-        amountOfAccesses: faker.number.int({ min: 0, max: 1000 }),
-        status: "Active", // Assumindo que UrlStatus enum tem "Active"
+        code: faker.string.alphanumeric(8),
+        status: faker.helpers.arrayElement(["Active", "Inactive"]),
         expiresAt: faker.date.future(),
-        ownerId: "cm0zrx52o0000xqn6x3zu9u1h",
+        ownerId: user.id,
       },
     });
+
+    // Criar múltiplos históricos para cada URL de forma paralela
+    const historicPromises = Array.from({ length: 500 }).map(() =>
+      prisma.historic.create({
+        data: {
+          isAnonymous: faker.datatype.boolean(),
+          urlId: url.id,
+          userId: user.id,
+        },
+      })
+    );
+
+    await Promise.all(historicPromises);
   });
 
-  const urls = await Promise.all(urlPromises);
+  await Promise.all(urlPromises);
 
-  // Seed Historics
-  const historicPromises = urls.map((url) => {
-    return prisma.historic.create({
-      data: {
-        isAnonymous: faker.datatype.boolean(),
-        createdAt: faker.date.past(),
-        urlId: url.id,
-        userId: "cm0zrx52o0000xqn6x3zu9u1h",
-      },
-    });
-  });
-
-  await Promise.all(historicPromises);
+  console.info("Seeding concluído com sucesso!");
 }
 
 main()
-  .then(() => console.log("Seeding complete!"))
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
+  .then(async () => {
     await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
   });

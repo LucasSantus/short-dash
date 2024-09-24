@@ -76,10 +76,10 @@ export const createTRPCRouter = t.router;
 const timingMiddleware = t.middleware(async ({ next, path }) => {
   const start = Date.now();
 
-  if (t._config.isDev) {
-    // artificial delay in dev
-    await new Promise((resolve) => setTimeout(resolve, 500));
-  }
+  // if (t._config.isDev) {
+  //   // artificial delay in dev
+  //   await new Promise((resolve) => setTimeout(resolve, 500));
+  // }
 
   const result = await next();
 

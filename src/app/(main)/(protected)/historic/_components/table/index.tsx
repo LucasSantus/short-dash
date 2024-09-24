@@ -8,6 +8,7 @@ import { Prisma } from "@prisma/client";
 import { useMemo } from "react";
 import { HistoricFiltersSheet } from "../historic-filters-sheet";
 import { type HistoricTableColumns, getHistoricColumns, getHistoricLabelColumn } from "./table-columns";
+import { HistoricTableFiltered } from "./table-filtered";
 
 interface LinkTableProps {
   data: Array<
@@ -55,7 +56,12 @@ export function HistoricTable({ data, pageCount, totalCount }: LinkTableProps): 
 
   return (
     <DataTable table={table} totalCount={totalCount}>
-      <DataTableToolbar table={table} filterFields={filterFields} getLabelColumns={getHistoricLabelColumn}>
+      <DataTableToolbar
+        table={table}
+        filterFields={filterFields}
+        getLabelColumns={getHistoricLabelColumn}
+        filterOptions={<HistoricTableFiltered />}
+      >
         <HistoricFiltersSheet />
       </DataTableToolbar>
     </DataTable>
