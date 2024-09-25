@@ -21,10 +21,7 @@ export function HistoricTableFiltered(): JSX.Element {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Filtros Avançados</SheetTitle>
-          <SheetDescription>
-            Ajuste os critérios para refinar os resultados do histórico de links. Após configurar, clique em "Aplicar
-            Filtros".
-          </SheetDescription>
+          <SheetDescription>Ajuste os critérios para refinar os resultados do histórico de links.</SheetDescription>
         </SheetHeader>
         <HistoricTableFilteredForm>
           <SheetFooter>

@@ -25,13 +25,16 @@ export function HistoricTableFilteredForm({ children }: HistoricTableFilteredFor
 
   const { filters, setFilters } = useHistoricFilters();
 
+  // TODO: PROBLEMA PARA RECUPERAR OS VALORES DA DATA NO SEARCH PARAM
+
   const form = useForm<HistoricFilteredSchema>({
     resolver: zodResolver(historicFilteredSchema),
     defaultValues: {
       linkIds: filters.linkIds,
+
       createdAt: {
-        from: filters.createdAt.from,
-        to: filters.createdAt.to,
+        from: filters?.date?.createdAt?.from ? new Date(filters?.date?.createdAt?.from) : new Date(),
+        to: filters?.date?.createdAt?.to ? new Date(filters?.date?.createdAt?.to) : undefined,
       },
     },
   });
@@ -45,7 +48,9 @@ export function HistoricTableFilteredForm({ children }: HistoricTableFilteredFor
 
   function onSubmit({ createdAt, linkIds }: HistoricFilteredSchema) {
     setFilters({
-      createdAt,
+      date: {
+        createdAt,
+      },
       linkIds,
     });
   }
@@ -84,7 +89,12 @@ export function HistoricTableFilteredForm({ children }: HistoricTableFilteredFor
               <FormControl>
                 <CalendarDatePicker
                   date={field.value}
-                  onDateSelect={({ from, to }) => setValue("createdAt", { from, to })}
+                  onDateSelect={({ from, to }) =>
+                    setValue("createdAt", {
+                      from,
+                      to,
+                    })
+                  }
                   variant="outline"
                   className="w-full justify-start"
                   isLoading={isSubmitting}

@@ -4,6 +4,7 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { UserCheckIcon, UserXIcon } from "lucide-react";
 import { DataTableRowActions } from "./table-row-actions";
 
 export type HistoricTableColumns = {
@@ -32,20 +33,9 @@ export function getHistoricColumns(): Array<ColumnDef<HistoricTableColumns>> {
       cell: ({ row }) => {
         const userName = row.original.userName ?? "-";
 
-        return <div className="w-full min-w-48 max-w-52 truncate text-center">{userName}</div>;
+        return <div className="w-full min-w-48 max-w-52 truncate">{userName}</div>;
       },
       enableHiding: false,
-    },
-    {
-      accessorKey: "isAnonymousAccess",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title={getHistoricLabelColumn.isAnonymousAccess} />
-      ),
-      cell: ({ row }) => {
-        const isAnonymousAccess = row.original.isAnonymousAccess;
-
-        return <div className=" w-full max-w-28 text-center">{isAnonymousAccess ? "SIM" : "NOP"}</div>;
-      },
     },
     {
       accessorKey: "linkName",
@@ -77,6 +67,30 @@ export function getHistoricColumns(): Array<ColumnDef<HistoricTableColumns>> {
 
         return <span className="text-muted-foreground">{dateTimeOfAccessFormmated}</span>;
       },
+    },
+    {
+      accessorKey: "isAnonymousAccess",
+      header: ({}) => <></>,
+      cell: ({ row }) => {
+        const isAnonymousAccess = row.original.isAnonymousAccess;
+
+        return (
+          <div className="w-full flex items-center space-x-2 min-w-28">
+            {isAnonymousAccess ? (
+              <div className="flex items-center text-red-500/70">
+                <UserXIcon className="size-4" />
+                <span className="ml-2">Usuário Anônimo</span>
+              </div>
+            ) : (
+              <div className="flex items-center text-green-500/70">
+                <UserCheckIcon className="size-4" />
+                <span className="ml-2">Usuário Logado</span>
+              </div>
+            )}
+          </div>
+        );
+      },
+      size: 40,
     },
     {
       id: "actions",

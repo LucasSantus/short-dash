@@ -1,9 +1,13 @@
 import { parseAsArrayOf, parseAsInteger, parseAsJson, parseAsString, useQueryStates } from "nuqs";
 import { z } from "zod";
 
-const createdAtSchema = z.object({
-  from: z.date(),
-  to: z.date().optional(),
+const dateSchema = z.object({
+  createdAt: z
+    .object({
+      from: z.date(),
+      to: z.date().optional(),
+    })
+    .optional(),
 });
 
 export function useHistoricFilters() {
@@ -12,8 +16,10 @@ export function useHistoricFilters() {
     per_page: parseAsInteger.withDefault(10),
     linkIds: parseAsArrayOf(parseAsString).withDefault([]),
     userName: parseAsString.withDefault(""),
-    createdAt: parseAsJson(createdAtSchema.parse).withDefault({
-      from: new Date(),
+    date: parseAsJson(dateSchema.parse).withDefault({
+      createdAt: {
+        from: new Date(),
+      },
     }),
   });
 
