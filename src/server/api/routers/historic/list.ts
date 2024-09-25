@@ -2,13 +2,23 @@ import type { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { protectedProcedure } from "../../trpc";
 
-export const historicPerLinkQueryRoute = protectedProcedure
+export const historicPerLinkQuery = protectedProcedure
   .input(
     z.object({
       search: z
         .object({
           userName: z.string().optional(),
           linkIds: z.array(z.string()).optional(),
+          date: z
+            .object({
+              createdAt: z
+                .object({
+                  from: z.date(),
+                  to: z.date().optional(),
+                })
+                .optional(),
+            })
+            .optional(),
         })
         .optional(),
       pagination: z.object({
@@ -42,6 +52,30 @@ export const historicPerLinkQueryRoute = protectedProcedure
             in: search.linkIds,
           },
         };
+      }
+
+      if (search.date) {
+        if (search.date.createdAt) {
+          if (search.date.createdAt.from) {
+            where = {
+              ...where,
+
+              createdAt: {
+                gte: search.date.createdAt.from,
+              },
+            };
+          }
+
+          if (search.date.createdAt.to) {
+            where = {
+              ...where,
+
+              createdAt: {
+                lte: search.date.createdAt.to,
+              },
+            };
+          }
+        }
       }
     }
 

@@ -6,7 +6,6 @@ import { useDataTable } from "@/hooks/use-data-table";
 import type { DataTableFilterField } from "@/types/data-table";
 import { Prisma } from "@prisma/client";
 import { useMemo } from "react";
-import { HistoricFiltersSheet } from "../historic-filters-sheet";
 import { type HistoricTableColumns, getHistoricColumns, getHistoricLabelColumn } from "./table-columns";
 import { HistoricTableFiltered } from "./table-filtered";
 
@@ -61,9 +60,7 @@ export function HistoricTable({ data, pageCount, totalCount }: LinkTableProps): 
         filterFields={filterFields}
         getLabelColumns={getHistoricLabelColumn}
         filterOptions={<HistoricTableFiltered />}
-      >
-        <HistoricFiltersSheet />
-      </DataTableToolbar>
+      />
     </DataTable>
   );
 }

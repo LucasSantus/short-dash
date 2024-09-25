@@ -12,9 +12,11 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { normalizeText } from "@/utils/normalize-text";
 import { type VariantProps, cva } from "class-variance-authority";
 import { CheckIcon, ChevronDown, Loader2Icon, XIcon } from "lucide-react";
 import * as React from "react";
+import { ScrollArea } from "./scroll-area";
 
 /**
  * Variants for the multi-select component to handle different styles.
@@ -66,7 +68,7 @@ interface MultiSelectProps
 
   /**
    * Placeholder text to be displayed when no values are selected.
-   * Optional, defaults to "Select options".
+   * Optional, defaults to "Selecione os Itens".
    */
   placeholder?: string;
 
@@ -105,7 +107,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
       onValueChange,
       variant,
       defaultValue = [],
-      placeholder = "Selecione as Opcoes",
+      placeholder = "Selecione os Itens",
       maxCount = 2,
       modalPopover = false,
       asChild = false,
@@ -116,14 +118,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
     },
     ref
   ) => {
+    const [search, setSearch] = React.useState<string>("");
     const [selectedValues, setSelectedValues] = React.useState<string[]>(defaultValue);
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
-
-    React.useEffect(() => {
-      if (JSON.stringify(selectedValues) !== JSON.stringify(defaultValue)) {
-        setSelectedValues(selectedValues);
-      }
-    }, [defaultValue, selectedValues]);
 
     const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "Enter") {
@@ -169,22 +166,29 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
       }
     };
 
+    const filteredOptions = React.useMemo(() => {
+      return options.filter((option) => {
+        return normalizeText(option.label).includes(normalizeText(search));
+      });
+    }, [options, search]);
+
     const isDisabled = isLoading || disabled;
 
     return (
-      <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen} modal={modalPopover}>
+      <Popover open={isPopoverOpen} modal={modalPopover} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild>
           <Button
             ref={ref}
             {...props}
+            variant="ghost"
             onClick={handleTogglePopover}
             className={cn(
               "flex h-auto min-h-10 w-full items-center justify-between rounded-md border bg-inherit p-1 hover:bg-inherit",
               className
             )}
-            isLoading={isDisabled}
+            disabled={isDisabled}
           >
-            {selectedValues.length > 0 ? (
+            {!isDisabled && selectedValues.length > 0 ? (
               <div className="flex w-full items-center justify-between">
                 <div className="flex flex-wrap items-center space-x-1">
                   {selectedValues.slice(0, maxCount).map((value) => {
@@ -192,37 +196,44 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                     const IconComponent = option?.icon;
 
                     return (
-                      <Badge key={value} className={cn(multiSelectVariants({ variant }))}>
+                      <Badge key={value} className={multiSelectVariants({ variant })}>
                         {IconComponent && <IconComponent className="mr-2 size-4" />}
-                        {option?.label}
+
+                        <span className="max-w-20 truncate">{option?.label}</span>
+
                         <XIcon
-                          className="ml-2 size-4 cursor-pointer"
+                          className="ml-2 h-4 w-4 shrink-0 cursor-pointer"
                           onClick={(event) => {
                             event.stopPropagation();
+
                             toggleOption(value);
                           }}
                         />
                       </Badge>
                     );
                   })}
+
                   {selectedValues.length > maxCount && (
                     <Badge
                       className={cn(
                         "border-foreground/1 bg-transparent text-foreground hover:bg-transparent",
+
                         multiSelectVariants({ variant })
                       )}
                     >
                       {`+ ${selectedValues.length - maxCount} Itens`}
                       <XIcon
-                        className="ml-2 size-4 cursor-pointer"
+                        className="ml-2 size-4 shrink-0 cursor-pointer"
                         onClick={(event) => {
                           event.stopPropagation();
+
                           clearExtraOptions();
                         }}
                       />
                     </Badge>
                   )}
                 </div>
+
                 <div className="flex items-center justify-between">
                   <XIcon
                     className="mx-2 h-4 cursor-pointer text-muted-foreground"
@@ -231,88 +242,107 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                       handleClear();
                     }}
                   />
+
                   <Separator orientation="vertical" className="flex h-full min-h-6" />
-                  {isLoading ? (
-                    <Loader2Icon className="mx-2 h-4 cursor-pointer text-muted-foreground animate-spin" />
-                  ) : (
-                    <ChevronDown className="mx-2 h-4 cursor-pointer text-muted-foreground" />
-                  )}
+
+                  <ChevronDown className="mx-2 h-4 cursor-pointer text-muted-foreground" />
                 </div>
               </div>
             ) : (
-              <div className="mx-auto flex w-full items-center justify-between">
-                <span className="mx-3 text-sm text-muted-foreground">{placeholder}</span>
+              <div className="mx-auto flex w-full items-center justify-between text-muted-foreground">
+                <span className="mx-3 text-sm">{isLoading ? "Carregando..." : placeholder}</span>
+
                 {isLoading ? (
-                  <Loader2Icon className="mx-2 h-4 cursor-pointer text-muted-foreground animate-spin" />
+                  <Loader2Icon className="pointer-events-none mx-2 size-4 animate-spin" />
                 ) : (
-                  <ChevronDown className="mx-2 h-4 cursor-pointer text-muted-foreground" />
+                  <ChevronDown className="pointer-events-none mx-2 size-4" />
                 )}
               </div>
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start" onEscapeKeyDown={() => setIsPopoverOpen(false)}>
-          <Command>
-            <CommandInput placeholder="Pesquisar..." onKeyDown={handleInputKeyDown} />
+
+        <PopoverContent align="end" className="w-auto p-0">
+          <Command shouldFilter={false}>
+            <CommandInput
+              value={search}
+              disabled={isLoading}
+              onValueChange={setSearch}
+              placeholder="Pesquisar..."
+              onKeyDown={handleInputKeyDown}
+            />
+
             <CommandList>
-              <CommandEmpty>Sem resultados.</CommandEmpty>
-              <CommandGroup>
-                <CommandItem key="all" onSelect={toggleAll} className="cursor-pointer">
-                  <div
-                    className={cn(
-                      "mr-2 flex size-4 items-center justify-center rounded-sm",
-                      selectedValues.length === options.length
-                        ? "text-foreground-primary"
-                        : "opacity-50 [&_svg]:invisible"
-                    )}
-                  >
-                    <CheckIcon className="size-4" />
-                  </div>
-                  <span>Selecionar Todos</span>
-                </CommandItem>
+              <ScrollArea className="h-60 overflow-y-auto pr-2">
+                <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
 
-                {options.slice(0, 49).map((option) => {
-                  const isSelected = selectedValues.includes(option.value);
-
-                  return (
-                    <CommandItem
-                      key={option.value}
-                      onSelect={() => toggleOption(option.value)}
-                      className="cursor-pointer"
-                    >
+                <CommandGroup>
+                  {!search && (
+                    <CommandItem disabled={isLoading} onSelect={toggleAll} className="cursor-pointer">
                       <div
                         className={cn(
                           "mr-2 flex size-4 items-center justify-center rounded-sm",
-                          isSelected ? "text-foreground-primary" : "opacity-50 [&_svg]:invisible"
+                          selectedValues.length === options.length
+                            ? "bg-custom-blue-500 text-white"
+                            : "opacity-50 [&_svg]:invisible"
                         )}
                       >
                         <CheckIcon className="size-4" />
                       </div>
-                      {option.icon && <option.icon className="mr-2 size-4 text-muted-foreground" />}
-                      <span>{option.label}</span>
+
+                      <span className="font-medium">( Selecionar todos )</span>
                     </CommandItem>
-                  );
-                })}
-              </CommandGroup>
-              <CommandSeparator />
-              <CommandGroup>
-                <div className="flex items-center justify-between">
-                  {selectedValues.length > 0 && (
-                    <React.Fragment>
-                      <CommandItem onSelect={handleClear} className="flex-1 cursor-pointer justify-center">
-                        Limpar
-                      </CommandItem>
-                      <Separator orientation="vertical" className="flex h-full min-h-6" />
-                    </React.Fragment>
                   )}
-                  <CommandItem
-                    onSelect={() => setIsPopoverOpen(false)}
-                    className="max-w-full flex-1 cursor-pointer justify-center"
-                  >
-                    Fechar
-                  </CommandItem>
-                </div>
-              </CommandGroup>
+
+                  {filteredOptions.slice(0, 50).map((option) => {
+                    const isSelected = selectedValues.includes(option.value);
+
+                    return (
+                      <CommandItem
+                        key={option.value}
+                        className="cursor-pointer"
+                        onSelect={() => toggleOption(option.value)}
+                      >
+                        <div
+                          className={cn(
+                            "mr-2 flex size-4 items-center justify-center rounded-sm",
+                            isSelected ? "bg-custom-blue-500 text-white" : "opacity-50 [&_svg]:invisible"
+                          )}
+                        >
+                          <CheckIcon className="size-4" />
+                        </div>
+
+                        {option.icon && <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />}
+
+                        <span>{option.label}</span>
+                      </CommandItem>
+                    );
+                  })}
+                </CommandGroup>
+
+                <CommandSeparator alwaysRender />
+
+                <CommandGroup>
+                  <div className="flex items-center justify-between">
+                    {selectedValues.length > 0 && (
+                      <React.Fragment>
+                        <CommandItem onSelect={handleClear} className="flex-1 cursor-pointer justify-center">
+                          Limpar
+                        </CommandItem>
+
+                        <Separator orientation="vertical" className="flex h-full min-h-6" />
+                      </React.Fragment>
+                    )}
+
+                    <CommandItem
+                      onSelect={() => setIsPopoverOpen(false)}
+                      className="max-w-full flex-1 cursor-pointer justify-center"
+                    >
+                      Fechar
+                    </CommandItem>
+                  </div>
+                </CommandGroup>
+              </ScrollArea>
             </CommandList>
           </Command>
         </PopoverContent>

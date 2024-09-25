@@ -3,7 +3,7 @@ import { createNewCode } from "@/utils/create-new-code";
 import { z } from "zod";
 import { protectedProcedure } from "../../trpc";
 
-export const createLinkMutationRoute = protectedProcedure
+export const createLinkMutation = protectedProcedure
   .input(
     z.object({
       title: z.string({ message: messages.form.REQUIRED_FIELD }),

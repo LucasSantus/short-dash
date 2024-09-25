@@ -68,6 +68,8 @@ interface DataTableSkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
    * @type boolean | undefined
    */
   shrinkZero?: boolean;
+
+  showFilterOptions?: boolean;
 }
 
 export function DataTableSkeleton(props: DataTableSkeletonProps) {
@@ -77,6 +79,7 @@ export function DataTableSkeleton(props: DataTableSkeletonProps) {
     searchableColumnCount = 0,
     filterableColumnCount = 0,
     showViewOptions = true,
+    showFilterOptions = true,
     cellWidths = ["auto"],
     cellHeights = [],
     withPagination = true,
@@ -100,7 +103,9 @@ export function DataTableSkeleton(props: DataTableSkeletonProps) {
               ))
             : null}
         </div>
-        {showViewOptions ? <Skeleton className="ml-auto hidden h-9 w-40 lg:flex" /> : null}
+        {showViewOptions ? <Skeleton className="ml-auto hidden size-9 w-40 lg:flex" /> : null}
+
+        {showFilterOptions ? <Skeleton className="size-9 lg:flex" /> : null}
       </div>
       <div className="rounded-md border">
         <Table>

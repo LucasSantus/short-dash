@@ -1,25 +1,27 @@
 import { createTRPCRouter } from "@/server/api/trpc";
-import { createLinkMutationRoute } from "./create";
-import { deleteLinkMutationRoute, deleteMultipleLinksMutationRoute } from "./delete";
-import { linksQueryRoute } from "./list";
-import { redirectUrlByCodeMutationRoute } from "./redirect-url-by-code";
-import { updateLinkMutationRoute } from "./update";
-import { updateLinkStatusMutationRoute, updateStatusMultipleLinkMutationRoute } from "./update-status";
+import { allLinkOptionsQuery } from "./all-link-options";
+import { createLinkMutation } from "./create";
+import { deleteLinkMutation, deleteMultipleLinksMutationRoute } from "./delete";
+import { linksQuery } from "./list";
+import { redirectUrlByCodeMutation } from "./redirect-url-by-code";
+import { updateLinkMutation } from "./update";
+import { updateLinkStatusMutation, updateStatusMultipleLinkMutationRoute } from "./update-status";
 
 export const linkRoute = createTRPCRouter({
   // QUERIES
-  list: linksQueryRoute,
+  list: linksQuery,
+  listOptions: allLinkOptionsQuery,
 
   // MUTATIONS
-  create: createLinkMutationRoute,
+  create: createLinkMutation,
 
-  update: updateLinkMutationRoute,
+  update: updateLinkMutation,
 
-  delete: deleteLinkMutationRoute,
+  delete: deleteLinkMutation,
   deleteMultiple: deleteMultipleLinksMutationRoute,
 
-  updateStatus: updateLinkStatusMutationRoute,
+  updateStatus: updateLinkStatusMutation,
   updateMultipleStatus: updateStatusMultipleLinkMutationRoute,
 
-  redirectUrlByCode: redirectUrlByCodeMutationRoute,
+  redirectUrlByCode: redirectUrlByCodeMutation,
 });

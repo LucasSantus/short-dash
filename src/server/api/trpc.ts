@@ -1,5 +1,6 @@
 import { prismaClient } from "@/lib/prisma";
 import { getServerAuthSession } from "@/utils/get-server-auth-session";
+import { sleep } from "@/utils/sleep";
 import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
@@ -76,12 +77,8 @@ export const createTRPCRouter = t.router;
 const timingMiddleware = t.middleware(async ({ next, path }) => {
   const start = Date.now();
 
-  // if (t._config.isDev) {
-  //   // artificial delay in dev
-  //   await new Promise((resolve) => setTimeout(resolve, 500));
-  // }
-
-  const result = await next();
+  // artificial delay
+  const [result] = await Promise.all([next(), sleep(700)]);
 
   const end = Date.now();
 
@@ -91,11 +88,24 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
 });
 
 /**
+ * Without Delay (unauthenticated) procedure
+ *
+ * This is the base piece you use to build new queries and mutations on your tRPC API. It does not
+ * guarantee that a user querying is authorized, but you can still access user session data if they
+ * are logged in.
+ *
+ * procedure without artificial delay.
+ */
+export const withoutDelayProcedure = t.procedure;
+
+/**
  * Public (unauthenticated) procedure
  *
  * This is the base piece you use to build new queries and mutations on your tRPC API. It does not
  * guarantee that a user querying is authorized, but you can still access user session data if they
  * are logged in.
+ *
+ * procedure with artificial delay.
  */
 export const publicProcedure = t.procedure.use(timingMiddleware);
 
@@ -104,6 +114,8 @@ export const publicProcedure = t.procedure.use(timingMiddleware);
  *
  * If you want a query or mutation to ONLY be accessible to logged in users, use this. It verifies
  * the session is valid and guarantees `ctx.session.user` is not null.
+ *
+ * procedure with artificial delay.
  *
  * @see https://trpc.io/docs/procedures
  */

@@ -16,15 +16,7 @@ export function LinkHistoricRow({ linkId }: LinkHistoricRowProps): JSX.Element {
       onSelect={async (event) => {
         event.preventDefault();
 
-        // await setFilters({
-        //   page: 1,
-        //   per_page: 10,
-        //   linkIds: [linkId],
-        // });
-
-        // logica para montar url
-
-        startRedirectHistoricTransition(() => router.push("/historic"));
+        startRedirectHistoricTransition(() => router.push(`/historic?linkIds=${linkId}`));
       }}
       className="flex items-center gap-2"
       icon={

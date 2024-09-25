@@ -45,14 +45,16 @@
         "noDoubleEquals": "off",
         "noEmptyInterface": "off",
         "noConsoleLog": "warn",
-        "noAssignInExpressions": "off"
+        "noAssignInExpressions": "off",
+        "noMisleadingCharacterClass": "off"
       },
       "a11y": {
         "noSvgWithoutTitle": "off",
         "noRedundantRoles": "off",
         "useSemanticElements": "off",
         "useFocusableInteractive": "off",
-        "useKeyWithClickEvents": "off"
+        "useKeyWithClickEvents": "off",
+        "useKeyWithMouseEvents": "off"
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"

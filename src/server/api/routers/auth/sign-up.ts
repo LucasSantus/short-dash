@@ -3,7 +3,7 @@ import { signUpFormSchema } from "@/validation/auth/sign-up";
 import bcrypt from "bcryptjs";
 import { publicProcedure } from "../../trpc";
 
-export const signUpMutationRoute = publicProcedure
+export const signUpMutation = publicProcedure
   .input(signUpFormSchema)
   .mutation(async ({ input: { name, email, password }, ctx: { db } }) => {
     const emailExists = await db.user.findUnique({

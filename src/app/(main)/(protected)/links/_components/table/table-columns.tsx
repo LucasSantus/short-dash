@@ -1,11 +1,16 @@
 "use client";
 
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { generateUrl } from "@/utils/generate-url";
 import type { Url } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { CheckIcon, CircleIcon, XIcon } from "lucide-react";
+import { ptBR } from "date-fns/locale";
+import { CheckIcon, CircleIcon, CopyIcon, CornerDownRightIcon, MousePointerClickIcon, XIcon } from "lucide-react";
+import { toast } from "sonner";
 import { LinkStatus, linkStatusDescription } from "../../_types/links";
 import { DataTableRowActions } from "./table-row-actions";
 
@@ -58,6 +63,7 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
           />
         </div>
       ),
+      size: 14,
       enableHiding: false,
     },
     {
@@ -66,29 +72,68 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
       cell: ({ row }) => {
         const title = row.original.title;
 
-        return <div className="max-w-44 truncate">{title}</div>;
+        return <div className="max-w-44 min-w-16 w-full truncate text-start">{title ?? "-"}</div>;
       },
       enableHiding: false,
     },
     {
-      accessorKey: "description",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.description} />,
+      accessorKey: "originalUrl",
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.originalUrl} />,
       cell: ({ row }) => {
-        const description = row.original.description;
+        const { originalUrl, code } = row.original;
 
-        const descriptionFormatted = description ? description.substring(0, 70) : "-";
+        const shortUrl = generateUrl(code);
+
+        async function handleCopyUrl() {
+          try {
+            await navigator.clipboard.writeText(shortUrl);
+            toast.success("Url copiada com sucesso!");
+          } catch {
+            toast.error("Ocorreu uma falha ao tentar copiar a url!");
+          }
+        }
 
         return (
-          <div className="w-52 text-muted-foreground">
-            {descriptionFormatted.length >= 60 ? descriptionFormatted.concat("...") : descriptionFormatted}
+          <div className="flex flex-col items-start gap-2 max-w-full">
+            <div className="flex justify-between items-center w-full">
+              <span className="text-muted-foreground font-bold lowercase">{shortUrl}</span>
+
+              <Button
+                size="icon"
+                variant="ghost"
+                icon={<CopyIcon className="size-3.5" />}
+                onClick={handleCopyUrl}
+                className="size-7"
+              />
+            </div>
+            <span className="text-muted-foreground/70 flex items-center gap-1">
+              <CornerDownRightIcon className="size-3" />
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="truncate max-w-80">{originalUrl}</TooltipTrigger>
+                  <TooltipContent>
+                    <p>{originalUrl}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </span>
           </div>
         );
       },
     },
     {
-      accessorKey: "code",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.code} />,
-      cell: ({ row }) => <span>{row.getValue("code")}</span>,
+      accessorKey: "createdAt",
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.createdAt} />,
+      cell: ({ row }) => {
+        const createdAt = row.original.createdAt as Date;
+
+        const createdAtFormmated = format(createdAt, "dd MMM, yyyy", {
+          locale: ptBR,
+        });
+
+        return <span className="text-muted-foreground capitalize">{createdAtFormmated}</span>;
+      },
     },
     {
       accessorKey: "status",
@@ -114,27 +159,19 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
     },
     {
       accessorKey: "amountOfAccesses",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.amountOfAccesses} />,
+      header: () => <></>,
       cell: ({ row }) => {
         const amountOfAccesses = row.original.amountOfAccesses;
 
         return (
-          <div className="flex items-center gap-2">
-            <span className="text-muted-foreground">{amountOfAccesses}</span>
-            <span className="text-muted-foreground">Acesso(s)</span>
+          <div className="flex items-center justify-center text-muted-foreground">
+            <div className="flex gap-1.5 items-center border p-2 rounded-md">
+              <MousePointerClickIcon className="size-4" />
+              <span>{amountOfAccesses}</span>
+              <span>Click(s)</span>
+            </div>
           </div>
         );
-      },
-    },
-    {
-      accessorKey: "createdAt",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.createdAt} />,
-      cell: ({ row }) => {
-        const createdAt = row.original.createdAt as Date;
-
-        const createdAtFormmated = format(createdAt, "dd/MM/yyyy");
-
-        return <span className="text-muted-foreground">{createdAtFormmated}</span>;
       },
     },
     {

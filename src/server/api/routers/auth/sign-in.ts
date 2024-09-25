@@ -3,7 +3,7 @@ import { signInFormSchema } from "@/validation/auth/sign-in";
 import { compare } from "bcryptjs";
 import { publicProcedure } from "../../trpc";
 
-export const signInMutationRoute = publicProcedure
+export const signInMutation = publicProcedure
   .input(signInFormSchema)
   .mutation(async ({ input: { email, password }, ctx: { db } }) => {
     const user = await db.user.findUnique({

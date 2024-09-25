@@ -3,7 +3,7 @@ import { resetPasswordFormSchema } from "@/validation/auth/reset-password";
 import bcrypt from "bcryptjs";
 import { publicProcedure } from "../../trpc";
 
-export const resetPasswordMutationRoute = publicProcedure
+export const resetPasswordMutation = publicProcedure
   .input(resetPasswordFormSchema)
   .mutation(async ({ input: { email, password }, ctx: { db } }) => {
     const user = await db.user.findUnique({

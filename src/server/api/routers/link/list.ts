@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { protectedProcedure } from "../../trpc";
 
-export const linksQueryRoute = protectedProcedure
+export const linksQuery = protectedProcedure
   .input(
     z.object({
       search: z

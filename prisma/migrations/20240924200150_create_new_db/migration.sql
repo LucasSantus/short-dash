@@ -18,7 +18,6 @@ CREATE TABLE "urls" (
     "title" TEXT NOT NULL,
     "description" TEXT,
     "originalUrl" TEXT NOT NULL,
-    "shortUrl" TEXT NOT NULL,
     "code" TEXT NOT NULL,
     "amountOfAccesses" INTEGER NOT NULL DEFAULT 0,
     "status" "UrlStatus" NOT NULL DEFAULT 'Active',
@@ -96,9 +95,6 @@ CREATE TABLE "authenticators" (
 
     CONSTRAINT "authenticators_pkey" PRIMARY KEY ("userId","credentialID")
 );
-
--- CreateIndex
-CREATE UNIQUE INDEX "urls_shortUrl_key" ON "urls"("shortUrl");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "urls_code_key" ON "urls"("code");

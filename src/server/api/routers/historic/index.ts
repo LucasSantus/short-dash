@@ -1,9 +1,9 @@
 import { createTRPCRouter } from "@/server/api/trpc";
-import { historicPerLinkQueryRoute } from "./list";
+import { historicPerLinkQuery } from "./list";
 
 export const historicRoute = createTRPCRouter({
   // QUERIES
-  list: historicPerLinkQueryRoute,
+  list: historicPerLinkQuery,
 
   // MUTATIONS
 });

@@ -3,7 +3,7 @@ import { changePasswordFormSchema } from "@/validation/auth/change-password";
 import bcrypt from "bcryptjs";
 import { publicProcedure } from "../../trpc";
 
-export const changePasswordMutationRoute = publicProcedure
+export const changePasswordMutation = publicProcedure
   .input(changePasswordFormSchema)
   .mutation(async ({ input: { email, password, oldPassword }, ctx: { db } }) => {
     const user = await db.user.findUnique({

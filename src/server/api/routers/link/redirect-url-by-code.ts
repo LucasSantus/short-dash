@@ -1,8 +1,8 @@
 import { messages } from "@/constants/messages";
 import { z } from "zod";
-import { publicProcedure } from "../../trpc";
+import { withoutDelayProcedure } from "../../trpc";
 
-export const redirectUrlByCodeMutationRoute = publicProcedure
+export const redirectUrlByCodeMutation = withoutDelayProcedure
   .input(
     z.object({
       code: z.string({ message: messages.form.REQUIRED_FIELD }),
@@ -10,6 +10,7 @@ export const redirectUrlByCodeMutationRoute = publicProcedure
   )
   .mutation(async ({ input: { code }, ctx: { db, session } }) => {
     const { user, isAuthenticated } = session;
+
     const link = await db.url.findUnique({
       where: {
         code,
@@ -17,6 +18,10 @@ export const redirectUrlByCodeMutationRoute = publicProcedure
     });
 
     if (!link) throw new Error("Falha ao tentar achar essa url");
+
+    if (link.status === "Inactive") {
+      return link;
+    }
 
     Promise.all([
       db.url.update({

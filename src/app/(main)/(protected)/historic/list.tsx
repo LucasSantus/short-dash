@@ -31,11 +31,11 @@ export function HistoricList(): JSX.Element {
 
   if (isError || !data) return <QueryFailed refetch={refetch} isLoading={isLoading} />;
 
-  if (!userName && !data.historic.length)
+  if (!userName && !linkIds && !data.historic.length)
     return (
       <DontHaveItems
-        title="Você não tem links registrados no momento."
-        description="Para começar a gerenciar seus links, adicione um novo link."
+        title="Você não tem históricos registrados no momento."
+        description="É necessário acessar os links para começar a gerenciar seus históricos."
       />
     );
 

@@ -2,7 +2,7 @@ import { messages } from "@/constants/messages";
 import { z } from "zod";
 import { protectedProcedure } from "../../trpc";
 
-export const updateLinkMutationRoute = protectedProcedure
+export const updateLinkMutation = protectedProcedure
   .input(
     z.object({
       id: z.string({ message: messages.form.REQUIRED_FIELD }),

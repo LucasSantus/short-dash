@@ -21,7 +21,7 @@ async function main() {
   }
 
   // Criar múltiplas URLs e históricos de forma paralela
-  const urlPromises = Array.from({ length: 5 }).map(async () => {
+  const urlPromises = Array.from({ length: 100 }).map(async () => {
     const url = await prisma.url.create({
       data: {
         title: faker.lorem.sentence(),
@@ -31,11 +31,15 @@ async function main() {
         status: faker.helpers.arrayElement(["Active", "Inactive"]),
         expiresAt: faker.date.future(),
         ownerId: user.id,
+        amountOfAccesses: faker.number.int({
+          min: 0,
+          max: 2000,
+        }),
       },
     });
 
     // Criar múltiplos históricos para cada URL de forma paralela
-    const historicPromises = Array.from({ length: 500 }).map(() =>
+    const historicPromises = Array.from({ length: 20 }).map(() =>
       prisma.historic.create({
         data: {
           isAnonymous: faker.datatype.boolean(),

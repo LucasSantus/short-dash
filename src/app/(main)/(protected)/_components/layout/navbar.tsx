@@ -66,7 +66,7 @@ export function Navbar({ session: { isAuthenticated, user } }: NavbarProps) {
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-48">
+            <DropdownMenuContent className="w-60" align="end">
               <DropdownMenuLabel>
                 <p className="truncate">{user.name ?? "Minha Conta"}</p>
                 <p className="truncate text-muted-foreground">{user.email}</p>

@@ -6,7 +6,7 @@ import generateHash from "@/utils/hash";
 import { forgetPasswordFormSchema } from "@/validation/auth/forget-password";
 import { publicProcedure } from "../../trpc";
 
-export const forgetPasswordMutationRoute = publicProcedure
+export const forgetPasswordMutation = publicProcedure
   .input(forgetPasswordFormSchema)
   .mutation(async ({ input: { email }, ctx: { db } }) => {
     const user = await db.user.findUnique({

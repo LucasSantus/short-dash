@@ -9,26 +9,29 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { FilterIcon } from "lucide-react";
+import { FilterIcon, SlidersHorizontalIcon } from "lucide-react";
 import { HistoricTableFilteredForm } from "./form";
 
-interface HistoricTableFilteredProps {}
-
-export function HistoricTableFiltered({}: HistoricTableFilteredProps) {
+export function HistoricTableFiltered(): JSX.Element {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" icon={<FilterIcon className="size-4" />} className="size-9" />
+        <Button variant="outline" size="icon" icon={<SlidersHorizontalIcon className="size-4" />} className="size-9" />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>Make changes to your profile here. Click save when you're done.</SheetDescription>
+          <SheetTitle>Filtros Avançados</SheetTitle>
+          <SheetDescription>
+            Ajuste os critérios para refinar os resultados do histórico de links. Após configurar, clique em "Aplicar
+            Filtros".
+          </SheetDescription>
         </SheetHeader>
         <HistoricTableFilteredForm>
           <SheetFooter>
             <SheetClose asChild>
-              <Button type="submit">Save changes</Button>
+              <Button type="submit" size="sm" icon={<FilterIcon className="size-4" />}>
+                Aplicar Filtros
+              </Button>
             </SheetClose>
           </SheetFooter>
         </HistoricTableFilteredForm>
