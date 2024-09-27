@@ -6,14 +6,14 @@ import { useDataTable } from "@/hooks/use-data-table";
 import type { DataTableFilterField } from "@/types/data-table";
 import { Prisma } from "@prisma/client";
 import { useMemo } from "react";
-import { type HistoricTableColumns, getHistoricColumns, getHistoricLabelColumn } from "./table-columns";
-import { HistoricTableFiltered } from "./table-filtered";
+import { type EventTableColumns, getEventColumns, getEventLabelColumn } from "./table-columns";
+import { EventTableFiltered } from "./table-filtered";
 
 interface LinkTableProps {
   data: Array<
-    Prisma.HistoricGetPayload<{
+    Prisma.EventGetPayload<{
       include: {
-        url: true;
+        link: true;
         user: true;
       };
     }>
@@ -22,10 +22,10 @@ interface LinkTableProps {
   totalCount: number;
 }
 
-export function HistoricTable({ data, pageCount, totalCount }: LinkTableProps): JSX.Element {
-  const columns = getHistoricColumns();
+export function EventTable({ data, pageCount, totalCount }: LinkTableProps): JSX.Element {
+  const columns = getEventColumns();
 
-  const filterFields: Array<DataTableFilterField<HistoricTableColumns>> = [
+  const filterFields: Array<DataTableFilterField<EventTableColumns>> = [
     {
       label: "Nome",
       value: "userName",
@@ -33,14 +33,14 @@ export function HistoricTable({ data, pageCount, totalCount }: LinkTableProps): 
     },
   ];
 
-  const historic = useMemo((): HistoricTableColumns[] => {
-    return data?.map(({ id, isAnonymous, createdAt, url, user }) => ({
+  const historic = useMemo((): EventTableColumns[] => {
+    return data?.map(({ id, isAnonymous, createdAt, link, user }) => ({
       id,
       isAnonymousAccess: isAnonymous,
       userName: user?.name ?? undefined,
-      linkName: url.title,
+      linkName: link.title,
       dateTimeOfAccess: createdAt,
-      originalUrl: url.originalUrl,
+      originalUrl: link.originalUrl,
     }));
   }, [data]);
 
@@ -58,8 +58,8 @@ export function HistoricTable({ data, pageCount, totalCount }: LinkTableProps): 
       <DataTableToolbar
         table={table}
         filterFields={filterFields}
-        getLabelColumns={getHistoricLabelColumn}
-        filterOptions={<HistoricTableFiltered />}
+        getLabelColumns={getEventLabelColumn}
+        filterOptions={<EventTableFiltered />}
       />
     </DataTable>
   );

@@ -11,7 +11,7 @@ export const updateLinkStatusMutation = protectedProcedure
     })
   )
   .mutation(async ({ input: { id, status }, ctx: { db } }) => {
-    await db.url.update({
+    await db.link.update({
       where: {
         id,
       },
@@ -30,7 +30,7 @@ export const updateStatusMultipleLinkMutationRoute = protectedProcedure
     })
   )
   .mutation(async ({ input: { ids, status }, ctx: { db } }) => {
-    await db.url.updateMany({
+    await db.link.updateMany({
       where: {
         id: {
           in: ids,

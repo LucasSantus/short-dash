@@ -6,7 +6,7 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { generateUrl } from "@/utils/generate-url";
-import type { UrlStatus } from "@prisma/client";
+import type { LinkStatus } from "@prisma/client";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Calendar, CalendarIcon, ExternalLinkIcon, EyeIcon, Users } from "lucide-react";
@@ -29,7 +29,7 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
     return format(date, "dd 'de' MMMM 'de' yyyy 'às' HH:mm", { locale: ptBR });
   };
 
-  const statusColor: Record<UrlStatus, string> = {
+  const statusColor: Record<LinkStatus, string> = {
     Active: "bg-green-500",
     Inactive: "bg-yellow-500",
   };

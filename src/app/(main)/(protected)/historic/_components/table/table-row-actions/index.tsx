@@ -10,10 +10,10 @@ import {
 import type { Row } from "@tanstack/react-table";
 import { EllipsisIcon } from "lucide-react";
 import { useHistoricFilters } from "../../../_hooks/use-historic-filters";
-import type { HistoricTableColumns } from "../table-columns";
+import type { EventTableColumns } from "../table-columns";
 
 interface DataTableRowActionsProps {
-  row: Row<HistoricTableColumns>;
+  row: Row<EventTableColumns>;
 }
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {

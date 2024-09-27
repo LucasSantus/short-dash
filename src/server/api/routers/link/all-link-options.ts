@@ -2,7 +2,7 @@ import { MultiSelectOptions } from "@/components/ui/multi-select";
 import { protectedProcedure } from "../../trpc";
 
 export const allLinkOptionsQuery = protectedProcedure.query(async ({ ctx: { session, db } }) => {
-  const allLinks = await db.url.findMany({
+  const allLinks = await db.link.findMany({
     where: {
       ownerId: session.user.id,
     },

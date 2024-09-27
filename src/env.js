@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 
 import { createEnv } from "@t3-oss/env-nextjs";

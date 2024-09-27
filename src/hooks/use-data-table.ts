@@ -76,7 +76,7 @@ interface UseDataTableProps<TData>
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),
-  per_page: z.coerce.number().optional(),
+  pageSize: z.coerce.number().optional(),
   // sort: z.string().optional(),
 });
 
@@ -93,7 +93,7 @@ export function useDataTable<TData>({
   // Search params
   const search = searchParamsSchema.parse(Object.fromEntries(searchParams));
   const page = search.page;
-  const perPage = search.per_page ?? props.initialState?.pagination?.pageSize ?? 10;
+  const perPage = search.pageSize ?? props.initialState?.pagination?.pageSize ?? 10;
   // const sort =
   //   search.sort ??
   //   `${props.initialState?.sorting?.[0]?.id}.${props.initialState?.sorting?.[0]?.desc ? "desc" : "asc"}`;
@@ -178,7 +178,7 @@ export function useDataTable<TData>({
     router.replace(
       `${pathname}?${createQueryString({
         page: pageIndex + 1,
-        per_page: pageSize,
+        pageSize: pageSize,
         // sort: sorting[0]?.id
         //   ? `${sorting[0]?.id}.${sorting[0]?.desc ? "desc" : "asc"}`
         //   : null,
@@ -187,8 +187,6 @@ export function useDataTable<TData>({
         scroll: false,
       }
     );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex, pageSize]);
   // }, [pageIndex, pageSize, sorting]);
 
@@ -257,14 +255,7 @@ export function useDataTable<TData>({
     router.replace(`${pathname}?${createQueryString(newParamsObject)}`);
 
     table.setPageIndex(0);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    JSON.stringify(debouncedSearchableColumnFilters),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    JSON.stringify(filterableColumnFilters),
-  ]);
+  }, [JSON.stringify(debouncedSearchableColumnFilters), JSON.stringify(filterableColumnFilters)]);
 
   const table = useReactTable({
     ...props,

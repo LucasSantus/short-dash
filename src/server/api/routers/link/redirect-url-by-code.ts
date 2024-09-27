@@ -11,7 +11,7 @@ export const redirectUrlByCodeMutation = withoutDelayProcedure
   .mutation(async ({ input: { code }, ctx: { db, session } }) => {
     const { user, isAuthenticated } = session;
 
-    const link = await db.url.findUnique({
+    const link = await db.link.findUnique({
       where: {
         code,
       },
@@ -24,7 +24,7 @@ export const redirectUrlByCodeMutation = withoutDelayProcedure
     }
 
     Promise.all([
-      db.url.update({
+      db.link.update({
         where: {
           code,
         },
@@ -32,10 +32,10 @@ export const redirectUrlByCodeMutation = withoutDelayProcedure
           amountOfAccesses: link.amountOfAccesses + 1,
         },
       }),
-      db.historic.create({
+      db.event.create({
         data: {
           isAnonymous: !isAuthenticated,
-          urlId: link.id,
+          linkId: link.id,
           userId: user ? user.id : null,
         },
       }),

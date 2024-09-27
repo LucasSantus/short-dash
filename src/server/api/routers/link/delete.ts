@@ -9,7 +9,7 @@ export const deleteLinkMutation = protectedProcedure
     })
   )
   .mutation(async ({ input: { id }, ctx: { db } }) => {
-    await db.url.delete({
+    await db.link.delete({
       where: {
         id,
       },
@@ -23,7 +23,7 @@ export const deleteMultipleLinksMutationRoute = protectedProcedure
     })
   )
   .mutation(async ({ input: { ids }, ctx: { db } }) => {
-    await db.url.deleteMany({
+    await db.link.deleteMany({
       where: {
         id: {
           in: ids,

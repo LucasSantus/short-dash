@@ -12,7 +12,7 @@ export const updateLinkMutation = protectedProcedure
     })
   )
   .mutation(async ({ input: { id, title, description, originalUrl }, ctx: { db } }) => {
-    await db.url.update({
+    await db.link.update({
       where: {
         id,
       },

@@ -19,7 +19,7 @@ export const linksQuery = protectedProcedure
     })
   )
   .query(async ({ input: { search, pagination, statuses }, ctx: { session, db } }) => {
-    let where: Prisma.UrlWhereInput = {
+    let where: Prisma.LinkWhereInput = {
       ownerId: session.user.id,
     };
 
@@ -44,7 +44,7 @@ export const linksQuery = protectedProcedure
     }
 
     const [links, totalCount] = await Promise.all([
-      db.url.findMany({
+      db.link.findMany({
         where,
         orderBy: {
           createdAt: "desc",
@@ -52,7 +52,7 @@ export const linksQuery = protectedProcedure
         skip: (pagination.page - 1) * pagination.pageSize,
         take: pagination.pageSize,
       }),
-      db.url.count({
+      db.link.count({
         where,
       }),
     ]);

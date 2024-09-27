@@ -2,7 +2,7 @@ import type { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { protectedProcedure } from "../../trpc";
 
-export const historicPerLinkQuery = protectedProcedure
+export const eventListQuery = protectedProcedure
   .input(
     z.object({
       search: z
@@ -28,7 +28,7 @@ export const historicPerLinkQuery = protectedProcedure
     })
   )
   .query(async ({ input: { search, pagination }, ctx: { db } }) => {
-    let where: Prisma.HistoricWhereInput = {};
+    let where: Prisma.EventWhereInput = {};
 
     if (search) {
       if (search.userName) {
@@ -48,7 +48,7 @@ export const historicPerLinkQuery = protectedProcedure
         where = {
           ...where,
 
-          urlId: {
+          linkId: {
             in: search.linkIds,
           },
         };
@@ -79,8 +79,8 @@ export const historicPerLinkQuery = protectedProcedure
       }
     }
 
-    const [historic, totalCount] = await Promise.all([
-      db.historic.findMany({
+    const [data, totalCount] = await Promise.all([
+      db.event.findMany({
         where,
         orderBy: {
           createdAt: "desc",
@@ -88,11 +88,11 @@ export const historicPerLinkQuery = protectedProcedure
         skip: (pagination.page - 1) * pagination.pageSize,
         take: pagination.pageSize,
         include: {
-          url: true,
+          link: true,
           user: true,
         },
       }),
-      db.historic.count({
+      db.event.count({
         where,
       }),
     ]);
@@ -100,7 +100,7 @@ export const historicPerLinkQuery = protectedProcedure
     const pageCount = pagination ? Math.ceil(totalCount / pagination.pageSize) : 1;
 
     return {
-      historic,
+      data,
       pagination: {
         page: pagination.page,
         pageSize: pagination.pageSize,

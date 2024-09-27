@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { generateUrl } from "@/utils/generate-url";
-import type { Url } from "@prisma/client";
+import type { Link } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { LinkStatus, linkStatusDescription } from "../../_types/links";
 import { DataTableRowActions } from "./table-row-actions";
 
-export type LinkTableColumns = Url;
+export type LinkTableColumns = Link;
 
 export function getLinkStatusIcon(status: LinkStatus) {
   const statusIcons = {

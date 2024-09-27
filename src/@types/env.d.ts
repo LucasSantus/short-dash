@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-
 import type { env } from "@/env";
 
 declare global {

@@ -1,15 +1,15 @@
 -- CreateEnum
-CREATE TYPE "UrlStatus" AS ENUM ('Active', 'Inactive');
+CREATE TYPE "LinkStatus" AS ENUM ('Active', 'Inactive');
 
 -- CreateTable
-CREATE TABLE "historics" (
+CREATE TABLE "events" (
     "id" TEXT NOT NULL,
     "isAnonymous" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "urlId" TEXT NOT NULL,
+    "linkId" TEXT NOT NULL,
     "userId" TEXT,
 
-    CONSTRAINT "historics_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "events_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -20,7 +20,7 @@ CREATE TABLE "urls" (
     "originalUrl" TEXT NOT NULL,
     "code" TEXT NOT NULL,
     "amountOfAccesses" INTEGER NOT NULL DEFAULT 0,
-    "status" "UrlStatus" NOT NULL DEFAULT 'Active',
+    "status" "LinkStatus" NOT NULL DEFAULT 'Active',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "expiresAt" TIMESTAMP(3),
@@ -109,10 +109,10 @@ CREATE UNIQUE INDEX "sessions_sessionToken_key" ON "sessions"("sessionToken");
 CREATE UNIQUE INDEX "authenticators_credentialID_key" ON "authenticators"("credentialID");
 
 -- AddForeignKey
-ALTER TABLE "historics" ADD CONSTRAINT "historics_urlId_fkey" FOREIGN KEY ("urlId") REFERENCES "urls"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "events" ADD CONSTRAINT "events_linkId_fkey" FOREIGN KEY ("linkId") REFERENCES "urls"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "historics" ADD CONSTRAINT "historics_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "events" ADD CONSTRAINT "events_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "urls" ADD CONSTRAINT "urls_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

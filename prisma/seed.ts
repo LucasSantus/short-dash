@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 async function main() {
   console.error("Usuário dasdasd");
 
-  await Promise.all([prisma.url.deleteMany(), prisma.historic.deleteMany()]);
+  await Promise.all([prisma.link.deleteMany(), prisma.event.deleteMany()]);
 
   // Criar múltiplos usuários fictícios de forma paralela
   const user = await prisma.user.findUnique({
@@ -22,7 +22,7 @@ async function main() {
 
   // Criar múltiplas URLs e históricos de forma paralela
   const urlPromises = Array.from({ length: 100 }).map(async () => {
-    const url = await prisma.url.create({
+    const link = await prisma.link.create({
       data: {
         title: faker.lorem.sentence(),
         description: faker.lorem.paragraph(),
@@ -40,10 +40,10 @@ async function main() {
 
     // Criar múltiplos históricos para cada URL de forma paralela
     const historicPromises = Array.from({ length: 20 }).map(() =>
-      prisma.historic.create({
+      prisma.event.create({
         data: {
           isAnonymous: faker.datatype.boolean(),
-          urlId: url.id,
+          linkId: link.id,
           userId: user.id,
         },
       })

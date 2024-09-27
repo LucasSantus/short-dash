@@ -7,7 +7,7 @@ import { ptBR } from "date-fns/locale";
 import { UserCheckIcon, UserXIcon } from "lucide-react";
 import { DataTableRowActions } from "./table-row-actions";
 
-export type HistoricTableColumns = {
+export type EventTableColumns = {
   id: string;
   userName?: string;
   linkName: string;
@@ -16,7 +16,7 @@ export type HistoricTableColumns = {
   dateTimeOfAccess: Date;
 };
 
-export const getHistoricLabelColumn: Record<keyof HistoricTableColumns, string> = {
+export const getEventLabelColumn: Record<keyof EventTableColumns, string> = {
   id: "ID",
   userName: "Nome de Usuário",
   linkName: "Url Acessada",
@@ -25,11 +25,11 @@ export const getHistoricLabelColumn: Record<keyof HistoricTableColumns, string> 
   dateTimeOfAccess: "Data e Hora do Acesso",
 };
 
-export function getHistoricColumns(): Array<ColumnDef<HistoricTableColumns>> {
+export function getEventColumns(): Array<ColumnDef<EventTableColumns>> {
   return [
     {
       accessorKey: "userName",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getHistoricLabelColumn.userName} />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getEventLabelColumn.userName} />,
       cell: ({ row }) => {
         const userName = row.original.userName ?? "-";
 
@@ -39,7 +39,7 @@ export function getHistoricColumns(): Array<ColumnDef<HistoricTableColumns>> {
     },
     {
       accessorKey: "linkName",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getHistoricLabelColumn.linkName} />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getEventLabelColumn.linkName} />,
       cell: ({ row }) => {
         const linkName = row.original.linkName;
 
@@ -48,7 +48,7 @@ export function getHistoricColumns(): Array<ColumnDef<HistoricTableColumns>> {
     },
     {
       accessorKey: "originalUrl",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getHistoricLabelColumn.originalUrl} />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getEventLabelColumn.originalUrl} />,
       cell: ({ row }) => {
         const originalUrl = row.original.originalUrl;
 
@@ -57,7 +57,7 @@ export function getHistoricColumns(): Array<ColumnDef<HistoricTableColumns>> {
     },
     {
       accessorKey: "dateTimeOfAccess",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getHistoricLabelColumn.dateTimeOfAccess} />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getEventLabelColumn.dateTimeOfAccess} />,
       cell: ({ row }) => {
         const dateTimeOfAccess = row.original.dateTimeOfAccess;
 

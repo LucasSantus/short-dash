@@ -12,7 +12,7 @@ import {
 import { FilterIcon, SlidersHorizontalIcon } from "lucide-react";
 import { HistoricTableFilteredForm } from "./form";
 
-export function HistoricTableFiltered(): JSX.Element {
+export function EventTableFiltered(): JSX.Element {
   return (
     <Sheet>
       <SheetTrigger asChild>

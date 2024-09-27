@@ -18,14 +18,14 @@ export const createLinkMutation = protectedProcedure
     do {
       code = createNewCode();
 
-      const codeIfExists = await db.url.findUnique({
+      const codeIfExists = await db.link.findUnique({
         where: { code },
       });
 
       isUniqueCode = !!codeIfExists;
     } while (isUniqueCode);
 
-    await db.url.create({
+    await db.link.create({
       data: {
         title,
         description,
