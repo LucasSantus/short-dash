@@ -1,40 +1,39 @@
 import { CalendarDatePicker } from "@/components/ui/calendar-date-picker";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { MultiSelect } from "@/components/ui/multi-select";
+import { useEventFilters } from "@/hooks/filters/use-event-filters";
 import { trpc } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PropsWithChildren } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useHistoricFilters } from "../../../_hooks/use-historic-filters";
 
-const historicFilteredSchema = z.object({
+const eventFilteredSchema = z.object({
   linkIds: z.array(z.string()),
   createdAt: z.object({
     from: z.date(),
-    to: z.date().optional(),
+    to: z.date(),
   }),
 });
 
-type HistoricFilteredSchema = z.infer<typeof historicFilteredSchema>;
+export type EventFilteredSchema = z.infer<typeof eventFilteredSchema>;
 
-interface HistoricTableFilteredFormProps extends PropsWithChildren {}
+interface EventTableFilteredFormProps extends PropsWithChildren {
+  onSubmit(values: EventFilteredSchema): void;
+}
 
-export function HistoricTableFilteredForm({ children }: HistoricTableFilteredFormProps): JSX.Element {
+export function EventTableFilteredForm({ onSubmit, children }: EventTableFilteredFormProps): JSX.Element {
   const { data: allLinks, isLoading: isLoadingAllLinks } = trpc.link.listOptions.useQuery();
 
-  const { filters, setFilters } = useHistoricFilters();
+  const { filters } = useEventFilters();
 
-  // TODO: PROBLEMA PARA RECUPERAR OS VALORES DA DATA NO SEARCH PARAM
-
-  const form = useForm<HistoricFilteredSchema>({
-    resolver: zodResolver(historicFilteredSchema),
+  const form = useForm<EventFilteredSchema>({
+    resolver: zodResolver(eventFilteredSchema),
     defaultValues: {
       linkIds: filters.linkIds,
-
       createdAt: {
-        from: filters?.date?.createdAt?.from ? new Date(filters?.date?.createdAt?.from) : new Date(),
-        to: filters?.date?.createdAt?.to ? new Date(filters?.date?.createdAt?.to) : undefined,
+        from: filters?.createdAtFrom ? new Date(filters.createdAtFrom) : undefined,
+        to: filters?.createdAtTo ? new Date(filters.createdAtTo) : undefined,
       },
     },
   });
@@ -42,18 +41,8 @@ export function HistoricTableFilteredForm({ children }: HistoricTableFilteredFor
   const {
     handleSubmit,
     control,
-    setValue,
     formState: { isSubmitting },
   } = form;
-
-  function onSubmit({ createdAt, linkIds }: HistoricFilteredSchema) {
-    setFilters({
-      date: {
-        createdAt,
-      },
-      linkIds,
-    });
-  }
 
   return (
     <Form {...form}>
@@ -89,12 +78,7 @@ export function HistoricTableFilteredForm({ children }: HistoricTableFilteredFor
               <FormControl>
                 <CalendarDatePicker
                   date={field.value}
-                  onDateSelect={({ from, to }) =>
-                    setValue("createdAt", {
-                      from,
-                      to,
-                    })
-                  }
+                  onDateSelect={field.onChange}
                   variant="outline"
                   className="w-full justify-start"
                   isLoading={isSubmitting}

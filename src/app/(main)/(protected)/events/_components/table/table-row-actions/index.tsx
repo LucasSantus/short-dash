@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { Row } from "@tanstack/react-table";
 import { EllipsisIcon } from "lucide-react";
-import { useHistoricFilters } from "../../../_hooks/use-historic-filters";
 import type { EventTableColumns } from "../table-columns";
 
 interface DataTableRowActionsProps {
@@ -17,7 +16,6 @@ interface DataTableRowActionsProps {
 }
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
-  const { setFilters } = useHistoricFilters();
   const link = row.original;
 
   return (
@@ -29,15 +27,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-40">
-          <DropdownMenuItem
-            onClick={() =>
-              setFilters({
-                linkIds: [link.id],
-              })
-            }
-          >
-            Adicionar LinkId
-          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => {}}>Teset</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

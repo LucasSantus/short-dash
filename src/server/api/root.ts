@@ -1,5 +1,5 @@
 import { authRoute } from "./routers/auth";
-import { eventRoute } from "./routers/historic";
+import { eventRoute } from "./routers/event";
 import { linkRoute } from "./routers/link";
 import { createCallerFactory, createTRPCRouter } from "./trpc";
 

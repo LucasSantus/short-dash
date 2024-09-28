@@ -15,7 +15,7 @@ import type { LinkTableColumns } from "../table-columns";
 import { LinkBlockRow } from "./link-block-row";
 import { LinkDeleteRow } from "./link-delete-row";
 import { LinkDetailsRow } from "./link-details-row";
-import { LinkHistoricRow } from "./link-historic-row";
+import { LinkEventRow } from "./link-event-row";
 import { LinkUnBlockRow } from "./link-unblock-row";
 import { LinkUpdateRow } from "./link-update-row";
 
@@ -42,7 +42,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         <DropdownMenuContent align="end" className="w-40">
           <LinkUpdateRow link={link} />
           <LinkDetailsRow link={link} />
-          <LinkHistoricRow linkId={link.id} />
+          <LinkEventRow linkId={link.id} />
           <DropdownMenuSeparator />
           {linkStatus[link.status]}
           <DropdownMenuSeparator />

@@ -4,17 +4,23 @@ import { InputPassword } from "@/components/input-password";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PROVIDER_KEY_LOCAL_STORAGE } from "@/constants/globals";
 import { type SignInFormData, signInFormSchema } from "@/validation/auth/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogInIcon } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "nextjs-toploader/app";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useLocalStorage } from "usehooks-ts";
 import { AuthLink } from "../../_components/auth-link";
+import { AuthProviderType } from "../providers";
 
 export function SignInForm() {
   const router = useRouter();
+  const [isPendingRedirect, startTransitionRedirect] = useTransition();
+  const [_, setProviderSelectedOnStorage] = useLocalStorage<AuthProviderType | null>(PROVIDER_KEY_LOCAL_STORAGE, null);
 
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInFormSchema),
@@ -38,13 +44,17 @@ export function SignInForm() {
         toast.error(response.error);
       }
 
-      router.push("/");
+      setProviderSelectedOnStorage("credentials");
+
+      startTransitionRedirect(() => router.push("/"));
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       }
     }
   }
+
+  const isLoading = isPendingRedirect || isSubmitting;
 
   return (
     <Form {...form}>
@@ -57,7 +67,7 @@ export function SignInForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Digite o e-mail:" isLoading={isSubmitting} {...field} />
+                  <Input placeholder="Digite o e-mail:" isLoading={isLoading} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -71,7 +81,7 @@ export function SignInForm() {
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <InputPassword placeholder="Digite a senha:" isLoading={isSubmitting} {...field} />
+                  <InputPassword placeholder="Digite a senha:" isLoading={isLoading} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -85,7 +95,7 @@ export function SignInForm() {
           <Button
             type="submit"
             aria-label="log-in in system"
-            isLoading={isSubmitting}
+            isLoading={isLoading}
             icon={<LogInIcon className="size-4" />}
           >
             Entrar

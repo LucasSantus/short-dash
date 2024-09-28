@@ -21,8 +21,8 @@ export function LinkList(): JSX.Element {
     },
     search: {
       title,
+      statuses,
     },
-    statuses,
   });
 
   if (isLoading)
@@ -47,5 +47,5 @@ export function LinkList(): JSX.Element {
       </DontHaveItems>
     );
 
-  return <LinkTable data={data.links} pageCount={data.pagination.pageCount} totalCount={data.pagination.totalCount} />;
+  return <LinkTable links={data.links} pageCount={data.pagination.pageCount} totalCount={data.pagination.totalCount} />;
 }

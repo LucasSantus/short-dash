@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { ContentLayout } from "../_components/content-layout";
-import { LinkList } from "./list";
+import { EventList } from "./list";
 
 export const metadata: Metadata = {
-  title: "Links",
+  title: "Eventos",
 };
 
-export default function Links() {
+export default function Events() {
   return (
-    <ContentLayout title="Links">
-      <LinkList />
+    <ContentLayout title="Eventos">
+      <EventList />
     </ContentLayout>
   );
 }

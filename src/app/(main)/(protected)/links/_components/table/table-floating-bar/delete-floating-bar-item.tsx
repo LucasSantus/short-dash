@@ -84,7 +84,7 @@ export function DeleteFloatingBarItem({ table, isDisabled, startTransition }: De
         <AlertDialogHeader>
           <AlertDialogTitle>Confirmação de Exclusão de Links</AlertDialogTitle>
           <AlertDialogDescription>
-            Você está prestes a excluir permanentemente varias links do sistema.
+            Você está prestes a excluir permanentemente varios links do sistema.
           </AlertDialogDescription>
         </AlertDialogHeader>
 

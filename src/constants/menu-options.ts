@@ -30,8 +30,8 @@ export const menuOptions: Group[] = [
         icon: LinkIcon,
       },
       {
-        href: "/historic",
-        label: "Histórico",
+        href: "/events",
+        label: "Eventos",
         icon: HistoryIcon,
       },
     ],

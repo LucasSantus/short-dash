@@ -1,16 +1,21 @@
 "use client";
 
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { generateUrl } from "@/utils/generate-url";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { UserCheckIcon, UserXIcon } from "lucide-react";
+import { CopyIcon, CornerDownRightIcon, UserCheckIcon, UserXIcon } from "lucide-react";
+import { toast } from "sonner";
 import { DataTableRowActions } from "./table-row-actions";
 
 export type EventTableColumns = {
   id: string;
-  userName?: string;
+  username?: string;
   linkName: string;
+  code: string;
   isAnonymousAccess: boolean;
   originalUrl: string;
   dateTimeOfAccess: Date;
@@ -18,8 +23,9 @@ export type EventTableColumns = {
 
 export const getEventLabelColumn: Record<keyof EventTableColumns, string> = {
   id: "ID",
-  userName: "Nome de Usuário",
-  linkName: "Url Acessada",
+  username: "Usuário",
+  linkName: "Link",
+  code: "Código",
   isAnonymousAccess: "Anônimato",
   originalUrl: "Url Original",
   dateTimeOfAccess: "Data e Hora do Acesso",
@@ -28,12 +34,12 @@ export const getEventLabelColumn: Record<keyof EventTableColumns, string> = {
 export function getEventColumns(): Array<ColumnDef<EventTableColumns>> {
   return [
     {
-      accessorKey: "userName",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getEventLabelColumn.userName} />,
+      accessorKey: "username",
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getEventLabelColumn.username} />,
       cell: ({ row }) => {
-        const userName = row.original.userName ?? "-";
+        const username = row.original.username ?? "-";
 
-        return <div className="w-full min-w-48 max-w-52 truncate">{userName}</div>;
+        return <div className="w-full min-w-48 max-w-52 truncate">{username}</div>;
       },
       enableHiding: false,
     },
@@ -50,9 +56,46 @@ export function getEventColumns(): Array<ColumnDef<EventTableColumns>> {
       accessorKey: "originalUrl",
       header: ({ column }) => <DataTableColumnHeader column={column} title={getEventLabelColumn.originalUrl} />,
       cell: ({ row }) => {
-        const originalUrl = row.original.originalUrl;
+        const { originalUrl, code } = row.original;
 
-        return <div className="w-full max-w-72 truncate text-muted-foreground">{originalUrl}</div>;
+        const shortUrl = generateUrl(code);
+
+        async function handleCopyUrl() {
+          try {
+            await navigator.clipboard.writeText(shortUrl);
+            toast.success("Url copiada com sucesso!");
+          } catch {
+            toast.error("Ocorreu uma falha ao tentar copiar a url!");
+          }
+        }
+
+        return (
+          <div className="flex flex-col items-start gap-2 max-w-full">
+            <div className="flex justify-between items-center w-full">
+              <span className="text-muted-foreground font-bold lowercase">{shortUrl}</span>
+
+              <Button
+                size="icon"
+                variant="ghost"
+                icon={<CopyIcon className="size-3.5" />}
+                onClick={handleCopyUrl}
+                className="size-7"
+              />
+            </div>
+            <span className="text-muted-foreground/70 flex items-center gap-1">
+              <CornerDownRightIcon className="size-3" />
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="truncate max-w-80">{originalUrl}</TooltipTrigger>
+                  <TooltipContent>
+                    <p>{originalUrl}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </span>
+          </div>
+        );
       },
     },
     {

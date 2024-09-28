@@ -273,7 +273,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             />
 
             <CommandList>
-              <ScrollArea className="h-60 overflow-y-auto pr-2">
+              <ScrollArea className={cn("overflow-y-auto pr-2", options.length > 6 && "h-60")}>
                 <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
 
                 <CommandGroup>

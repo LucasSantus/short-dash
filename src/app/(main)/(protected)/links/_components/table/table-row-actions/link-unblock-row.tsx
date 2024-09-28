@@ -43,7 +43,7 @@ export function LinkUnBlockRow({ linkId }: LinkUnBlockRowProps): JSX.Element {
       className="flex items-center gap-2"
       icon={isPending ? <Loader2Icon className="size-4 animate-spin" /> : <UnlockIcon className="size-4" />}
     >
-      Desbloquear
+      Ativar
     </DropdownMenuItem>
   );
 }

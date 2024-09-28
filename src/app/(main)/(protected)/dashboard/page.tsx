@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Dashboard() {
   return (
-    <ContentLayout>
+    <ContentLayout title="Dashboard">
       <DashboardBreadcrumb />
       Dashboard
     </ContentLayout>

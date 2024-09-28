@@ -9,16 +9,18 @@ export const linksQuery = protectedProcedure
       search: z
         .object({
           title: z.string().optional(),
+
+          statuses: z.array(z.nativeEnum(LinkStatus)).optional(),
         })
         .optional(),
+
       pagination: z.object({
         page: z.coerce.number(),
         pageSize: z.coerce.number(),
       }),
-      statuses: z.array(z.nativeEnum(LinkStatus)).optional(),
     })
   )
-  .query(async ({ input: { search, pagination, statuses }, ctx: { session, db } }) => {
+  .query(async ({ input: { search, pagination }, ctx: { session, db } }) => {
     let where: Prisma.LinkWhereInput = {
       ownerId: session.user.id,
     };
@@ -32,15 +34,15 @@ export const linksQuery = protectedProcedure
           mode: "insensitive",
         },
       };
-    }
 
-    if (statuses && statuses.length > 0) {
-      where = {
-        ...where,
-        status: {
-          in: statuses,
-        },
-      };
+      if (search.statuses && search.statuses.length > 0) {
+        where = {
+          ...where,
+          status: {
+            in: search.statuses,
+          },
+        };
+      }
     }
 
     const [links, totalCount] = await Promise.all([
@@ -51,6 +53,14 @@ export const linksQuery = protectedProcedure
         },
         skip: (pagination.page - 1) * pagination.pageSize,
         take: pagination.pageSize,
+        include: {
+          events: {
+            take: 1, // Pegar apenas o último evento
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
+        },
       }),
       db.link.count({
         where,

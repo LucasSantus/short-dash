@@ -3,7 +3,7 @@ export enum LinkStatus {
   Inactive = "Inactive",
 }
 
-export const linkStatusDescription: Record<LinkStatus, string> = {
-  Active: "Ativo",
-  Inactive: "Inativo",
-};
+// export const linkStatusDescription: Record<LinkStatus, string> = {
+//   Active: "Ativo",
+//   Inactive: "Inativo",
+// };

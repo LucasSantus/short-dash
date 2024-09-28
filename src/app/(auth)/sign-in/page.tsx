@@ -10,7 +10,11 @@ export const metadata: Metadata = {
 
 export default function SignIn(): JSX.Element {
   return (
-    <AuthLayout title="Log In" description="Insira os dados abaixo para fazer login em sua conta" icon={LogInIcon}>
+    <AuthLayout
+      title="Log In"
+      description="Selecione o tipo de autenticador que deseja acessar o sistema."
+      icon={LogInIcon}
+    >
       <SignInProviders />
 
       <DontAlreadyAccount />

@@ -7,16 +7,12 @@ export const eventListQuery = protectedProcedure
     z.object({
       search: z
         .object({
-          userName: z.string().optional(),
+          username: z.string().optional(),
           linkIds: z.array(z.string()).optional(),
-          date: z
+          createdAt: z
             .object({
-              createdAt: z
-                .object({
-                  from: z.date(),
-                  to: z.date().optional(),
-                })
-                .optional(),
+              from: z.string(),
+              to: z.string().optional(),
             })
             .optional(),
         })
@@ -30,14 +26,16 @@ export const eventListQuery = protectedProcedure
   .query(async ({ input: { search, pagination }, ctx: { db } }) => {
     let where: Prisma.EventWhereInput = {};
 
+    console.log({ search });
+
     if (search) {
-      if (search.userName) {
+      if (search.username) {
         where = {
           ...where,
 
           user: {
             name: {
-              contains: search.userName,
+              contains: search.username,
               mode: "insensitive",
             },
           },
@@ -54,27 +52,25 @@ export const eventListQuery = protectedProcedure
         };
       }
 
-      if (search.date) {
-        if (search.date.createdAt) {
-          if (search.date.createdAt.from) {
-            where = {
-              ...where,
+      if (search.createdAt) {
+        if (search.createdAt.from) {
+          where = {
+            ...where,
 
-              createdAt: {
-                gte: search.date.createdAt.from,
-              },
-            };
-          }
+            createdAt: {
+              gte: search.createdAt.from,
+            },
+          };
+        }
 
-          if (search.date.createdAt.to) {
-            where = {
-              ...where,
+        if (search.createdAt.to) {
+          where = {
+            ...where,
 
-              createdAt: {
-                lte: search.date.createdAt.to,
-              },
-            };
-          }
+            createdAt: {
+              lte: search.createdAt.to,
+            },
+          };
         }
       }
     }

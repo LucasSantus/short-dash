@@ -10,7 +10,7 @@ import { type EventTableColumns, getEventColumns, getEventLabelColumn } from "./
 import { EventTableFiltered } from "./table-filtered";
 
 interface LinkTableProps {
-  data: Array<
+  events: Array<
     Prisma.EventGetPayload<{
       include: {
         link: true;
@@ -22,30 +22,31 @@ interface LinkTableProps {
   totalCount: number;
 }
 
-export function EventTable({ data, pageCount, totalCount }: LinkTableProps): JSX.Element {
+export function EventTable({ events, pageCount, totalCount }: LinkTableProps): JSX.Element {
   const columns = getEventColumns();
 
   const filterFields: Array<DataTableFilterField<EventTableColumns>> = [
     {
       label: "Nome",
-      value: "userName",
+      value: "username",
       placeholder: "Buscar...",
     },
   ];
 
-  const historic = useMemo((): EventTableColumns[] => {
-    return data?.map(({ id, isAnonymous, createdAt, link, user }) => ({
+  const data = useMemo((): EventTableColumns[] => {
+    return events?.map(({ id, isAnonymous, createdAt, link, user }) => ({
       id,
       isAnonymousAccess: isAnonymous,
-      userName: user?.name ?? undefined,
+      username: user?.name ?? undefined,
+      code: link.code,
       linkName: link.title,
       dateTimeOfAccess: createdAt,
       originalUrl: link.originalUrl,
     }));
-  }, [data]);
+  }, [events]);
 
   const { table } = useDataTable({
-    data: historic,
+    data,
     columns,
     pageCount,
     filterFields,

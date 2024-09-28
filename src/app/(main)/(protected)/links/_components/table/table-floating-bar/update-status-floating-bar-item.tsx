@@ -8,8 +8,9 @@ import { Table } from "@tanstack/react-table";
 import { CheckCircleIcon, Loader2Icon } from "lucide-react";
 import { TransitionStartFunction } from "react";
 import { toast } from "sonner";
-import { LinkStatus, linkStatusDescription } from "../../../_types/links";
-import { getLinkStatusIcon, LinkTableColumns } from "../table-columns";
+import { linkStatusDescription } from "../../../_constants/status";
+import { LinkStatus } from "../../../_types/links";
+import { LinkTableColumns } from "../table-columns";
 
 interface UpdateStatusFloatingBarItemProps {
   table: Table<LinkTableColumns>;
@@ -82,13 +83,13 @@ export function UpdateStatusFloatingBarItem({
           {Object.keys(linkStatusDescription).map((item) => {
             const enumStatus = item as LinkStatus;
 
-            const Icon = getLinkStatusIcon(enumStatus);
+            const { label, icon: Icon } = linkStatusDescription[enumStatus];
 
             return (
               <SelectItem key={enumStatus} value={enumStatus} className="capitalize pl-2">
                 <div className="flex gap-1 items-center">
                   <Icon className="size-3.5" />
-                  {linkStatusDescription[enumStatus]}
+                  {label}
                 </div>
               </SelectItem>
             );

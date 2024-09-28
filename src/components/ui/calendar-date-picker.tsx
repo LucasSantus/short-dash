@@ -61,7 +61,7 @@ interface CalendarDatePickerProps
     VariantProps<typeof multiSelectVariants> {
   id?: string;
   className?: string;
-  date: DateRange;
+  date?: DateRange;
   closeOnSelect?: boolean;
   numberOfMonths?: 1 | 2;
   yearsRange?: number;
@@ -79,7 +79,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
       date,
       closeOnSelect = false,
       numberOfMonths = 2,
-      yearsRange = 10,
+      yearsRange = 20,
       onDateSelect,
       variant,
       align = "end",
@@ -122,7 +122,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
         let from = startOfDay(toDate(range.from as Date, { timeZone }));
         let to = range.to ? endOfDay(toDate(range.to, { timeZone })) : from;
         if (numberOfMonths === 1) {
-          if (range.from !== date.from) {
+          if (range.from !== date?.from) {
             to = from;
           } else {
             from = startOfDay(toDate(range.to as Date, { timeZone }));
@@ -151,28 +151,28 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                 : newMonth;
           const to =
             numberOfMonths === 2
-              ? date.to
+              ? date?.to
                 ? endOfDay(toDate(date.to, { timeZone }))
                 : endOfMonth(toDate(newMonth, { timeZone }))
               : from;
           if (from <= to) {
             onDateSelect({ from, to });
             setMonthFrom(newMonth);
-            setMonthTo(date.to);
+            setMonthTo(date?.to);
           }
         }
       } else {
         if (yearTo !== undefined) {
           if (newMonthIndex < 0 || newMonthIndex > yearsRange + 1) return;
           const newMonth = new Date(yearTo, newMonthIndex, 1);
-          const from = date.from
+          const from = date?.from
             ? startOfDay(toDate(date.from, { timeZone }))
             : startOfMonth(toDate(newMonth, { timeZone }));
           const to = numberOfMonths === 2 ? endOfMonth(toDate(newMonth, { timeZone })) : from;
           if (from <= to) {
             onDateSelect({ from, to });
             setMonthTo(newMonth);
-            setMonthFrom(date.from);
+            setMonthFrom(date?.from);
           }
         }
       }
@@ -188,12 +188,12 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
           const from =
             numberOfMonths === 2
               ? startOfMonth(toDate(newMonth, { timeZone }))
-              : date.from
+              : date?.from
                 ? new Date(newYear, newMonth.getMonth(), date.from.getDate())
                 : newMonth;
           const to =
             numberOfMonths === 2
-              ? date.to
+              ? date?.to
                 ? endOfDay(toDate(date.to, { timeZone }))
                 : endOfMonth(toDate(newMonth, { timeZone }))
               : from;
@@ -201,14 +201,14 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
             onDateSelect({ from, to });
             setYearFrom(newYear);
             setMonthFrom(newMonth);
-            setYearTo(date.to?.getFullYear());
-            setMonthTo(date.to);
+            setYearTo(date?.to?.getFullYear());
+            setMonthTo(date?.to);
           }
         }
       } else {
         if (years.includes(newYear)) {
           const newMonth = monthTo ? new Date(newYear, monthTo.getMonth(), 1) : new Date(newYear, 0, 1);
-          const from = date.from
+          const from = date?.from
             ? startOfDay(toDate(date.from, { timeZone }))
             : startOfMonth(toDate(newMonth, { timeZone }));
           const to = numberOfMonths === 2 ? endOfMonth(toDate(newMonth, { timeZone })) : from;
@@ -216,8 +216,8 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
             onDateSelect({ from, to });
             setYearTo(newYear);
             setMonthTo(newMonth);
-            setYearFrom(date.from?.getFullYear());
-            setMonthFrom(date.from);
+            setYearFrom(date?.from?.getFullYear());
+            setMonthFrom(date?.from);
           }
         }
       }
@@ -271,15 +271,15 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
       event.preventDefault();
       setSelectedRange(null);
       if (highlightedPart === "firstDay") {
-        const newDate = new Date(date.from as Date);
+        const newDate = new Date(date?.from as Date);
         const increment = event.deltaY > 0 ? -1 : 1;
         newDate.setDate(newDate.getDate() + increment);
-        if (newDate <= (date.to as Date)) {
+        if (newDate <= (date?.to as Date)) {
           numberOfMonths === 2
-            ? onDateSelect({ from: newDate, to: new Date(date.to as Date) })
+            ? onDateSelect({ from: newDate, to: new Date(date?.to as Date) })
             : onDateSelect({ from: newDate, to: newDate });
           setMonthFrom(newDate);
-        } else if (newDate > (date.to as Date) && numberOfMonths === 1) {
+        } else if (newDate > (date?.to as Date) && numberOfMonths === 1) {
           onDateSelect({ from: newDate, to: newDate });
           setMonthFrom(newDate);
         }
@@ -291,11 +291,11 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
         const newYear = yearFrom + (event.deltaY > 0 ? -1 : 1);
         handleYearChange(newYear, "from");
       } else if (highlightedPart === "secondDay") {
-        const newDate = new Date(date.to as Date);
+        const newDate = new Date(date?.to as Date);
         const increment = event.deltaY > 0 ? -1 : 1;
         newDate.setDate(newDate.getDate() + increment);
-        if (newDate >= (date.from as Date)) {
-          onDateSelect({ from: new Date(date.from as Date), to: newDate });
+        if (newDate >= (date?.from as Date)) {
+          onDateSelect({ from: new Date(date?.from as Date), to: newDate });
           setMonthTo(newDate);
         }
       } else if (highlightedPart === "secondMonth") {
@@ -460,7 +460,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                     </>
                   )
                 ) : (
-                  <span>Pick a date</span>
+                  <span>Selecione uma Data</span>
                 )}
               </span>
             </Button>

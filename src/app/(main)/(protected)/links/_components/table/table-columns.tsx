@@ -4,17 +4,31 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 import { generateUrl } from "@/utils/generate-url";
-import type { Link } from "@prisma/client";
+import { $Enums } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { CheckIcon, CircleIcon, CopyIcon, CornerDownRightIcon, MousePointerClickIcon, XIcon } from "lucide-react";
 import { toast } from "sonner";
-import { LinkStatus, linkStatusDescription } from "../../_types/links";
+import { linkStatusDescription } from "../../_constants/status";
+import { LinkStatus } from "../../_types/links";
 import { DataTableRowActions } from "./table-row-actions";
 
-export type LinkTableColumns = Link;
+export type LinkTableColumns = {
+  id: string;
+  title: string;
+  description: string | null;
+  originalUrl: string;
+  code: string;
+  amountOfAccesses: number;
+  status: $Enums.LinkStatus;
+  createdAt: Date;
+  updatedAt: Date;
+  lastClickOnEvent: Date | null;
+  ownerId: string | null;
+};
 
 export function getLinkStatusIcon(status: LinkStatus) {
   const statusIcons = {
@@ -36,7 +50,7 @@ export const getLinkLabelColumn: Record<keyof LinkTableColumns, string> = {
   ownerId: "Id do Dono",
   createdAt: "Criada em",
   updatedAt: "Atualizada em",
-  expiresAt: "Expira em",
+  lastClickOnEvent: "Último Clique",
 };
 
 export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
@@ -143,13 +157,12 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
 
         if (!statusEnum) return null;
 
-        const status = linkStatusDescription[statusEnum];
-        const Icon = getLinkStatusIcon(statusEnum);
+        const { label, icon: Icon, color } = linkStatusDescription[statusEnum];
 
         return (
           <div className="flex items-center">
-            <Icon className="mr-2 size-4 text-muted-foreground" aria-hidden="true" />
-            <span className="capitalize">{status}</span>
+            <Icon className={cn("mr-2 size-4", color.textColor)} aria-hidden="true" />
+            <span className={cn("capitalize", color.textColor)}>{label}</span>
           </div>
         );
       },
@@ -163,13 +176,30 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
       cell: ({ row }) => {
         const amountOfAccesses = row.original.amountOfAccesses;
 
+        const lastClickOnEvent = row.original.lastClickOnEvent as Date;
+        const formattedDateLastClickOnEvent = format(lastClickOnEvent, "'Último clique em' dd 'de' MMMM", {
+          locale: ptBR,
+        });
+
         return (
           <div className="flex items-center justify-center text-muted-foreground">
-            <div className="flex gap-1.5 items-center border p-2 rounded-md">
-              <MousePointerClickIcon className="size-4" />
-              <span>{amountOfAccesses}</span>
-              <span>Click(s)</span>
-            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger className="flex gap-1.5 items-center border p-2 rounded-md">
+                  <MousePointerClickIcon className="size-4" />
+                  <span>{amountOfAccesses}</span>
+                  <span>Click(s)</span>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <div className="p-1 flex flex-col gap-1">
+                    <span>
+                      <span className="font-bold">{amountOfAccesses}</span> Clicks
+                    </span>
+                    <span className="text-muted-foreground">{formattedDateLastClickOnEvent}</span>
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         );
       },

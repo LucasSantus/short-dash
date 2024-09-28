@@ -60,22 +60,22 @@ export function LinkBlockRow({ linkId }: LinkBlockRowProps): JSX.Element {
         className="flex items-center gap-2"
         icon={<LockIcon className="size-4" />}
       >
-        Bloquear
+        Desativar
       </DropdownMenuItem>
 
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirmação de Bloqueio de Link</AlertDialogTitle>
-            <AlertDialogDescription>Você está prestes a bloquear este link.</AlertDialogDescription>
+            <AlertDialogTitle>Confirmação de Desativação de Link</AlertDialogTitle>
+            <AlertDialogDescription>Você está prestes a desativar este link.</AlertDialogDescription>
           </AlertDialogHeader>
 
-          <Alert>
+          <Alert variant="destructive">
             <OctagonAlertIcon className="h-4 w-4" />
             <AlertTitle>Atenção!</AlertTitle>
-            <AlertDescription className="text-muted-foreground">
-              Esta ação resultará no bloqueio do link, impactando diretamente a gestão e o controle de acessos
-              associados. Deseja realmente prosseguir com este bloqueio?
+            <AlertDescription>
+              Esta ação resultará na desativação do link, impactando diretamente na gestão e no controle de acessos
+              associados. Deseja realmente prosseguir com esta desativação?
             </AlertDescription>
           </Alert>
 
