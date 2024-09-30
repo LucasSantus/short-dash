@@ -9,7 +9,6 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { CopyIcon, CornerDownRightIcon, UserCheckIcon, UserXIcon } from "lucide-react";
 import { toast } from "sonner";
-import { DataTableRowActions } from "./table-row-actions";
 
 export type EventTableColumns = {
   id: string;
@@ -134,13 +133,6 @@ export function getEventColumns(): Array<ColumnDef<EventTableColumns>> {
         );
       },
       size: 40,
-    },
-    {
-      id: "actions",
-      cell: function Cell({ row }) {
-        return <DataTableRowActions row={row} />;
-      },
-      maxSize: 30,
     },
   ];
 }

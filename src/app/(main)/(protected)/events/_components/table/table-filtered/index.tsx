@@ -22,8 +22,8 @@ export function EventTableFiltered(): JSX.Element {
     setFilters({
       ...filters,
 
-      createdAtFrom: createdAt.from.toISOString(),
-      createdAtTo: createdAt.to.toISOString(),
+      page: 1,
+      createdAt,
       linkIds,
     });
 
@@ -33,8 +33,8 @@ export function EventTableFiltered(): JSX.Element {
   function onHandleRemoveFilters() {
     setFilters({
       ...filters,
-      createdAtFrom: undefined,
-      createdAtTo: undefined,
+      page: 1,
+      createdAt: undefined,
       linkIds: [],
     });
 

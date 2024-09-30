@@ -7,11 +7,17 @@ import { Input } from "@/components/ui/input";
 import { trpc } from "@/trpc/client";
 import { type SignUpFormData, signUpFormSchema } from "@/validation/auth/sign-up";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TRPCClientError } from "@trpc/client";
 import { SaveIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export function SignUpForm() {
-  const { mutateAsync, isPending } = trpc.auth.signUp.useMutation();
+  const { mutateAsync, isPending } = trpc.auth.signUp.useMutation({
+    onSuccess: () => {
+      toast.success("Usuário criado com sucesso!");
+    },
+  });
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpFormSchema),
@@ -20,7 +26,17 @@ export function SignUpForm() {
   const { handleSubmit, control } = form;
 
   async function onSubmit(values: SignUpFormData) {
-    mutateAsync(values);
+    try {
+      await mutateAsync(values);
+    } catch (error) {
+      let errorMessage = "Ocorreu um problema!";
+
+      if (error instanceof TRPCClientError) {
+        errorMessage = error.message;
+      }
+
+      toast.error(errorMessage);
+    }
   }
 
   return (

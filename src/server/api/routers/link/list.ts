@@ -55,7 +55,7 @@ export const linksQuery = protectedProcedure
         take: pagination.pageSize,
         include: {
           events: {
-            take: 1, // Pegar apenas o último evento
+            take: 1,
             orderBy: {
               createdAt: "desc",
             },

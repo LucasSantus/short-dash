@@ -38,7 +38,8 @@
         "noForEach": "off",
         "useArrowFunction": "off",
         "noUselessSwitchCase": "off",
-        "noStaticOnlyClass": "off"
+        "noStaticOnlyClass": "off",
+        "noExtraBooleanCast": "off"
       },
       "suspicious": {
         "noArrayIndexKey": "off",

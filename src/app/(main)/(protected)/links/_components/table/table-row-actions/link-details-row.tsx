@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import { generateUrl } from "@/utils/generate-url";
 import type { LinkStatus } from "@prisma/client";
 import { format } from "date-fns";
@@ -74,7 +75,7 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
                 <CardContent className="pt-6">
                   <div className="grid gap-4">
                     <div className="flex items-center justify-between">
-                      <Badge variant="outline" className={`${statusColor[link.status]} text-foreground`}>
+                      <Badge variant="outline" className={cn(statusColor[link.status], "text-foreground")}>
                         {linkStatusDescription[link.status].label}
                       </Badge>
                       <div className="flex items-center space-x-2">

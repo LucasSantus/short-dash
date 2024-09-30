@@ -5,7 +5,7 @@ import { AuthLayout } from "../_components/layout";
 import { SignUpForm } from "./form";
 
 export const metadata: Metadata = {
-  title: "New Account",
+  title: "Nova Conta",
 };
 
 export default function SignUpPage(): JSX.Element {

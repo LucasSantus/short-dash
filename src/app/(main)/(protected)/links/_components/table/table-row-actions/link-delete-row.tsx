@@ -1,7 +1,6 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -13,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
+import { TRPCClientError } from "@trpc/client";
 import { OctagonAlertIcon, Trash2Icon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { toast } from "sonner";
@@ -26,12 +26,7 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
 
   const utils = trpc.useUtils();
 
-  const { mutate, isPending } = trpc.link.delete.useMutation({
-    onError: (error) => {
-      console.error(error);
-
-      toast.error(messages.form.ERROR_DATA_HAS_BEEN_DELETED);
-    },
+  const { mutateAsync, isPending } = trpc.link.delete.useMutation({
     onSuccess: async () => {
       toast.success(messages.form.DATA_HAS_BEEN_DELETED);
     },
@@ -42,10 +37,20 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
     },
   });
 
-  function onHandleSubmit() {
-    mutate({
-      id: linkId,
-    });
+  async function onHandleSubmit() {
+    try {
+      await mutateAsync({
+        id: linkId,
+      });
+    } catch (error) {
+      let errorMessage = messages.form.ERROR_DATA_HAS_BEEN_DELETED;
+
+      if (error instanceof TRPCClientError) {
+        errorMessage = error.message;
+      }
+
+      toast.error(errorMessage);
+    }
   }
 
   return (
@@ -85,11 +90,15 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
                 Cancelar
               </Button>
             </AlertDialogCancel>
-            <AlertDialogAction asChild>
-              <Button isLoading={isPending} icon={<Trash2Icon className="size-4" />} onClick={onHandleSubmit}>
-                Continuar
-              </Button>
-            </AlertDialogAction>
+
+            <Button
+              isLoading={isPending}
+              icon={<Trash2Icon className="size-4" />}
+              onClick={onHandleSubmit}
+              variant="destructive"
+            >
+              Deletar
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

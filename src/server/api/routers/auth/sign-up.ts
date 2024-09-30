@@ -1,5 +1,6 @@
 import { messages } from "@/constants/messages";
 import { signUpFormSchema } from "@/validation/auth/sign-up";
+import { TRPCError } from "@trpc/server";
 import bcrypt from "bcryptjs";
 import { publicProcedure } from "../../trpc";
 
@@ -12,7 +13,11 @@ export const signUpMutation = publicProcedure
       },
     });
 
-    if (emailExists) throw new Error(messages.account.EMAIL_REGISTERED_ON_SYSTEM);
+    if (emailExists)
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: messages.account.EMAIL_REGISTERED_ON_SYSTEM,
+      });
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -24,7 +29,11 @@ export const signUpMutation = publicProcedure
       },
     });
 
-    if (!user) throw new Error("erro ao criar novo usuário");
+    if (!user)
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Erro ao criar novo usuário!",
+      });
 
     const newAccount = await db.account.create({
       data: {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ContentLayout } from "../_components/content-layout";
-import { DashboardBreadcrumb } from "./breadcrumb";
+import { DashboardGrid } from "./grid";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -9,8 +9,7 @@ export const metadata: Metadata = {
 export default function Dashboard() {
   return (
     <ContentLayout title="Dashboard">
-      <DashboardBreadcrumb />
-      Dashboard
+      <DashboardGrid />
     </ContentLayout>
   );
 }

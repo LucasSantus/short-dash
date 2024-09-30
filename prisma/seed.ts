@@ -9,7 +9,7 @@ async function main() {
   // Criar múltiplos usuários fictícios de forma paralela
   const user = await prisma.user.findUnique({
     where: {
-      email: "lucas.santuuuus@gmail.com",
+      email: "",
     },
   });
 

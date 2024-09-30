@@ -13,6 +13,7 @@ import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
 import { type LinkSchema, linkSchema } from "@/validation/main/link";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TRPCClientError } from "@trpc/client";
 import { PencilIcon, SaveIcon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -38,12 +39,7 @@ export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
     },
   });
 
-  const { mutate, isPending } = trpc.link.update.useMutation({
-    onError: (error) => {
-      console.error(error);
-
-      toast.error(messages.form.ERROR_DATA_HAS_BEEN_UPDATED);
-    },
+  const { mutateAsync, isPending } = trpc.link.update.useMutation({
     onSuccess: () => {
       form.reset();
 
@@ -56,11 +52,21 @@ export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
     },
   });
 
-  function onHandleSubmit(input: LinkSchema) {
-    mutate({
-      ...input,
-      id: link.id,
-    });
+  async function onHandleSubmit(input: LinkSchema) {
+    try {
+      await mutateAsync({
+        ...input,
+        id: link.id,
+      });
+    } catch (error) {
+      let errorMessage = messages.form.ERROR_DATA_HAS_BEEN_UPDATED;
+
+      if (error instanceof TRPCClientError) {
+        errorMessage = error.message;
+      }
+
+      toast.error(errorMessage);
+    }
   }
 
   return (

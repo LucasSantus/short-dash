@@ -14,26 +14,22 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
 import { Table } from "@tanstack/react-table";
+import { TRPCClientError } from "@trpc/client";
 import { Loader2Icon, Trash2Icon, TrashIcon, XIcon } from "lucide-react";
-import { TransitionStartFunction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 import { LinkTableColumns } from "../table-columns";
 
 interface DeleteFloatingBarItemProps {
   table: Table<LinkTableColumns>;
-  isDisabled: boolean;
-  startTransition: TransitionStartFunction;
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-export function DeleteFloatingBarItem({ table, isDisabled, startTransition }: DeleteFloatingBarItemProps): JSX.Element {
+export function DeleteFloatingBarItem({ table, isLoading, setIsLoading }: DeleteFloatingBarItemProps): JSX.Element {
   const utils = trpc.useUtils();
 
   const { mutateAsync, isPending } = trpc.link.deleteMultiple.useMutation({
-    onError: (error) => {
-      console.error(error);
-
-      if (error instanceof Error) toast.error(error.message);
-    },
     onSuccess: () => {
       toast.success(messages.form.DATA_HAS_BEEN_DELETED);
     },
@@ -49,11 +45,23 @@ export function DeleteFloatingBarItem({ table, isDisabled, startTransition }: De
   async function handleDeleteLinks() {
     const ids = rows.map((row) => row.original.id);
 
-    startTransition(() =>
-      mutateAsync({
+    setIsLoading(true);
+
+    try {
+      await mutateAsync({
         ids,
-      })
-    );
+      });
+    } catch (error) {
+      let errorMessage = messages.form.ERROR_DATA_HAS_BEEN_BLOCKED;
+
+      if (error instanceof TRPCClientError) {
+        errorMessage = error.message;
+      }
+
+      toast.error(errorMessage);
+    }
+
+    setIsLoading(false);
   }
 
   return (
@@ -65,7 +73,7 @@ export function DeleteFloatingBarItem({ table, isDisabled, startTransition }: De
               variant="secondary"
               size="icon"
               className="size-7 border"
-              disabled={isPending || isDisabled}
+              disabled={isPending || isLoading}
               icon={
                 isPending ? (
                   <Loader2Icon className="size-3.5 animate-spin" aria-hidden="true" />
@@ -104,8 +112,13 @@ export function DeleteFloatingBarItem({ table, isDisabled, startTransition }: De
             </Button>
           </AlertDialogCancel>
 
-          <Button icon={<Trash2Icon className="size-4" />} onClick={handleDeleteLinks} isLoading={isPending}>
-            Continuar
+          <Button
+            isLoading={isPending}
+            icon={<Trash2Icon className="size-4" />}
+            onClick={handleDeleteLinks}
+            variant="destructive"
+          >
+            Deletar
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

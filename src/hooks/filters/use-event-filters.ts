@@ -1,18 +1,19 @@
-import { parseAsArrayOf, parseAsInteger, parseAsString, useQueryStates } from "nuqs";
+// import { z } from "zod";
+// import { useFilters } from "../use-filters";
 
 // export const eventFiltersSchema = z.object({
 //   page: z.number(),
 //   pageSize: z.number(),
-//   username: z.string().nullish(),
 
+//   username: z.string().optional(),
 //   createdAt: z
 //     .object({
 //       from: z.date(),
-//       to: z.date().optional(),
+//       to: z.date(),
 //     })
-//     .nullish(),
+//     .optional(),
 
-//   linkIds: z.array(z.string()).default([]).optional(),
+//   linkIds: z.array(z.string()).optional(),
 // });
 
 // export type EventFiltersSchema = z.input<typeof eventFiltersSchema>;
@@ -22,14 +23,21 @@ import { parseAsArrayOf, parseAsInteger, parseAsString, useQueryStates } from "n
 //   pageSize: 10,
 
 //   username: undefined,
-//   createdAt: undefined,
-
 //   linkIds: [],
+//   createdAt: undefined,
 // };
 
 // export function useEventFilters() {
 //   return useFilters(eventFiltersSchema, defaultValues);
 // }
+
+import { parseAsArrayOf, parseAsInteger, parseAsJson, parseAsString, useQueryStates } from "nuqs";
+import { z } from "zod";
+
+const createdAtSchema = z.object({
+  from: z.date(),
+  to: z.date(),
+});
 
 export function useEventFilters() {
   const [filters, setFilters] = useQueryStates({
@@ -37,8 +45,7 @@ export function useEventFilters() {
     pageSize: parseAsInteger.withDefault(10),
 
     username: parseAsString.withDefault(""),
-    createdAtFrom: parseAsString.withDefault(""),
-    createdAtTo: parseAsString.withDefault(""),
+    createdAt: parseAsJson(createdAtSchema.parse),
 
     linkIds: parseAsArrayOf(parseAsString).withDefault([]),
   });

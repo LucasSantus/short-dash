@@ -53,9 +53,8 @@ export function DataTablePagination<TData>({ table, totalCount = 0 }: DataTableP
             className="hidden size-8 p-0 lg:flex"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
-          >
-            <ChevronsLeftIcon className="size-4" aria-hidden="true" />
-          </Button>
+            icon={<ChevronsLeftIcon className="size-4" aria-hidden="true" />}
+          />
           <Button
             aria-label="Go to previous page"
             variant="outline"
@@ -63,9 +62,8 @@ export function DataTablePagination<TData>({ table, totalCount = 0 }: DataTableP
             className="size-8"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-          >
-            <ChevronLeftIcon className="size-4" aria-hidden="true" />
-          </Button>
+            icon={<ChevronLeftIcon className="size-4" aria-hidden="true" />}
+          />
           <Button
             aria-label="Go to next page"
             variant="outline"
@@ -73,9 +71,8 @@ export function DataTablePagination<TData>({ table, totalCount = 0 }: DataTableP
             className="size-8"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-          >
-            <ChevronRightIcon className="size-4" aria-hidden="true" />
-          </Button>
+            icon={<ChevronRightIcon className="size-4" aria-hidden="true" />}
+          />
           <Button
             aria-label="Go to last page"
             variant="outline"
@@ -83,9 +80,8 @@ export function DataTablePagination<TData>({ table, totalCount = 0 }: DataTableP
             className="hidden size-8 lg:flex"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
-          >
-            <ChevronsRightIcon className="size-4" aria-hidden="true" />
-          </Button>
+            icon={<ChevronsRightIcon className="size-4" aria-hidden="true" />}
+          />
         </div>
       </div>
     </div>

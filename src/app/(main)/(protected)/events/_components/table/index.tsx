@@ -29,7 +29,7 @@ export function EventTable({ events, pageCount, totalCount }: LinkTableProps): J
     {
       label: "Nome",
       value: "username",
-      placeholder: "Buscar...",
+      placeholder: "Pesquise por nome de usuário...",
     },
   ];
 

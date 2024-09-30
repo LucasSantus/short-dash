@@ -177,9 +177,11 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
         const amountOfAccesses = row.original.amountOfAccesses;
 
         const lastClickOnEvent = row.original.lastClickOnEvent as Date;
-        const formattedDateLastClickOnEvent = format(lastClickOnEvent, "'Último clique em' dd 'de' MMMM", {
-          locale: ptBR,
-        });
+        const formattedDateLastClickOnEvent = lastClickOnEvent
+          ? format(lastClickOnEvent, "'Último clique em' dd 'de' MMMM", {
+              locale: ptBR,
+            })
+          : null;
 
         return (
           <div className="flex items-center justify-center text-muted-foreground">

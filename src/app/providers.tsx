@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { getQueryClient, trpc } from "@/trpc/client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client";
+import { unstable_httpBatchStreamLink } from "@trpc/client";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import NextTopLoader from "nextjs-toploader";
@@ -18,10 +18,10 @@ export function Providers({ children }: PropsWithChildren) {
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
-        loggerLink({
-          enabled: (op) =>
-            process.env.NODE_ENV === "development" || (op.direction === "down" && op.result instanceof Error),
-        }),
+        // loggerLink({
+        //   enabled: (op) =>
+        //     process.env.NODE_ENV === "development" || (op.direction === "down" && op.result instanceof Error),
+        // }),
         unstable_httpBatchStreamLink({
           transformer: SuperJSON,
           url: "http://localhost:3000/api/trpc",

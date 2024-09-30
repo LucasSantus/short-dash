@@ -10,10 +10,12 @@ import { z } from "zod";
 
 const eventFilteredSchema = z.object({
   linkIds: z.array(z.string()),
-  createdAt: z.object({
-    from: z.date(),
-    to: z.date(),
-  }),
+  createdAt: z
+    .object({
+      from: z.date(),
+      to: z.date(),
+    })
+    .optional(),
 });
 
 export type EventFilteredSchema = z.infer<typeof eventFilteredSchema>;
@@ -27,14 +29,19 @@ export function EventTableFilteredForm({ onSubmit, children }: EventTableFiltere
 
   const { filters } = useEventFilters();
 
+  console.log({ filters });
+
   const form = useForm<EventFilteredSchema>({
     resolver: zodResolver(eventFilteredSchema),
     defaultValues: {
-      linkIds: filters.linkIds,
-      createdAt: {
-        from: filters?.createdAtFrom ? new Date(filters.createdAtFrom) : undefined,
-        to: filters?.createdAtTo ? new Date(filters.createdAtTo) : undefined,
-      },
+      linkIds: filters.linkIds ?? [],
+      createdAt: filters.createdAt,
+      // filters?.createdAt?.from && filters?.createdAt?.to
+      //   ? {
+      //       from: new Date(filters.createdAt.from),
+      //       to: new Date(filters.createdAt.to),
+      //     }
+      //   : undefined,
     },
   });
 

@@ -11,8 +11,8 @@ export const eventListQuery = protectedProcedure
           linkIds: z.array(z.string()).optional(),
           createdAt: z
             .object({
-              from: z.string(),
-              to: z.string().optional(),
+              from: z.date().optional(),
+              to: z.date().optional(),
             })
             .optional(),
         })
@@ -24,56 +24,59 @@ export const eventListQuery = protectedProcedure
     })
   )
   .query(async ({ input: { search, pagination }, ctx: { db } }) => {
-    let where: Prisma.EventWhereInput = {};
-
-    console.log({ search });
+    const clauses: Prisma.EventWhereInput[] = [];
 
     if (search) {
       if (search.username) {
-        where = {
-          ...where,
-
+        clauses.push({
           user: {
             name: {
               contains: search.username,
               mode: "insensitive",
             },
           },
-        };
+        });
       }
 
       if (search.linkIds && search.linkIds.length > 0) {
-        where = {
-          ...where,
-
+        clauses.push({
           linkId: {
             in: search.linkIds,
           },
-        };
+        });
       }
 
       if (search.createdAt) {
         if (search.createdAt.from) {
-          where = {
-            ...where,
-
+          clauses.push({
             createdAt: {
               gte: search.createdAt.from,
             },
-          };
+          });
         }
 
         if (search.createdAt.to) {
-          where = {
-            ...where,
-
+          clauses.push({
             createdAt: {
               lte: search.createdAt.to,
             },
-          };
+          });
         }
+
+        // where = {
+        //   ...where,
+
+        //   createdAt: {
+        //     gte: search.createdAt.from ? search.createdAt.from : undefined,
+        //     lte: search.createdAt.to ? search.createdAt.to : undefined,
+        //   },
+        // };
       }
     }
+
+    const where: Prisma.EventWhereInput = {
+      AND: clauses,
+    };
 
     const [data, totalCount] = await Promise.all([
       db.event.findMany({
