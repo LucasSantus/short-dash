@@ -10,9 +10,9 @@ import { getLinkColumns } from "./_components/table/table-columns";
 import { useLinkFilters } from "./_hooks/use-link-filters";
 
 export function LinkList(): JSX.Element {
-  const columns = getLinkColumns();
-
   const { page, pageSize, title, statuses } = useLinkFilters();
+
+  const columns = getLinkColumns();
 
   const { data, isLoading, isError, refetch } = trpc.link.list.useQuery({
     pagination: {

@@ -7,14 +7,19 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    
     "typecheck": "tsc --noEmit",
+
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
     "db:migrate": "prisma generate && prisma migrate dev",
+
     "biome:format": "biome format --write ./src",
     "biome:check": "biome check --write ./src",
     "biome:lint": "biome lint --write ./src",
+
     "shadcn": "pnpm dlx shadcn@latest add",
+
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
@@ -62,7 +67,6 @@
     "react-dom": "^18",
     "react-email": "^2.1.6",
     "react-hook-form": "^7.52.1",
-    "react-virtuoso": "^4.10.4",
     "recharts": "^2.12.7",
     "resend": "^3.5.0",
     "server-only": "^0.0.1",

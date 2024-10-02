@@ -14,8 +14,7 @@ import { Calendar, CalendarIcon, ExternalLinkIcon, EyeIcon, Users } from "lucide
 import Link from "next/link";
 import { Fragment, useState } from "react";
 import { toast } from "sonner";
-import { linkStatusDescription } from "../../../_constants/status";
-import type { LinkTableColumns } from "../table-columns";
+import { getLinkStatusDescription, type LinkTableColumns } from "../table-columns";
 
 interface CategoryDetailsRowProps {
   link: LinkTableColumns;
@@ -76,7 +75,7 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
                   <div className="grid gap-4">
                     <div className="flex items-center justify-between">
                       <Badge variant="outline" className={cn(statusColor[link.status], "text-foreground")}>
-                        {linkStatusDescription[link.status].label}
+                        {getLinkStatusDescription[link.status].label}
                       </Badge>
                       <div className="flex items-center space-x-2">
                         <Users className="size-4" />

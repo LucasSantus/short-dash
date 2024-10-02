@@ -26,6 +26,14 @@ export function SignUpForm() {
   const { handleSubmit, control } = form;
 
   async function onSubmit(values: SignUpFormData) {
+    // try {
+    //   await mutateAsync(values);
+    // } catch (error) {
+    //   const errorMessage = getApiErrorMessage(error, messages.globals.ERROR_DATA_HAS_BEEN_STORED);
+
+    //   toast.error(errorMessage);
+    // }
+
     try {
       await mutateAsync(values);
     } catch (error) {

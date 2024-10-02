@@ -6,10 +6,9 @@ import { useDataTable } from "@/hooks/use-data-table";
 import type { DataTableFilterField } from "@/types/data-table";
 import { Prisma } from "@prisma/client";
 import { useMemo } from "react";
-import { linkStatusDescription } from "../../_constants/status";
 import { type LinkStatus } from "../../_types/links";
 import { CreateCategoryDialog } from "./form/create-link-dialog";
-import { type LinkTableColumns, getLinkColumns, getLinkLabelColumn } from "./table-columns";
+import { type LinkTableColumns, getLinkColumns, getLinkLabelColumns, getLinkStatusDescription } from "./table-columns";
 import { LinkTableFloatingBar } from "./table-floating-bar";
 
 interface LinkTableProps {
@@ -36,15 +35,15 @@ export function LinkTable({ links, pageCount, totalCount }: LinkTableProps): JSX
     {
       label: "Status",
       value: "status",
-      options: Object.keys(linkStatusDescription).map((item) => {
-        const enumStatus = item as LinkStatus;
+      options: Object.keys(getLinkStatusDescription).map((key) => {
+        const status = key as LinkStatus;
 
-        const { label, icon } = linkStatusDescription[enumStatus];
+        const { label, icon } = getLinkStatusDescription[status];
 
         return {
           label,
           icon,
-          value: enumStatus,
+          value: status,
         };
       }),
     },
@@ -74,7 +73,7 @@ export function LinkTable({ links, pageCount, totalCount }: LinkTableProps): JSX
 
   return (
     <DataTable table={table} totalCount={totalCount} floatingBar={<LinkTableFloatingBar table={table} />}>
-      <DataTableToolbar table={table} filterFields={filterFields} getLabelColumns={getLinkLabelColumn}>
+      <DataTableToolbar table={table} filterFields={filterFields} getLabelColumns={getLinkLabelColumns}>
         <CreateCategoryDialog />
       </DataTableToolbar>
     </DataTable>

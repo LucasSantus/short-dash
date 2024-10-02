@@ -9,9 +9,8 @@ import { TRPCClientError } from "@trpc/client";
 import { CheckCircleIcon, Loader2Icon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
-import { linkStatusDescription } from "../../../_constants/status";
 import { LinkStatus } from "../../../_types/links";
-import { LinkTableColumns } from "../table-columns";
+import { getLinkStatusDescription, LinkTableColumns } from "../table-columns";
 
 interface UpdateStatusFloatingBarItemProps {
   table: Table<LinkTableColumns>;
@@ -88,10 +87,10 @@ export function UpdateStatusFloatingBarItem({
 
       <SelectContent>
         <SelectGroup>
-          {Object.keys(linkStatusDescription).map((item) => {
+          {Object.keys(getLinkStatusDescription).map((item) => {
             const enumStatus = item as LinkStatus;
 
-            const { label, icon: Icon } = linkStatusDescription[enumStatus];
+            const { label, icon: Icon } = getLinkStatusDescription[enumStatus];
 
             return (
               <SelectItem key={enumStatus} value={enumStatus} className="capitalize pl-2">

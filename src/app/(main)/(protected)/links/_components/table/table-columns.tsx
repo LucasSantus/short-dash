@@ -10,9 +10,8 @@ import { $Enums } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { CheckIcon, CircleIcon, CopyIcon, CornerDownRightIcon, MousePointerClickIcon, XIcon } from "lucide-react";
+import { CheckIcon, CopyIcon, CornerDownRightIcon, LucideIcon, MousePointerClickIcon, XIcon } from "lucide-react";
 import { toast } from "sonner";
-import { linkStatusDescription } from "../../_constants/status";
 import { LinkStatus } from "../../_types/links";
 import { DataTableRowActions } from "./table-row-actions";
 
@@ -30,16 +29,7 @@ export type LinkTableColumns = {
   ownerId: string | null;
 };
 
-export function getLinkStatusIcon(status: LinkStatus) {
-  const statusIcons = {
-    [LinkStatus.Active]: CheckIcon,
-    [LinkStatus.Inactive]: XIcon,
-  };
-
-  return statusIcons[status] || CircleIcon;
-}
-
-export const getLinkLabelColumn: Record<keyof LinkTableColumns, string> = {
+export const getLinkLabelColumns: Record<keyof LinkTableColumns, string> = {
   id: "ID",
   title: "Nome",
   description: "Descrição",
@@ -52,6 +42,33 @@ export const getLinkLabelColumn: Record<keyof LinkTableColumns, string> = {
   updatedAt: "Atualizada em",
   lastClickOnEvent: "Último Clique",
 };
+
+export const getLinkStatusDescription: Record<
+  LinkStatus,
+  {
+    label: string;
+    icon: LucideIcon;
+    color: {
+      textColor: string;
+    };
+  }
+> = {
+  Active: {
+    label: "Ativo",
+    icon: CheckIcon,
+    color: {
+      textColor: "text-green-500",
+    },
+  },
+  Inactive: {
+    label: "Inativo",
+    icon: XIcon,
+    color: {
+      textColor: "text-gray-400",
+    },
+  },
+};
+
 
 export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
   return [
@@ -82,7 +99,7 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
     },
     {
       accessorKey: "title",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.title} />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumns.title} />,
       cell: ({ row }) => {
         const title = row.original.title;
 
@@ -92,7 +109,7 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
     },
     {
       accessorKey: "originalUrl",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.originalUrl} />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumns.originalUrl} />,
       cell: ({ row }) => {
         const { originalUrl, code } = row.original;
 
@@ -138,31 +155,31 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
     },
     {
       accessorKey: "createdAt",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.createdAt} />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumns.createdAt} />,
       cell: ({ row }) => {
         const createdAt = row.original.createdAt as Date;
 
-        const createdAtFormmated = format(createdAt, "dd MMM, yyyy", {
+        const createdAtFormatted = format(createdAt, "dd MMM, yyyy", {
           locale: ptBR,
         });
 
-        return <span className="text-muted-foreground capitalize">{createdAtFormmated}</span>;
+        return <span className="text-muted-foreground capitalize">{createdAtFormatted}</span>;
       },
     },
     {
       accessorKey: "status",
-      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumn.status} />,
+      header: ({ column }) => <DataTableColumnHeader column={column} title={getLinkLabelColumns.status} />,
       cell: ({ row }) => {
-        const statusEnum = LinkStatus[row.original.status];
+        const status = LinkStatus[row.original.status];
 
-        if (!statusEnum) return null;
+        if (!status) return "-";
 
-        const { label, icon: Icon, color } = linkStatusDescription[statusEnum];
+        const { label, icon: Icon, color } = getLinkStatusDescription[status];
 
         return (
-          <div className="flex items-center">
-            <Icon className={cn("mr-2 size-4", color.textColor)} aria-hidden="true" />
-            <span className={cn("capitalize", color.textColor)}>{label}</span>
+          <div className={cn("flex items-center", color.textColor)}>
+            <Icon className="mr-2 size-4" aria-hidden="true" />
+            <span className="capitalize">{label}</span>
           </div>
         );
       },
