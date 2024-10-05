@@ -1,20 +1,23 @@
-import type { MenuGroupItem } from "@/types/menu-group-item";
-import { KeyRoundIcon, PaletteIcon, SettingsIcon } from "lucide-react";
+import { SidebarItemsData } from "@/types/sidebar-items-type";
+import { KeyRoundIcon, PaletteIcon, UserSquareIcon } from "lucide-react";
 
-export const sidebarSettingItems: MenuGroupItem[] = [
+export const sidebarItems: Array<SidebarItemsData> = [
   {
     title: "Conta",
     href: "/settings/account",
-    icon: <SettingsIcon className="size-4" />,
+    icon: <UserSquareIcon className="size-4" />,
+    provider: "all",
   },
   {
-    title: "Mudar Senha",
-    href: "/settings/change-password",
+    title: "Senha",
+    href: "/settings/password",
     icon: <KeyRoundIcon className="size-4" />,
+    provider: "credentials",
   },
   {
-    title: "Temas",
-    href: "/settings/themes",
+    title: "Aparência",
+    href: "/settings/appearance",
     icon: <PaletteIcon className="size-4" />,
+    provider: "all",
   },
 ];

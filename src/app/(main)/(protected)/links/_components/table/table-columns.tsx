@@ -31,7 +31,7 @@ export type LinkTableColumns = {
 
 export const getLinkLabelColumns: Record<keyof LinkTableColumns, string> = {
   id: "ID",
-  title: "Nome",
+  title: "Título",
   description: "Descrição",
   code: "Código",
   amountOfAccesses: "Número de Acessos",
@@ -68,7 +68,6 @@ export const getLinkStatusDescription: Record<
     },
   },
 };
-
 
 export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
   return [
@@ -127,7 +126,9 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
         return (
           <div className="flex flex-col items-start gap-2 max-w-full">
             <div className="flex justify-between items-center w-full">
-              <span className="text-muted-foreground font-bold lowercase">{shortUrl}</span>
+              <a className="text-muted-foreground font-bold lowercase" href={shortUrl}>
+                {shortUrl}
+              </a>
 
               <Button
                 size="icon"

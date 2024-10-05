@@ -44,7 +44,7 @@ export function EventTableFiltered(): JSX.Element {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" icon={<SlidersHorizontalIcon className="size-4" />} className="size-9" />
+        <Button variant="outline" size="icon" icon={<SlidersHorizontalIcon className="size-4" />} />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

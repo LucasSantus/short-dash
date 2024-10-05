@@ -1,30 +1,17 @@
-import type { MenuGroupItem } from "@/types/menu-group-item";
-import { BoxesIcon, HandshakeIcon, LayoutGridIcon, SettingsIcon } from "lucide-react";
+import { SidebarItemsData } from "@/types/sidebar-items-type";
+import { LayoutDashboardIcon, SettingsIcon } from "lucide-react";
 
-interface HeaderSettingItem extends MenuGroupItem {
-  isActive?: boolean;
-}
-
-export const headerSettingItems: HeaderSettingItem[] = [
+export const headerItems: Array<SidebarItemsData> = [
   {
-    title: "Dashboard",
-    href: "/dashboard",
-    icon: <LayoutGridIcon className="size-4" />,
-  },
-  {
-    title: "Produtos",
-    href: "/products",
-    icon: <BoxesIcon className="size-4" />,
-  },
-  {
-    title: "Afiliados",
-    href: "/affiliates",
-    icon: <HandshakeIcon className="size-4" />,
+    title: "Voltar para Dashboard",
+    href: "/",
+    icon: <LayoutDashboardIcon className="size-4" />,
+    provider: "all",
   },
   {
     title: "Configurações",
-    href: "/settings",
+    href: "/settings/account",
     icon: <SettingsIcon className="size-4" />,
-    isActive: true,
+    provider: "all",
   },
 ];

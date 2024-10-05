@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { messages } from "@/constants/messages";
-import { type AppearanceFormData, appearanceFormSchema } from "@/validation/update/apparence";
+import { AppearanceFormData, appearanceFormSchema } from "@/validation/settings/appearance";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SaveIcon } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-export function ThemeForm() {
+export function AppearanceForm() {
   const { theme, setTheme } = useTheme();
 
   const form = useForm<AppearanceFormData>({
@@ -31,7 +31,7 @@ export function ThemeForm() {
   function onSubmit(data: AppearanceFormData) {
     setTheme(data.theme);
 
-    toast.success(messages.globals.DATA_HAS_BEEN_UPDATED);
+    toast.success(messages.form.DATA_HAS_BEEN_UPDATED);
   }
 
   useEffect(() => {

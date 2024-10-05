@@ -29,13 +29,11 @@ export function EventTableFilteredForm({ onSubmit, children }: EventTableFiltere
 
   const { filters } = useEventFilters();
 
-  console.log({ filters });
-
   const form = useForm<EventFilteredSchema>({
     resolver: zodResolver(eventFilteredSchema),
     defaultValues: {
       linkIds: filters.linkIds ?? [],
-      createdAt: filters.createdAt,
+      // createdAt: filters.createdAt,
       // filters?.createdAt?.from && filters?.createdAt?.to
       //   ? {
       //       from: new Date(filters.createdAt.from),

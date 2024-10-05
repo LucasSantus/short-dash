@@ -1,25 +1,24 @@
 "use client";
 
-import { Bounce } from "@/components/framer-motion/animation/bounce";
-import { Presence } from "@/components/framer-motion/presence";
 import { buttonVariants } from "@/components/ui/button";
-import { TRANSITION_DURATION } from "@/constants/globals";
 import { cn } from "@/lib/utils";
+import { SidebarItemsData } from "@/types/sidebar-items-type";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { sidebarSettingItems } from "../../_constants/sidebar-items";
 
-export function SettingsSidebar() {
+interface SettingsSidebarProps {
+  items: Array<SidebarItemsData>;
+}
+
+export function SettingsSidebar({ items }: SettingsSidebarProps) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex space-x-2 flex-col md:flex-row lg:flex-col lg:space-x-0 lg:space-y-1">
-      <Presence>
-        {sidebarSettingItems.map(({ title, href, icon }, index) => {
-          const delay = TRANSITION_DURATION + index * 0.3;
-
+    <nav className={cn("flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1")}>
+      <div>
+        {items.map(({ title, href, icon }, index) => {
           return (
-            <Bounce key={href} time={{ delay }}>
+            <div key={index}>
               <Link
                 href={href}
                 className={cn(
@@ -31,10 +30,10 @@ export function SettingsSidebar() {
                 {icon}
                 {title}
               </Link>
-            </Bounce>
+            </div>
           );
         })}
-      </Presence>
+      </div>
     </nav>
   );
 }

@@ -30,7 +30,7 @@ export function LinkTable({ links, pageCount, totalCount }: LinkTableProps): JSX
     {
       label: "Nome",
       value: "title",
-      placeholder: "Pesquise pelo título do link...",
+      placeholder: "Pesquise pelo título...",
     },
     {
       label: "Status",

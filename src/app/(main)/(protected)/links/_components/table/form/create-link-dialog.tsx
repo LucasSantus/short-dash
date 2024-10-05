@@ -55,7 +55,7 @@ export function CreateCategoryDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" icon={<PlusIcon className="size-4" />} className="h-8">
+        <Button size="sm" icon={<PlusIcon className="size-4" />}>
           Adicionar Link
         </Button>
       </DialogTrigger>
