@@ -1,6 +1,9 @@
 import { messages } from "@/constants/messages";
+import { isAfter, subMinutes } from "date-fns";
 import { z } from "zod";
 import { withoutDelayProcedure } from "../../trpc";
+
+const MAX_EVENTS_ON_MINUTE: number = 40;
 
 export const redirectUrlByCodeMutation = withoutDelayProcedure
   .input(
@@ -11,11 +14,38 @@ export const redirectUrlByCodeMutation = withoutDelayProcedure
   .mutation(async ({ input: { code }, ctx: { db, session } }) => {
     const { user, isAuthenticated } = session;
 
-    const link = await db.link.findUnique({
-      where: {
-        code,
-      },
-    });
+    const [link, events] = await Promise.all([
+      db.link.findUnique({
+        where: {
+          code,
+        },
+      }),
+      db.event.findMany({
+        where: {
+          link: {
+            code,
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: MAX_EVENTS_ON_MINUTE,
+      }),
+    ]);
+
+    if (events.length > MAX_EVENTS_ON_MINUTE) {
+      const firstEvent = events[0];
+
+      if (firstEvent) {
+        const oneMinuteAgo = subMinutes(new Date(), 1);
+
+        const wasCreatedLastMinute = isAfter(new Date(firstEvent.createdAt), oneMinuteAgo);
+
+        if (wasCreatedLastMinute) {
+          return link;
+        }
+      }
+    }
 
     if (!link) throw new Error("Falha ao tentar achar essa url");
 
