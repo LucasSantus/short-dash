@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PROVIDER_KEY_LOCAL_STORAGE } from "@/constants/globals";
+import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { type SignInFormData, signInFormSchema } from "@/validation/auth/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogInIcon } from "lucide-react";
@@ -48,9 +49,9 @@ export function SignInForm() {
 
       startTransitionRedirect(() => router.push("/"));
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      }
+      const errorMessage = getApiErrorMessage(error, "Ocorreu uma falha ao tentar acessar o sistema!");
+
+      toast.error(errorMessage);
     }
   }
 
@@ -67,7 +68,7 @@ export function SignInForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Digite o e-mail:" isLoading={isLoading} {...field} />
+                  <Input placeholder="Digite o e-mail:" disabled={isLoading} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -81,7 +82,7 @@ export function SignInForm() {
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <InputPassword placeholder="Digite a senha:" isLoading={isLoading} {...field} />
+                  <InputPassword placeholder="Digite a senha:" disabled={isLoading} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
