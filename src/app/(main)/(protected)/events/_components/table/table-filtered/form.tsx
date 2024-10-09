@@ -25,7 +25,7 @@ interface EventTableFilteredFormProps extends PropsWithChildren {
 }
 
 export function EventTableFilteredForm({ onSubmit, children }: EventTableFilteredFormProps): JSX.Element {
-  const { data: allLinks, isLoading: isLoadingAllLinks } = trpc.link.listOptions.useQuery();
+  const { data: allLinks, isLoading: isLoadingAllLinks } = trpc.link.allLinkListOptions.useQuery();
 
   const { filters } = useEventFilters();
 

@@ -42,12 +42,13 @@ export function SignInForm() {
       });
 
       if (!!response && response.error) {
+        console.error(response)
         toast.error(response.error);
       }
 
-      setProviderSelectedOnStorage("credentials");
+      // setProviderSelectedOnStorage("credentials");
 
-      startTransitionRedirect(() => router.push("/"));
+      // startTransitionRedirect(() => router.push("/"));
     } catch (error) {
       const errorMessage = getApiErrorMessage(error, "Ocorreu uma falha ao tentar acessar o sistema!");
 

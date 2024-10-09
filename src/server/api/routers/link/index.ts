@@ -1,8 +1,10 @@
 import { createTRPCRouter } from "@/server/api/trpc";
-import { allLinkOptionsQuery } from "./all-link-options";
+import { allLinkListOptionsQuery } from "./all-link-options";
 import { createLinkMutation } from "./create";
 import { deleteLinkMutation, deleteMultipleLinksMutationRoute } from "./delete";
 import { linksQuery } from "./list";
+import { mostClickedLinksQuery } from "./most-clickeds";
+import { overviewQuery } from "./overview";
 import { redirectUrlByCodeMutation } from "./redirect-url-by-code";
 import { updateLinkMutation } from "./update";
 import { updateLinkStatusMutation, updateStatusMultipleLinkMutationRoute } from "./update-status";
@@ -10,7 +12,9 @@ import { updateLinkStatusMutation, updateStatusMultipleLinkMutationRoute } from 
 export const linkRoute = createTRPCRouter({
   // QUERIES
   list: linksQuery,
-  listOptions: allLinkOptionsQuery,
+  allLinkListOptions: allLinkListOptionsQuery,
+  mostClickeds: mostClickedLinksQuery,
+  overview: overviewQuery,
 
   // MUTATIONS
   create: createLinkMutation,

@@ -32,7 +32,9 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
           },
         });
 
-        if (!user) throw new Error(messages.account.USER_NOT_FOUND);
+        if (!user) {
+          throw new Error("User not found.");
+        }
 
         if (user.deletedAt) throw new Error("Este usuário foi deletado!");
 

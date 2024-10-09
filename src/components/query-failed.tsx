@@ -1,22 +1,23 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { getApiErrorMessage } from "@/utils/get-api-error-message";
 
 export interface QueryFailedProps {
   refetch?: () => void;
-  isLoading?: boolean;
-  error?: Error | null;
+  isFetching?: boolean;
+  error?: unknown;
 }
 
-export default function QueryFailed({ refetch, isLoading, error }: QueryFailedProps) {
+export default function QueryFailed({ refetch, isFetching, error }: QueryFailedProps) {
+  const errorMessage = getApiErrorMessage(error);
+
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-5">
-      <h2 className="text-center text-sm font-medium text-red-600">
-        {error ? error.message : "Ocorreu um erro inesperado!"}
-      </h2>
+      <h2 className="text-center text-sm font-medium text-red-600">{errorMessage}</h2>
 
       {refetch ? (
-        <Button onClick={refetch} isLoading={isLoading}>
+        <Button onClick={refetch} isLoading={isFetching}>
           Tentar Novamente
         </Button>
       ) : null}

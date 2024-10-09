@@ -14,7 +14,7 @@ export function LinkList(): JSX.Element {
 
   const columns = getLinkColumns();
 
-  const { data, isLoading, isError, refetch } = trpc.link.list.useQuery({
+  const { data, isLoading, isFetching, refetch, isError, error } = trpc.link.list.useQuery({
     pagination: {
       page,
       pageSize,
@@ -35,7 +35,7 @@ export function LinkList(): JSX.Element {
       />
     );
 
-  if (isError || !data) return <QueryFailed refetch={refetch} isLoading={isLoading} />;
+  if (isError || !data) return <QueryFailed refetch={refetch} isFetching={isFetching} error={error} />;
 
   if (!title && !data.links.length)
     return (

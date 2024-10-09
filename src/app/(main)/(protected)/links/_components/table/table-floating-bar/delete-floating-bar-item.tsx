@@ -1,13 +1,13 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
+    AlertDialog,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -15,7 +15,7 @@ import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
 import { Table } from "@tanstack/react-table";
 import { TRPCClientError } from "@trpc/client";
-import { Loader2Icon, Trash2Icon, TrashIcon, XIcon } from "lucide-react";
+import { LoaderIcon, Trash2Icon, TrashIcon, XIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 import { LinkTableColumns } from "../table-columns";
@@ -76,7 +76,7 @@ export function DeleteFloatingBarItem({ table, isLoading, setIsLoading }: Delete
               disabled={isPending || isLoading}
               icon={
                 isPending ? (
-                  <Loader2Icon className="size-3.5 animate-spin" aria-hidden="true" />
+                  <LoaderIcon className="size-3.5 animate-spin" aria-hidden="true" />
                 ) : (
                   <TrashIcon className="size-3.5" aria-hidden="true" />
                 )

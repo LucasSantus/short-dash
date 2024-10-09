@@ -1,5 +1,5 @@
 export function getApiErrorMessage(error: unknown, defaultErrorMessage?: string): string {
-  let errorMessage = defaultErrorMessage ?? "Ocorreu um erro desconhecido!";
+  let errorMessage = defaultErrorMessage ?? "Ocorreu um erro inesperado!";
 
   if (error instanceof Error) {
     if (

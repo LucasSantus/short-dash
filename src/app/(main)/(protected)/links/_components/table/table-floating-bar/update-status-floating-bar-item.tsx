@@ -6,7 +6,7 @@ import { trpc } from "@/trpc/client";
 import { SelectTrigger } from "@radix-ui/react-select";
 import { Table } from "@tanstack/react-table";
 import { TRPCClientError } from "@trpc/client";
-import { CheckCircleIcon, Loader2Icon } from "lucide-react";
+import { CheckCircleIcon, LoaderIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 import { LinkStatus } from "../../../_types/links";
@@ -73,7 +73,7 @@ export function UpdateStatusFloatingBarItem({
               disabled={isPending || isLoading}
             >
               {isPending ? (
-                <Loader2Icon className="size-3.5 animate-spin" aria-hidden="true" />
+                <LoaderIcon className="size-3.5 animate-spin" aria-hidden="true" />
               ) : (
                 <CheckCircleIcon className="size-3.5" aria-hidden="true" />
               )}

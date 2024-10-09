@@ -2,18 +2,18 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { menuOptions } from "@/constants/menu-options";
 import { cn } from "@/lib/utils";
 import type { ServerAuthSession } from "@/utils/get-server-auth-session";
-import { Loader2Icon, LogOutIcon, UserIcon } from "lucide-react";
+import { LoaderIcon, LogOutIcon, UserIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -95,7 +95,7 @@ export function Navbar({ session: { isAuthenticated, user } }: NavbarProps) {
                   onHandleLogout();
                 }}
                 className="space-x-2"
-                icon={isPendingLogout ? <Loader2Icon className="size-4" /> : <LogOutIcon className="size-4" />}
+                icon={isPendingLogout ? <LoaderIcon className="size-4" /> : <LogOutIcon className="size-4" />}
                 disabled={isPendingLogout}
               >
                 Log out

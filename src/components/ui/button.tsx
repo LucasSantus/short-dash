@@ -1,9 +1,8 @@
+import { cn } from "@/lib/utils";
 import { Slot } from "@radix-ui/react-slot";
 import { type VariantProps, cva } from "class-variance-authority";
+import { LoaderIcon } from "lucide-react";
 import * as React from "react";
-
-import { cn } from "@/lib/utils";
-import { Loader2Icon } from "lucide-react";
 
 const buttonVariants = cva(
   "cursor-pointer gap-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
@@ -53,7 +52,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         aria-disabled={isDisabled}
         {...rest}
       >
-        {isLoading ? <Loader2Icon className="mr-2 size-4 animate-spin" /> : icon}
+        {isLoading ? <LoaderIcon className="mr-2 size-4 animate-spin" /> : icon}
         {children}
       </Component>
     );
@@ -62,3 +61,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button";
 
 export { Button, buttonVariants };
+

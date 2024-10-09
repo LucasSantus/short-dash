@@ -14,7 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { normalizeText } from "@/utils/normalize-text";
 import { type VariantProps, cva } from "class-variance-authority";
-import { CheckIcon, ChevronDown, Loader2Icon, XIcon } from "lucide-react";
+import { CheckIcon, ChevronDown, LoaderIcon, XIcon } from "lucide-react";
 import * as React from "react";
 import { ScrollArea } from "./scroll-area";
 
@@ -39,8 +39,10 @@ const multiSelectVariants = cva("p-1.5 transition ease-in-out delay-150 duration
 export type MultiSelectOptions = Array<{
   /** The text to display for the option. */
   label: string;
+
   /** The unique value associated with the option. */
   value: string;
+
   /** Optional icon component to display alongside the option. */
   icon?: React.ComponentType<{ className?: string }>;
 }>;
@@ -81,7 +83,7 @@ interface MultiSelectProps
   /**
    * The modality of the popover. When set to true, interaction with outside elements
    * will be disabled and only popover content will be visible to screen readers.
-   * Optional, defaults to false.
+   * Optional, defaults to true.
    */
   modalPopover?: boolean;
 
@@ -97,7 +99,23 @@ interface MultiSelectProps
    */
   className?: string;
 
+  /**
+   * If true, displays a loading state.
+   * Optional, defaults to false.
+   */
   isLoading?: boolean;
+
+  /**
+   * If true, allows multiple selections.
+   * Optional, defaults to true.
+   */
+  multiple?: boolean;
+
+  /**
+   * If true, displays the "Selecionar todos" option.
+   * Optional, defaults to true.
+   */
+  showSelectedAll?: boolean;
 }
 
 export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
@@ -109,11 +127,13 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
       defaultValue = [],
       placeholder = "Selecione os Itens",
       maxCount = 2,
-      modalPopover = false,
+      modalPopover = true,
       asChild = false,
       className,
       isLoading,
       disabled,
+      multiple = true,
+      showSelectedAll = true,
       ...props
     },
     ref
@@ -126,19 +146,26 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
       if (event.key === "Enter") {
         setIsPopoverOpen(true);
       } else if (event.key === "Backspace" && !event.currentTarget.value) {
-        const newSelectedValues = [...selectedValues];
-        newSelectedValues.pop();
-        setSelectedValues(newSelectedValues);
-        onValueChange(newSelectedValues);
+        if (multiple) {
+          const newSelectedValues = [...selectedValues];
+          newSelectedValues.pop();
+          setSelectedValues(newSelectedValues);
+          onValueChange(newSelectedValues);
+        }
       }
     };
 
     const toggleOption = (value: string) => {
-      const newSelectedValues = selectedValues.includes(value)
-        ? selectedValues.filter((v) => v !== value)
-        : [...selectedValues, value];
-      setSelectedValues(newSelectedValues);
-      onValueChange(newSelectedValues);
+      if (multiple) {
+        const newSelectedValues = selectedValues.includes(value)
+          ? selectedValues.filter((v) => v !== value)
+          : [...selectedValues, value];
+        setSelectedValues(newSelectedValues);
+        onValueChange(newSelectedValues);
+      } else {
+        setSelectedValues([value]);
+        onValueChange([value]);
+      }
     };
 
     const handleClear = () => {
@@ -161,8 +188,13 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
         handleClear();
       } else {
         const allValues = options.map((option) => option.value);
-        setSelectedValues(allValues);
-        onValueChange(allValues);
+
+        const firstValue = [allValues[0] ?? ""];
+
+        const values = multiple ? allValues : firstValue;
+
+        setSelectedValues(values);
+        onValueChange(values);
       }
     };
 
@@ -195,6 +227,16 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                     const option = options.find((o) => o.value === value);
                     const IconComponent = option?.icon;
 
+                    if (!multiple) {
+                      return (
+                        <div key={value} className={multiSelectVariants({ variant, className: "text-start" })}>
+                          {IconComponent && <IconComponent className="mr-2 size-4" />}
+
+                          <span className="max-w-20 truncate">{option?.label}</span>
+                        </div>
+                      );
+                    }
+
                     return (
                       <Badge key={value} className={multiSelectVariants({ variant })}>
                         {IconComponent && <IconComponent className="mr-2 size-4" />}
@@ -205,7 +247,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                           className="ml-2 h-4 w-4 shrink-0 cursor-pointer"
                           onClick={(event) => {
                             event.stopPropagation();
-
                             toggleOption(value);
                           }}
                         />
@@ -217,7 +258,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                     <Badge
                       className={cn(
                         "border-foreground/1 bg-transparent text-foreground hover:bg-transparent",
-
                         multiSelectVariants({ variant })
                       )}
                     >
@@ -226,7 +266,6 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         className="ml-2 size-4 shrink-0 cursor-pointer"
                         onClick={(event) => {
                           event.stopPropagation();
-
                           clearExtraOptions();
                         }}
                       />
@@ -235,13 +274,15 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <XIcon
-                    className="mx-2 h-4 cursor-pointer text-muted-foreground"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      handleClear();
-                    }}
-                  />
+                  {multiple && (
+                    <XIcon
+                      className="mx-2 h-4 cursor-pointer text-muted-foreground"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        handleClear();
+                      }}
+                    />
+                  )}
 
                   <Separator orientation="vertical" className="flex h-full min-h-6" />
 
@@ -253,7 +294,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                 <span className="mx-3 text-sm">{isLoading ? "Carregando..." : placeholder}</span>
 
                 {isLoading ? (
-                  <Loader2Icon className="pointer-events-none mx-2 size-4 animate-spin" />
+                  <LoaderIcon className="pointer-events-none mx-2 size-4 animate-spin" />
                 ) : (
                   <ChevronDown className="pointer-events-none mx-2 size-4" />
                 )}
@@ -277,7 +318,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                 <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
 
                 <CommandGroup>
-                  {!search && (
+                  {!search && showSelectedAll && (
                     <CommandItem disabled={isLoading} onSelect={toggleAll} className="cursor-pointer">
                       <div
                         className={cn(

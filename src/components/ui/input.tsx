@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Loader2Icon } from "lucide-react";
+import { LoaderIcon } from "lucide-react";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   isLoading?: boolean;
@@ -35,7 +35,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         {isLoading ? (
           <div className={cn("right-0", componentClass)}>
-            <Loader2Icon className="h-5 w-5 animate-spin" />
+            <LoaderIcon className="h-5 w-5 animate-spin" />
           </div>
         ) : (
           !!endComponent && (
@@ -51,3 +51,4 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 Input.displayName = "Input";
 
 export { Input };
+

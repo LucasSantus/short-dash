@@ -1,5 +1,5 @@
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { HistoryIcon, Loader2Icon } from "lucide-react";
+import { HistoryIcon, LoaderIcon } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
 import { useTransition } from "react";
 
@@ -19,7 +19,7 @@ export function LinkEventRow({ linkId }: LinkEventRowProps): JSX.Element {
         startRedirectTransition(() => router.push(`/events?linkIds=${linkId}`));
       }}
       className="flex items-center gap-2"
-      icon={isPendingRedirect ? <Loader2Icon className="size-4 animate-spin" /> : <HistoryIcon className="size-4" />}
+      icon={isPendingRedirect ? <LoaderIcon className="size-4 animate-spin" /> : <HistoryIcon className="size-4" />}
       disabled={isPendingRedirect}
     >
       Ver Historico

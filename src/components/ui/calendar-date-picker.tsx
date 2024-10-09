@@ -37,7 +37,7 @@ const months = [
   "Dezembro",
 ];
 
-const multiSelectVariants = cva(
+const calendarDatePickerVariants = cva(
   "flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium text-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
@@ -58,7 +58,7 @@ const multiSelectVariants = cva(
 
 interface CalendarDatePickerProps
   extends React.HTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof multiSelectVariants> {
+    VariantProps<typeof calendarDatePickerVariants> {
   id?: string;
   className?: string;
   date?: DateRange;
@@ -363,7 +363,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
               id="date"
               ref={ref}
               {...props}
-              className={cn("w-auto", multiSelectVariants({ variant, className }))}
+              className={cn("w-auto", calendarDatePickerVariants({ variant, className }))}
               onClick={handleTogglePopover}
               disabled={isDisabled}
               isLoading={isLoading}

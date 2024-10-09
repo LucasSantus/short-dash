@@ -21,8 +21,10 @@ export function EventList(): JSX.Element {
   const {
     data: events,
     isLoading,
-    isError,
+    isFetching,
     refetch,
+    isError,
+    error,
   } = trpc.event.list.useQuery({
     pagination: {
       page: filters.page,
@@ -44,7 +46,7 @@ export function EventList(): JSX.Element {
   if (isLoading)
     return <DataTableSkeleton columnCount={columns.length} rowCount={filters.pageSize} searchableColumnCount={1} />;
 
-  if (isError || !events) return <QueryFailed refetch={refetch} isLoading={isLoading} />;
+  if (isError || !events) return <QueryFailed refetch={refetch} isFetching={isFetching} error={error} />;
 
   if (!events.data.length && !filters.linkIds?.length && !filters.username && !filters.createdAt)
     return (
