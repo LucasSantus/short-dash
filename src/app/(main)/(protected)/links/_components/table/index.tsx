@@ -15,6 +15,11 @@ interface LinkTableProps {
   links: Array<
     Prisma.LinkGetPayload<{
       include: {
+        _count: {
+          select: {
+            events: true;
+          };
+        };
         events: true;
       };
     }>
@@ -51,13 +56,14 @@ export function LinkTable({ links, pageCount, totalCount }: LinkTableProps): JSX
 
   const data = useMemo((): LinkTableColumns[] => {
     return links?.map((link) => {
-      const { events, ...rest } = link;
+      const { events, _count, ...rest } = link;
 
       const lastClickOnEvent = events.at(0)?.createdAt as Date;
 
       return {
         ...rest,
         lastClickOnEvent,
+        amountOfAccesses: _count.events,
       };
     });
   }, [links]);

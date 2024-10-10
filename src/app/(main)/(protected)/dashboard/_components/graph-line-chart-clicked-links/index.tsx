@@ -8,24 +8,21 @@ import { trpc } from "@/trpc/client";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 const chartData = [
-  { date: "2024-04-01", title: "Youtube", clicks: 150 },
-  { date: "2024-04-02", title: "Facebook", clicks: 100 },
-  { date: "2024-04-03", title: "Instagram", clicks: 200 },
-  { date: "2024-04-04", title: "Linkedin", clicks: 120 },
-  { date: "2024-04-05", title: "Twitter", clicks: 180 },
-  { date: "2024-04-06", title: "TikTok", clicks: 250 },
-  { date: "2024-04-07", title: "WhatsApp", clicks: 190 },
-  { date: "2024-04-08", title: "Snapchat", clicks: 160 },
-  { date: "2024-04-09", title: "Pinterest", clicks: 130 },
-  { date: "2024-04-10", title: "Reddit", clicks: 170 },
+  { date: "2024-04-01", title: "Youtube", clicks: 0 },
+  { date: "2024-04-02", title: "Facebook", clicks: 0 },
+  { date: "2024-04-03", title: "Instagram", clicks: 0 },
+  { date: "2024-04-04", title: "Linkedin", clicks: 0 },
+  { date: "2024-04-05", title: "Twitter", clicks: 230 },
+  { date: "2024-04-06", title: "TikTok", clicks: 0 },
+  { date: "2024-04-07", title: "WhatsApp", clicks: 650 },
+  { date: "2024-04-08", title: "Snapchat", clicks: 0 },
+  { date: "2024-04-09", title: "Pinterest", clicks: 70 },
+  { date: "2024-04-10", title: "Reddit", clicks: 0 },
 ];
 
 const chartConfig = {
-  views: {
-    label: "Page Views",
-  },
   title: {
-    label: "Desktop",
+    label: "Título",
     color: "hsl(var(--chart-1))",
   },
   clicks: {
@@ -88,7 +85,7 @@ export function GraphLineChartClickedLinks(): JSX.Element {
               minTickGap={32}
               tickFormatter={(value) => {
                 const date = new Date(value);
-                return date.toLocaleDateString("en-US", {
+                return date.toLocaleDateString("pt-BR", {
                   month: "short",
                   day: "numeric",
                 });
@@ -98,9 +95,9 @@ export function GraphLineChartClickedLinks(): JSX.Element {
               content={
                 <ChartTooltipContent
                   className="w-40"
-                  nameKey="views"
+                  nameKey="clicks"
                   labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
+                    return new Date(value).toLocaleDateString("pt-BR", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
@@ -109,7 +106,7 @@ export function GraphLineChartClickedLinks(): JSX.Element {
                 />
               }
             />
-            <Line dataKey="title" type="monotone" stroke={"#F4f4f4"} strokeWidth={2} dot={false} />
+            <Line dataKey="clicks" type="monotone" stroke={chartConfig.clicks.color} strokeWidth={2} dot={false} />
           </LineChart>
         </ChartContainer>
       </CardContent>

@@ -10,15 +10,22 @@ export const mostClickedLinksQuery = protectedProcedure.query(async ({ ctx: { se
   const links = await db.link.findMany({
     where,
     orderBy: {
-      amountOfAccesses: "asc",
+      amountOfAccesses: "desc",
     },
     take: MAX_POPULAR_LINKS,
+    include: {
+      _count: {
+        select: {
+          events: true,
+        },
+      },
+    },
   });
 
-  const data = links?.map(({ id, title, amountOfAccesses }) => ({
+  const data = links?.map(({ id, title, _count }) => ({
     id,
     title,
-    amountOfAccesses,
+    amountOfAccesses: _count.events,
   }));
 
   return {
