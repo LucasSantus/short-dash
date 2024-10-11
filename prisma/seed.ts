@@ -3,6 +3,12 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 async function main() {
   await Promise.all([prisma.link.deleteMany(), prisma.event.deleteMany()]);
 
@@ -19,7 +25,7 @@ async function main() {
   }
 
   // Criar múltiplas URLs e históricos de forma paralela
-  const urlPromises = Array.from({ length: 8 }).map(async () => {
+  const urlPromises = Array.from({ length: getRandomInt(2, 20) }).map(async () => {
     const link = await prisma.link.create({
       data: {
         title: faker.lorem.sentence(),
@@ -37,7 +43,7 @@ async function main() {
     });
 
     // Criar múltiplos históricos para cada URL de forma paralela
-    const eventPromises = Array.from({ length: 20 }).map(() =>
+    const eventPromises = Array.from({ length: getRandomInt(100, 300) }).map(() =>
       prisma.event.create({
         data: {
           isAnonymous: faker.datatype.boolean(),

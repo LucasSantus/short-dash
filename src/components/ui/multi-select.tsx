@@ -232,7 +232,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         <div key={value} className={multiSelectVariants({ variant, className: "text-start" })}>
                           {IconComponent && <IconComponent className="mr-2 size-4" />}
 
-                          <span className="max-w-20 truncate">{option?.label}</span>
+                          <div className="truncate max-w-32">{option?.label}</div>
                         </div>
                       );
                     }

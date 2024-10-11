@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { allLinkListOptionsQuery } from "./all-link-options";
+import { clickedLinkGraphOverviewQuery } from "./clicked-link-graph-overview";
 import { createLinkMutation } from "./create";
 import { deleteLinkMutation, deleteMultipleLinksMutationRoute } from "./delete";
 import { linksQuery } from "./list";
@@ -15,6 +16,7 @@ export const linkRoute = createTRPCRouter({
   allLinkListOptions: allLinkListOptionsQuery,
   mostClickeds: mostClickedLinksQuery,
   overview: overviewQuery,
+  clickedLinkGraphOverview: clickedLinkGraphOverviewQuery,
 
   // MUTATIONS
   create: createLinkMutation,
