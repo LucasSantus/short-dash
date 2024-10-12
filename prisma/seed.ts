@@ -12,55 +12,47 @@ function getRandomInt(min: number, max: number) {
 async function main() {
   await Promise.all([prisma.link.deleteMany(), prisma.event.deleteMany()]);
 
-  // Criar múltiplos usuários fictícios de forma paralela
-  const user = await prisma.user.findUnique({
-    where: {
-      email: "",
-    },
-  });
+  const users = await prisma.user.findMany();
 
-  if (!user) {
-    console.error("Usuário não encontrado!");
+  if (!users.length) {
+    console.error("Usuários não encontrados!");
+
     return null;
   }
 
-  // Criar múltiplas URLs e históricos de forma paralela
-  const urlPromises = Array.from({ length: getRandomInt(2, 20) }).map(async () => {
-    const link = await prisma.link.create({
-      data: {
-        title: faker.lorem.sentence(),
-        description: faker.lorem.paragraph(),
-        originalUrl: faker.internet.url(),
-        code: faker.string.alphanumeric(8),
-        status: faker.helpers.arrayElement(["Active", "Inactive"]),
-        expiresAt: faker.date.future(),
-        ownerId: user.id,
-        amountOfAccesses: faker.number.int({
-          min: 0,
-          max: 2000,
-        }),
-      },
+  for (const user of users) {
+    const urlPromises = Array.from({ length: getRandomInt(2, 20) }).map(async () => {
+      const link = await prisma.link.create({
+        data: {
+          title: faker.lorem.sentence(),
+          description: faker.lorem.paragraph(),
+          originalUrl: faker.internet.url(),
+          code: faker.string.alphanumeric(8),
+          status: faker.helpers.arrayElement(["Active", "Inactive"]),
+          expiresAt: faker.date.future(),
+          ownerId: user.id,
+        },
+      });
+
+      const eventPromises = Array.from({ length: getRandomInt(100, 300) }).map(() =>
+        prisma.event.create({
+          data: {
+            isAnonymous: faker.datatype.boolean(),
+            linkId: link.id,
+            userId: user.id,
+            createdAt: faker.date.between({
+              from: "2024-01-01",
+              to: "2024-12-01",
+            }),
+          },
+        })
+      );
+
+      await Promise.all(eventPromises);
     });
 
-    // Criar múltiplos históricos para cada URL de forma paralela
-    const eventPromises = Array.from({ length: getRandomInt(100, 300) }).map(() =>
-      prisma.event.create({
-        data: {
-          isAnonymous: faker.datatype.boolean(),
-          linkId: link.id,
-          userId: user.id,
-          createdAt: faker.date.between({
-            from: "2024-09-01",
-            to: "2024-10-01",
-          }),
-        },
-      })
-    );
-
-    await Promise.all(eventPromises);
-  });
-
-  await Promise.all(urlPromises);
+    await Promise.all(urlPromises);
+  }
 
   console.info("Seeding concluído com sucesso!");
 }

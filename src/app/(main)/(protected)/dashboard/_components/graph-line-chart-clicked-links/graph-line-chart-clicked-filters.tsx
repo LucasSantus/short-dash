@@ -1,16 +1,21 @@
 "use client";
 
 import { CalendarDatePicker } from "@/components/ui/calendar-date-picker";
-import { MultiSelect } from "@/components/ui/multi-select";
-import { trpc } from "@/trpc/client";
-import { parseAsString, useQueryStates } from "nuqs";
+import { MultiSelect, MultiSelectOptions } from "@/components/ui/multi-select";
+import { useGraphClickedLinkFilters } from "@/hooks/filters/use-graph-clicked-link-filters";
 import { Fragment } from "react";
 
-export function GraphLineFilters(): JSX.Element {
-  const { data: allLinks, isLoading: isLoadingAllLinks } = trpc.link.allLinkListOptions.useQuery();
+interface GraphLineChartClickedFiltersProps {
+  data: MultiSelectOptions;
+}
 
-  const [filters, setFilters] = useQueryStates({
-    linkId: parseAsString.withDefault(allLinks?.data ? allLinks.data.at(0)!.value : ""),
+export function GraphLineChartClickedFilters({ data }: GraphLineChartClickedFiltersProps): JSX.Element {
+  // const [filters, setFilters] = useQueryStates({
+  //   linkId: parseAsString.withDefault(data ? data.at(0)!.value : ""),
+  // });
+
+  const { filters, setFilters } = useGraphClickedLinkFilters({
+    linkId: data ? data.at(0)!.value : "",
   });
 
   return (
@@ -18,17 +23,16 @@ export function GraphLineFilters(): JSX.Element {
       <div className="w-48">
         <MultiSelect
           placeholder="Selecione um Link"
-          defaultValue={[filters.linkId]}
+          defaultValue={filters.linkId ? [filters.linkId] : []}
           onValueChange={(value) =>
             setFilters({
               linkId: value.at(0),
             })
           }
-          options={allLinks?.data ?? []}
+          options={data ?? []}
           maxCount={1}
           showSelectedAll={false}
           modalPopover
-          isLoading={isLoadingAllLinks}
           multiple={false}
         />
       </div>

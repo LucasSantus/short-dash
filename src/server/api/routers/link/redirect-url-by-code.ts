@@ -53,23 +53,13 @@ export const redirectUrlByCodeMutation = withoutDelayProcedure
       return link;
     }
 
-    Promise.all([
-      db.link.update({
-        where: {
-          code,
-        },
-        data: {
-          amountOfAccesses: link.amountOfAccesses + 1,
-        },
-      }),
-      db.event.create({
-        data: {
-          isAnonymous: !isAuthenticated,
-          linkId: link.id,
-          userId: user ? user.id : null,
-        },
-      }),
-    ]);
+    db.event.create({
+      data: {
+        isAnonymous: !isAuthenticated,
+        linkId: link.id,
+        userId: user ? user.id : null,
+      },
+    });
 
     return link;
   });

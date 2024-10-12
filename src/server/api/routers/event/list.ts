@@ -24,11 +24,11 @@ export const eventListQuery = protectedProcedure
     })
   )
   .query(async ({ input: { search, pagination }, ctx: { db } }) => {
-    const clauses: Prisma.EventWhereInput[] = [];
+    const whereClauses: Prisma.EventWhereInput[] = [];
 
     if (search) {
       if (search.username) {
-        clauses.push({
+        whereClauses.push({
           user: {
             name: {
               contains: search.username,
@@ -39,7 +39,7 @@ export const eventListQuery = protectedProcedure
       }
 
       if (search.linkIds && search.linkIds.length > 0) {
-        clauses.push({
+        whereClauses.push({
           linkId: {
             in: search.linkIds,
           },
@@ -48,7 +48,7 @@ export const eventListQuery = protectedProcedure
 
       if (search.createdAt) {
         if (search.createdAt.from) {
-          clauses.push({
+          whereClauses.push({
             createdAt: {
               gte: search.createdAt.from,
             },
@@ -56,26 +56,17 @@ export const eventListQuery = protectedProcedure
         }
 
         if (search.createdAt.to) {
-          clauses.push({
+          whereClauses.push({
             createdAt: {
               lte: search.createdAt.to,
             },
           });
         }
-
-        // where = {
-        //   ...where,
-
-        //   createdAt: {
-        //     gte: search.createdAt.from ? search.createdAt.from : undefined,
-        //     lte: search.createdAt.to ? search.createdAt.to : undefined,
-        //   },
-        // };
       }
     }
 
     const where: Prisma.EventWhereInput = {
-      AND: clauses,
+      AND: whereClauses,
     };
 
     const [data, totalCount] = await Promise.all([

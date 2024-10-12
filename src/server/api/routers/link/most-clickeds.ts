@@ -9,11 +9,10 @@ export const mostClickedLinksQuery = protectedProcedure.query(async ({ ctx: { se
 
   const links = await db.link.findMany({
     where,
-    orderBy: {
-      amountOfAccesses: "desc",
-    },
     take: MAX_POPULAR_LINKS,
-    include: {
+    select: {
+      id: true,
+      title: true,
       _count: {
         select: {
           events: true,

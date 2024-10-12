@@ -21,29 +21,32 @@ export const linksQuery = protectedProcedure
     })
   )
   .query(async ({ input: { search, pagination }, ctx: { session, db } }) => {
-    let where: Prisma.LinkWhereInput = {
-      ownerId: session.user.id,
-    };
+    const whereClauses: Prisma.LinkWhereInput[] = [
+      {
+        ownerId: session.user.id,
+      },
+    ];
 
     if (search) {
-      where = {
-        ...where,
-
+      whereClauses.push({
         title: {
           contains: search.title,
           mode: "insensitive",
         },
-      };
+      });
 
       if (search.statuses && search.statuses.length > 0) {
-        where = {
-          ...where,
+        whereClauses.push({
           status: {
             in: search.statuses,
           },
-        };
+        });
       }
     }
+
+    const where: Prisma.LinkWhereInput = {
+      AND: whereClauses,
+    };
 
     const [links, totalCount] = await Promise.all([
       db.link.findMany({

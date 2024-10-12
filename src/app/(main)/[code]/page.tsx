@@ -12,10 +12,6 @@ export default async function RedirectPage({ params }: RedirectPageProps) {
     code: params.code,
   });
 
-  // const url = await getUrlByCode({
-  //   code: params.code,
-  // });
-
   if (!link) return <>DEU RUIM</>;
 
   return redirect(link.originalUrl);

@@ -30,13 +30,12 @@ model Event {
 }
 
 model Link {
-  id               String     @id @default(cuid())
-  title            String
-  description      String?
-  originalUrl      String
-  code             String     @unique
-  amountOfAccesses Int        @default(0)
-  status           LinkStatus @default(Active)
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  originalUrl String
+  code        String     @unique
+  status      LinkStatus @default(Active)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

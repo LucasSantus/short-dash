@@ -28,7 +28,9 @@ export function ListMostClickedLinks(): JSX.Element {
     <Fragment>
       {data?.data.map(({ id, title, amountOfAccesses }) => (
         <TableRow key={id}>
-          <TableCell className="font-medium">{title}</TableCell>
+          <TableCell className="font-medium">
+            <div className="truncate w-52 md:w-full lg:w-40 xl:w-56">{title}</div>
+          </TableCell>
           <TableCell className="text-right">{amountOfAccesses}</TableCell>
         </TableRow>
       ))}
