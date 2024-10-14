@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
+import { LucideIcon } from "lucide-react";
 
 export interface SidebarItemsData {
   title: string;
   href: string;
-  icon: ReactNode;
+  icon: LucideIcon;
   provider: "all" | "credentials";
 }

@@ -37,7 +37,6 @@ export function ProfileForm({ id }: ProfileFormProps) {
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileFormSchema),
-    mode: "onChange",
     values: {
       name: profile?.name ?? "",
       email: profile?.email ?? "",
@@ -75,7 +74,6 @@ export function ProfileForm({ id }: ProfileFormProps) {
               <FormControl>
                 <Input
                   placeholder="Digite o nome completo:"
-                  isLoading={isLoading}
                   disabled={isSubmitting || isLoading}
                   startComponent={<User2Icon className="size-5" />}
                   {...field}
@@ -94,7 +92,6 @@ export function ProfileForm({ id }: ProfileFormProps) {
               <FormControl>
                 <Input
                   placeholder="Digite o e-mail:"
-                  isLoading={isLoading}
                   startComponent={<MailIcon className="size-5" />}
                   readOnly
                   className="cursor-not-allowed opacity-70"

@@ -5,19 +5,19 @@ export const sidebarItems: Array<SidebarItemsData> = [
   {
     title: "Conta",
     href: "/settings/account",
-    icon: <UserSquareIcon className="size-4" />,
+    icon: UserSquareIcon,
     provider: "all",
   },
   {
     title: "Senha",
     href: "/settings/password",
-    icon: <KeyRoundIcon className="size-4" />,
+    icon: KeyRoundIcon,
     provider: "credentials",
   },
   {
     title: "Aparência",
     href: "/settings/appearance",
-    icon: <PaletteIcon className="size-4" />,
+    icon: PaletteIcon,
     provider: "all",
   },
 ];

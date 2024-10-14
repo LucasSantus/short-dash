@@ -2,21 +2,23 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { menuOptions } from "@/constants/menu-options";
+import { protectedHeaderItems } from "@/constants/protected-header-items";
 import { cn } from "@/lib/utils";
 import type { ServerAuthSession } from "@/utils/get-server-auth-session";
 import { LoaderIcon, LogOutIcon, UserIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useState, useTransition } from "react";
 import { SheetMenu } from "./sheet-menu";
 
@@ -26,6 +28,7 @@ interface NavbarProps {
 
 export function Navbar({ session: { isAuthenticated, user } }: NavbarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isPendingLogout, startLogoutTransition] = useTransition();
 
@@ -75,16 +78,13 @@ export function Navbar({ session: { isAuthenticated, user } }: NavbarProps) {
               <DropdownMenuSeparator />
 
               <DropdownMenuGroup>
-                {/* {headerItems.map(({ href, icon, title }) => (
-                  <DropdownMenuItem
-                    key={href}
-                    onClick={() => router.push(href)}
-                    className="space-x-2"
-                  >
-                    {icon}
+                {protectedHeaderItems.map(({ href, icon: Icon, title }) => (
+                  <DropdownMenuItem key={href} onClick={() => router.push(href)} className="space-x-2">
+                    <Icon className="size-4" />
+
                     <span>{title}</span>
                   </DropdownMenuItem>
-                ))} */}
+                ))}
               </DropdownMenuGroup>
 
               <DropdownMenuSeparator />

@@ -16,7 +16,7 @@ export function SettingsSidebar({ items }: SettingsSidebarProps) {
   return (
     <nav className={cn("flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1")}>
       <div>
-        {items.map(({ title, href, icon }, index) => {
+        {items.map(({ title, href, icon: Icon }, index) => {
           return (
             <div key={index}>
               <Link
@@ -27,7 +27,8 @@ export function SettingsSidebar({ items }: SettingsSidebarProps) {
                   pathname === href && "bg-muted/70 hover:bg-muted"
                 )}
               >
-                {icon}
+                <Icon className="size-4" />
+
                 {title}
               </Link>
             </div>

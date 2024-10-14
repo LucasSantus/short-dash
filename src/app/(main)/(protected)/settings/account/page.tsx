@@ -20,7 +20,7 @@ export default async function SettingsAccountPage() {
     );
 
   return (
-    <SettingsLayout title="Conta" description="Atualize as configurações da sua conta.">
+    <SettingsLayout title="Minha Conta" description="Atualize as configurações da sua conta.">
       <RenderOnClient>
         <ProfileForm id={user.id} />
       </RenderOnClient>

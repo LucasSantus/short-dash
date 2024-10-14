@@ -9,7 +9,6 @@ export default async function GlobalSettingsLayout({ children }: GlobalSettingsL
   return (
     <div className="space-y-4">
       <div className="container space-y-4">
-        {/* <PageDescription title="Configurações" description="Gerencie as configurações da sua conta." /> */}
         <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-12 lg:space-y-0">
           <aside className="-mx-4 lg:w-1/5">
             <SettingsSidebar items={sidebarItems} />
