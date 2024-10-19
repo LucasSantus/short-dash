@@ -40,11 +40,11 @@ export function CreateCategoryDialog() {
       form.reset();
 
       toast.success(messages.form.DATA_HAS_BEEN_STORED);
+
+      setOpen(false);
     },
     onSettled: async () => {
       await utils.link.list.invalidate();
-
-      setOpen(false);
     },
   });
 

@@ -18,5 +18,7 @@ export function getApiErrorMessage(error: unknown, defaultErrorMessage?: string)
     }
   }
 
+  console.error(errorMessage);
+
   return errorMessage;
 }

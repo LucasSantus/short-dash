@@ -42,7 +42,7 @@ export function SignInForm() {
       });
 
       if (!!response && response.error) {
-        console.error(response)
+        console.error(response);
         toast.error(response.error);
       }
 

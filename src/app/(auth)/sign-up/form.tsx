@@ -18,11 +18,16 @@ export function SignUpForm() {
   const router = useRouter();
   const [isPendingRedirect, startRedirectTransition] = useTransition();
 
-  const { mutateAsync, isPending } = trpc.auth.signUp.useMutation({
+  const { mutate, isPending } = trpc.auth.signUp.useMutation({
     onSuccess: () => {
       toast.success("Usuário criado com sucesso!");
 
       startRedirectTransition(() => router.push("/sign-in"));
+    },
+    onError: (error) => {
+      const errorMessage = getApiErrorMessage(error, "Ocorreu uma falha ao tentar criar um novo usuário!");
+
+      toast.error(errorMessage);
     },
   });
 
@@ -32,14 +37,8 @@ export function SignUpForm() {
 
   const { handleSubmit, control } = form;
 
-  async function onSubmit(values: SignUpFormData) {
-    try {
-      await mutateAsync(values);
-    } catch (error) {
-      const errorMessage = getApiErrorMessage(error, "Ocorreu uma falha ao tentar criar um novo usuário!");
-
-      toast.error(errorMessage);
-    }
+  function onSubmit(values: SignUpFormData) {
+    mutate(values);
   }
 
   const isLoading = isPendingRedirect || isPending;

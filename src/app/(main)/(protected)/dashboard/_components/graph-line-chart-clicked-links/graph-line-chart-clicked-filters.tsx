@@ -14,8 +14,10 @@ export function GraphLineChartClickedFilters({ data }: GraphLineChartClickedFilt
   //   linkId: parseAsString.withDefault(data ? data.at(0)!.value : ""),
   // });
 
+  const linkId = data.length ? data[0]!.value : "";
+
   const { filters, setFilters } = useGraphClickedLinkFilters({
-    linkId: data ? data.at(0)!.value : "",
+    linkId,
   });
 
   return (
@@ -34,6 +36,7 @@ export function GraphLineChartClickedFilters({ data }: GraphLineChartClickedFilt
           showSelectedAll={false}
           modalPopover
           multiple={false}
+          disabled={!data.length}
         />
       </div>
       <div>
@@ -44,6 +47,7 @@ export function GraphLineChartClickedFilters({ data }: GraphLineChartClickedFilt
           onDateSelect={() => {}}
           variant="outline"
           className="w-full justify-start"
+          disabled={!data.length}
         />
       </div>
     </Fragment>

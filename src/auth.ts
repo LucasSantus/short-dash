@@ -1,10 +1,9 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { compare } from "bcryptjs";
 import NextAuth from "next-auth";
 import type { Adapter } from "next-auth/adapters";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-import { messages } from "./constants/messages";
+import { signInAction } from "./actions/auth/sign-in";
 import { env } from "./env";
 import { prismaClient } from "./lib/prisma";
 import { signInFormSchema } from "./validation/auth/sign-in";
@@ -26,37 +25,42 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
       async authorize(credentials) {
         const { email, password } = await signInFormSchema.parseAsync(credentials);
 
-        const user = await prismaClient.user.findUnique({
-          where: {
-            email,
-          },
+        const userData = await signInAction({
+          email,
+          password,
         });
 
-        if (!user) {
-          throw new Error("User not found.");
-        }
+        // const user = await prismaClient.user.findUnique({
+        //   where: {
+        //     email,
+        //   },
+        // });
 
-        if (user.deletedAt) throw new Error("Este usuário foi deletado!");
+        // if (!user) {
+        //   throw new Error("User not found.");
+        // }
 
-        const account = await prismaClient.account.findFirst({
-          where: {
-            userId: user.id,
-          },
-        });
+        // if (user.deletedAt) throw new Error("Este usuário foi deletado!");
 
-        if (!account) throw new Error(messages.account.ACCOUNT_NOT_FOUND);
+        // const account = await prismaClient.account.findFirst({
+        //   where: {
+        //     userId: user.id,
+        //   },
+        // });
 
-        if (!user.hashedPassword) throw new Error("Ocorreu um problema ao tentar recuperar a Conta!");
+        // if (!account) throw new Error(messages.account.ACCOUNT_NOT_FOUND);
 
-        const passwordMatch = compare(password, user.hashedPassword);
+        // if (!user.hashedPassword) throw new Error("Ocorreu um problema ao tentar recuperar a Conta!");
 
-        if (!passwordMatch) throw new Error("A Senha informada está incorreta!");
+        // const passwordMatch = compare(password, user.hashedPassword);
 
-        const userData = {
-          name: user.name,
-          email: user.email,
-          id: user.id,
-        };
+        // if (!passwordMatch) throw new Error("A Senha informada está incorreta!");
+
+        // const userData = {
+        //   name: user.name,
+        //   email: user.email,
+        //   id: user.id,
+        // };
 
         return userData;
       },
