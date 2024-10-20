@@ -1,20 +1,20 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
-    AlertDialog,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
+import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { Table } from "@tanstack/react-table";
-import { TRPCClientError } from "@trpc/client";
 import { LoaderIcon, Trash2Icon, TrashIcon, XIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
@@ -32,11 +32,11 @@ export function DeleteFloatingBarItem({ table, isLoading, setIsLoading }: Delete
   const { mutateAsync, isPending } = trpc.link.deleteMultiple.useMutation({
     onSuccess: () => {
       toast.success(messages.form.DATA_HAS_BEEN_DELETED);
-    },
-    onSettled: async () => {
-      await utils.link.list.invalidate();
 
       table.toggleAllRowsSelected(false);
+    },
+    onSettled: async () => {
+      await utils.link.invalidate();
     },
   });
 
@@ -52,11 +52,7 @@ export function DeleteFloatingBarItem({ table, isLoading, setIsLoading }: Delete
         ids,
       });
     } catch (error) {
-      let errorMessage = messages.form.ERROR_DATA_HAS_BEEN_BLOCKED;
-
-      if (error instanceof TRPCClientError) {
-        errorMessage = error.message;
-      }
+      const errorMessage = getApiErrorMessage(error, messages.form.ERROR_DATA_HAS_BEEN_BLOCKED);
 
       toast.error(errorMessage);
     }

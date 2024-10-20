@@ -37,7 +37,7 @@ export function LinkList(): JSX.Element {
 
   if (isError || !data) return <QueryFailed refetch={refetch} isFetching={isFetching} error={error} />;
 
-  if (!title && !data.links.length)
+  if (!title && !statuses.length && !data.links.length)
     return (
       <DontHaveItems
         title="Você não tem links registrados no momento."

@@ -10,10 +10,6 @@ interface GraphLineChartClickedFiltersProps {
 }
 
 export function GraphLineChartClickedFilters({ data }: GraphLineChartClickedFiltersProps): JSX.Element {
-  // const [filters, setFilters] = useQueryStates({
-  //   linkId: parseAsString.withDefault(data ? data.at(0)!.value : ""),
-  // });
-
   const linkId = data.length ? data[0]!.value : "";
 
   const { filters, setFilters } = useGraphClickedLinkFilters({

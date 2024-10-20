@@ -12,7 +12,7 @@ export const resetPasswordMutation = publicProcedure
       },
     });
 
-    if (!user) throw new Error(messages.account.EMAIL_DONT_REGISTERED_ON_SYSTEM);
+    if (!user) throw new Error(messages.globals.email.dontRegisteredOnSystem);
 
     const hashedPassword = await bcrypt.hash(password, 10);
 

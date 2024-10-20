@@ -3,9 +3,9 @@ import { Select, SelectContent, SelectGroup, SelectItem } from "@/components/ui/
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
+import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { SelectTrigger } from "@radix-ui/react-select";
 import { Table } from "@tanstack/react-table";
-import { TRPCClientError } from "@trpc/client";
 import { CheckCircleIcon, LoaderIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
@@ -28,11 +28,11 @@ export function UpdateStatusFloatingBarItem({
   const { mutateAsync, isPending } = trpc.link.updateMultipleStatus.useMutation({
     onSuccess: () => {
       toast.success(messages.form.DATA_HAS_BEEN_UPDATED);
-    },
-    onSettled: async () => {
-      await utils.link.list.invalidate();
 
       table.toggleAllRowsSelected(false);
+    },
+    onSettled: async () => {
+      await utils.link.invalidate();
     },
   });
 
@@ -49,11 +49,7 @@ export function UpdateStatusFloatingBarItem({
         status: value,
       });
     } catch (error) {
-      let errorMessage = messages.form.ERROR_DATA_HAS_BEEN_BLOCKED;
-
-      if (error instanceof TRPCClientError) {
-        errorMessage = error.message;
-      }
+      const errorMessage = getApiErrorMessage(error, messages.form.ERROR_DATA_HAS_BEEN_BLOCKED);
 
       toast.error(errorMessage);
     }

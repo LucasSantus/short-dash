@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
-import { TRPCClientError } from "@trpc/client";
+import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { LockIcon, OctagonAlertIcon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { toast } from "sonner";
@@ -27,32 +27,27 @@ export function LinkBlockRow({ linkId }: LinkBlockRowProps): JSX.Element {
 
   const utils = trpc.useUtils();
 
-  const { mutateAsync, isPending } = trpc.link.updateStatus.useMutation({
+  const { mutate, isPending } = trpc.link.updateStatus.useMutation({
+    onError: (error) => {
+      const errorMessage = getApiErrorMessage(error, messages.form.ERROR_DATA_HAS_BEEN_BLOCKED);
+
+      toast.error(errorMessage);
+    },
     onSuccess: () => {
       toast.success(messages.form.DATA_HAS_BEEN_BLOCKED);
+
+      setIsOpen(false);
     },
     onSettled: async () => {
       await utils.link.list.invalidate();
-
-      setIsOpen(false);
     },
   });
 
   async function onHandleSubmit() {
-    try {
-      await mutateAsync({
-        id: linkId,
-        status: LinkStatus.Inactive,
-      });
-    } catch (error) {
-      let errorMessage = messages.form.ERROR_DATA_HAS_BEEN_BLOCKED;
-
-      if (error instanceof TRPCClientError) {
-        errorMessage = error.message;
-      }
-
-      toast.error(errorMessage);
-    }
+    mutate({
+      id: linkId,
+      status: LinkStatus.Inactive,
+    });
   }
 
   return (

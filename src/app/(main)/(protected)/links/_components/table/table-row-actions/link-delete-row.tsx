@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
-import { TRPCClientError } from "@trpc/client";
+import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { OctagonAlertIcon, Trash2Icon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { toast } from "sonner";
@@ -26,31 +26,26 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
 
   const utils = trpc.useUtils();
 
-  const { mutateAsync, isPending } = trpc.link.delete.useMutation({
+  const { mutate, isPending } = trpc.link.delete.useMutation({
+    onError: (error) => {
+      const errorMessage = getApiErrorMessage(error, messages.form.ERROR_DATA_HAS_BEEN_DELETED);
+
+      toast.error(errorMessage);
+    },
     onSuccess: async () => {
       toast.success(messages.form.DATA_HAS_BEEN_DELETED);
-    },
-    onSettled: async () => {
-      utils.link.list.invalidate();
 
       setIsOpen(false);
     },
+    onSettled: async () => {
+      utils.link.invalidate();
+    },
   });
 
-  async function onHandleSubmit() {
-    try {
-      await mutateAsync({
-        id: linkId,
-      });
-    } catch (error) {
-      let errorMessage = messages.form.ERROR_DATA_HAS_BEEN_DELETED;
-
-      if (error instanceof TRPCClientError) {
-        errorMessage = error.message;
-      }
-
-      toast.error(errorMessage);
-    }
+  function onHandleSubmit() {
+    mutate({
+      id: linkId,
+    });
   }
 
   return (

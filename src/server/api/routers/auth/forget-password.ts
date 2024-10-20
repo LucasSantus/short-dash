@@ -15,7 +15,7 @@ export const forgetPasswordMutation = publicProcedure
       },
     });
 
-    if (!user || !user.name) throw new Error(messages.account.EMAIL_DONT_REGISTERED_ON_SYSTEM);
+    if (!user || !user.name) throw new Error(messages.globals.email.dontRegisteredOnSystem);
 
     await db.verificationToken.deleteMany({
       where: {

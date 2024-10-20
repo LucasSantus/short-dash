@@ -16,7 +16,7 @@ export const signUpMutation = publicProcedure
     if (emailExists)
       throw new TRPCError({
         code: "UNAUTHORIZED",
-        message: messages.account.EMAIL_REGISTERED_ON_SYSTEM,
+        message: messages.globals.email.registeredOnSystem,
       });
 
     const hashedPassword = await bcrypt.hash(password, 10);

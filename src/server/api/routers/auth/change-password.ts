@@ -12,7 +12,7 @@ export const changePasswordMutation = publicProcedure
       },
     });
 
-    if (!user || !user.hashedPassword) throw new Error(messages.account.USER_NOT_FOUND);
+    if (!user || !user.hashedPassword) throw new Error(messages.globals.user.notFound);
 
     const passwordMatch = await bcrypt.compare(oldPassword, user.hashedPassword);
 

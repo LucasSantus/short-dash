@@ -53,7 +53,7 @@ export const redirectUrlByCodeMutation = withoutDelayProcedure
       return link;
     }
 
-    db.event.create({
+    await db.event.create({
       data: {
         isAnonymous: !isAuthenticated,
         linkId: link.id,

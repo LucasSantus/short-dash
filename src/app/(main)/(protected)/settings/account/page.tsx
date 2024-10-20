@@ -15,7 +15,7 @@ export default async function SettingsAccountPage() {
   if (!isAuthenticated || !user.id)
     return (
       <SettingsLayout title="Conta" description="Atualize as configurações da sua conta.">
-        <span className="flex items-center justify-center text-foreground">{messages.account.USER_NOT_FOUND}</span>
+        <span className="flex items-center justify-center text-foreground">{messages.globals.user.notFound}</span>
       </SettingsLayout>
     );
 

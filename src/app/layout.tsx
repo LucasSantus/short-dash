@@ -1,14 +1,21 @@
-import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
+import { Inter, Roboto_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { Providers } from "./providers";
 
+import { cn } from "@/lib/utils";
 import "../styles/globals.css";
 
-const fontSans = FontSans({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const mono = Roboto_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto-mono",
 });
 
 export const metadata: Metadata = {
@@ -25,11 +32,8 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}
-        suppressHydrationWarning
-      >
+    <html lang="en" suppressHydrationWarning className={cn(inter.variable, mono.variable)}>
+      <body className={"min-h-screen bg-background font-sans antialiased"} suppressHydrationWarning>
         <Providers>{children}</Providers>
       </body>
     </html>

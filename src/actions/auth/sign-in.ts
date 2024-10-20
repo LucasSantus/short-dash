@@ -1,6 +1,6 @@
 "use server";
 
-import { messages } from "@/constants/messages";
+import { AccountNotFoundError } from "@/data/errors/account-not-found";
 import { prismaClient } from "@/lib/prisma";
 import { compare } from "bcryptjs";
 
@@ -23,7 +23,7 @@ export async function signInAction({ email, password }: { email: string; passwor
     },
   });
 
-  if (!account) throw new Error(messages.account.ACCOUNT_NOT_FOUND);
+  if (!account) throw new AccountNotFoundError();
 
   if (!user.hashedPassword) throw new Error("Ocorreu um problema ao tentar recuperar a Conta!");
 

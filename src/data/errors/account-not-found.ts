@@ -1,7 +1,7 @@
 import { messages } from "@/constants/messages";
 
 export class AccountNotFoundError extends Error {
-  constructor(message: string = messages.account.ACCOUNT_NOT_FOUND) {
+  constructor(message: string = messages.globals.account.notFound) {
     super(message);
     this.name = "AccountNotFoundError";
   }

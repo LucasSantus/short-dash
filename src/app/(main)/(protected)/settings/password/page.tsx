@@ -15,7 +15,7 @@ export default async function SettingsPasswordPage() {
   if (!isAuthenticated || !user.email)
     return (
       <SettingsLayout title="Chave" description="Atualize as configurações para autenticação no sistema.">
-        <span className="flex items-center justify-center text-foreground">{messages.account.USER_NOT_FOUND}</span>
+        <span className="flex items-center justify-center text-foreground">{messages.globals.user.notFound}</span>
       </SettingsLayout>
     );
 
