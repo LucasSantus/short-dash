@@ -25,7 +25,8 @@
         "noNonNullAssertion": "off",
         "noParameterAssign": "off",
         "useSelfClosingElements": "off",
-        "useImportType": "off"
+        "useImportType": "off",
+        "noUnusedTemplateLiteral": "off"
       },
       "correctness": {
         "noEmptyPattern": "off",

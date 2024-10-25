@@ -6,10 +6,7 @@ export interface SettingsHeaderProps {
   description: string;
 }
 
-export function SettingsHeader({
-  title,
-  description,
-}: SettingsHeaderProps): JSX.Element {
+export function SettingsHeader({ title, description }: SettingsHeaderProps): JSX.Element {
   return (
     <Fragment>
       <div>

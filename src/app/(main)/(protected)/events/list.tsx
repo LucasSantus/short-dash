@@ -1,10 +1,10 @@
 "use client";
 
+import { useEventFilters } from "@/app/(main)/(protected)/events/_hooks/use-event-filters";
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { DontHaveItems } from "@/components/dont-have-items";
 import QueryFailed from "@/components/query-failed";
 import { Button } from "@/components/ui/button";
-import { useEventFilters } from "@/hooks/filters/use-event-filters";
 import { trpc } from "@/trpc/client";
 import { useRouter } from "nextjs-toploader/app";
 import { useTransition } from "react";
@@ -17,6 +17,14 @@ export function EventList(): JSX.Element {
   const [isPendingRedirect, startTransitionRedirect] = useTransition();
 
   const { filters } = useEventFilters();
+
+  const createdAt =
+    filters.createdAtFrom && filters.createdAtTo
+      ? {
+          from: filters.createdAtFrom,
+          to: filters.createdAtTo,
+        }
+      : undefined;
 
   const {
     data: events,
@@ -32,14 +40,8 @@ export function EventList(): JSX.Element {
     },
     search: {
       linkIds: filters.linkIds,
-
       username: filters.username ?? undefined,
-      createdAt: filters.createdAt
-        ? {
-            from: filters.createdAt?.from ?? undefined,
-            to: filters.createdAt?.to ?? undefined,
-          }
-        : undefined,
+      createdAt,
     },
   });
 
@@ -48,7 +50,13 @@ export function EventList(): JSX.Element {
 
   if (isError || !events) return <QueryFailed refetch={refetch} isFetching={isFetching} error={error} />;
 
-  if (!events.data.length && !filters.linkIds?.length && !filters.username && !filters.createdAt)
+  if (
+    !events.data.length &&
+    !filters.linkIds?.length &&
+    !filters.username &&
+    !filters.createdAtFrom &&
+    !filters.createdAtTo
+  )
     return (
       <DontHaveItems
         title="Você não tem eventos registrados no momento."

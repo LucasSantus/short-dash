@@ -4,10 +4,10 @@ import QueryFailed from "@/components/query-failed";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Skeleton } from "@/components/ui/skeleton";
 import { messages } from "@/constants/messages";
-import { useGraphClickedLinkFilters } from "@/hooks/filters/use-graph-clicked-link-filters";
 import { trpc } from "@/trpc/client";
 import { Fragment } from "react";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
+import { useGraphClickedLinkFilters } from "../../_hooks/use-graph-clicked-link-filters";
 
 const chartConfig = {
   title: {
@@ -25,6 +25,14 @@ interface GraphLineChartClickedProps {}
 export function GraphLineChartClicked({}: GraphLineChartClickedProps): JSX.Element {
   const { filters } = useGraphClickedLinkFilters();
 
+  const createdAt =
+    filters.createdAtFrom && filters.createdAtTo
+      ? {
+          from: filters.createdAtFrom,
+          to: filters.createdAtTo,
+        }
+      : undefined;
+
   const {
     data: overview,
     isLoading,
@@ -35,10 +43,7 @@ export function GraphLineChartClicked({}: GraphLineChartClickedProps): JSX.Eleme
   } = trpc.link.clickedLinkGraphOverview.useQuery({
     search: {
       linkId: filters.linkId,
-      createdAt: {
-        from: new Date("2024-01-01"),
-        to: new Date("2024-12-01"),
-      },
+      createdAt,
     },
   });
 

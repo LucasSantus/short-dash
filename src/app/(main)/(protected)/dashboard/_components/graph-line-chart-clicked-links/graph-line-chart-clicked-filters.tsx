@@ -2,8 +2,9 @@
 
 import { CalendarDatePicker } from "@/components/ui/calendar-date-picker";
 import { MultiSelect, MultiSelectOptions } from "@/components/ui/multi-select";
-import { useGraphClickedLinkFilters } from "@/hooks/filters/use-graph-clicked-link-filters";
 import { Fragment } from "react";
+import { DateRange } from "react-day-picker";
+import { useGraphClickedLinkFilters } from "../../_hooks/use-graph-clicked-link-filters";
 
 interface GraphLineChartClickedFiltersProps {
   data: MultiSelectOptions;
@@ -12,9 +13,17 @@ interface GraphLineChartClickedFiltersProps {
 export function GraphLineChartClickedFilters({ data }: GraphLineChartClickedFiltersProps): JSX.Element {
   const linkId = data.length ? data[0]!.value : "";
 
-  const { filters, setFilters } = useGraphClickedLinkFilters({
-    linkId,
-  });
+  const { filters, setFilters } = useGraphClickedLinkFilters(linkId);
+
+  const date: DateRange =
+    filters.createdAtFrom && filters.createdAtTo
+      ? {
+          from: filters.createdAtFrom,
+          to: filters.createdAtTo,
+        }
+      : {
+          from: new Date(),
+        };
 
   return (
     <Fragment>
@@ -27,7 +36,7 @@ export function GraphLineChartClickedFilters({ data }: GraphLineChartClickedFilt
               linkId: value.at(0),
             })
           }
-          options={data ?? []}
+          options={data}
           maxCount={1}
           showSelectedAll={false}
           modalPopover
@@ -37,10 +46,13 @@ export function GraphLineChartClickedFilters({ data }: GraphLineChartClickedFilt
       </div>
       <div>
         <CalendarDatePicker
-          date={{
-            from: new Date(),
+          date={date}
+          onDateSelect={(value) => {
+            setFilters({
+              createdAtFrom: value.from,
+              createdAtTo: value.to,
+            });
           }}
-          onDateSelect={() => {}}
           variant="outline"
           className="w-full justify-start"
           disabled={!data.length}

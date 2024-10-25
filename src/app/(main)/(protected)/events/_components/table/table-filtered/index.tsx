@@ -1,3 +1,4 @@
+import { useEventFilters } from "@/app/(main)/(protected)/events/_hooks/use-event-filters";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -8,22 +9,24 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useEventFilters } from "@/hooks/filters/use-event-filters";
 import { FilterIcon, SlidersHorizontalIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { EventFilteredSchema, EventTableFilteredForm } from "./form";
 
 export function EventTableFiltered(): JSX.Element {
-  const { filters, setFilters } = useEventFilters();
+  const { setFilters } = useEventFilters();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  function onSubmit({ createdAt, linkIds }: EventFilteredSchema) {
-    setFilters({
-      ...filters,
+  function onSubmit(values: EventFilteredSchema) {
+    const createdAtFrom = values.createdAt?.from ?? null;
+    const createdAtTo = values.createdAt?.to ?? null;
+    const linkIds = values.linkIds.length === 0 ? null : values.linkIds;
 
+    setFilters({
       page: 1,
-      createdAt,
+      createdAtFrom,
+      createdAtTo,
       linkIds,
     });
 
@@ -32,10 +35,11 @@ export function EventTableFiltered(): JSX.Element {
 
   function onHandleRemoveFilters() {
     setFilters({
-      ...filters,
       page: 1,
-      createdAt: undefined,
-      linkIds: [],
+      createdAtFrom: null,
+      createdAtTo: null,
+      linkIds: null,
+      username: null,
     });
 
     setIsOpen(false);

@@ -1,16 +1,12 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
 import { Button } from "@/components/ui/button";
-
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { ProfileFormData, profileFormSchema } from "@/validation/settings/profile";
-import { useQuery } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { MailIcon, SaveIcon, User2Icon } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { useForm } from "react-hook-form";
 import { DeleteAccount } from "./_components/delete-account";
 
 interface ProfileFormProps {
@@ -18,28 +14,28 @@ interface ProfileFormProps {
 }
 
 export function ProfileForm({ id }: ProfileFormProps) {
-  const { update } = useSession();
+  // const { update } = useSession();
 
-  const {
-    data: profile,
-    isLoading,
-    error,
-    isError,
-  } = useQuery({
-    queryKey: ["user-profile", id],
-    queryFn: async () => {
-      return {
-        name: "",
-        email: "",
-      };
-    },
-  });
+  // const {
+  //   data: profile,
+  //   isLoading,
+  //   error,
+  //   isError,
+  // } = useQuery({
+  //   queryKey: ["user-profile", id],
+  //   queryFn: async () => {
+  //     return {
+  //       name: "",
+  //       email: "",
+  //     };
+  //   },
+  // });
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileFormSchema),
     values: {
-      name: profile?.name ?? "",
-      email: profile?.email ?? "",
+      name: "",
+      email: "",
     },
   });
 
@@ -74,7 +70,7 @@ export function ProfileForm({ id }: ProfileFormProps) {
               <FormControl>
                 <Input
                   placeholder="Digite o nome completo:"
-                  disabled={isSubmitting || isLoading}
+                  disabled={isSubmitting}
                   startComponent={<User2Icon className="size-5" />}
                   {...field}
                 />

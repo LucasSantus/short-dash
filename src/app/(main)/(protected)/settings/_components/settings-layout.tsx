@@ -3,13 +3,11 @@ import { SettingsHeader, SettingsHeaderProps } from "./settings-header";
 
 interface SettingsLayoutProps extends PropsWithChildren, SettingsHeaderProps {}
 
-export function SettingsLayout({
-  children,
-  ...rest
-}: SettingsLayoutProps): JSX.Element {
+export function SettingsLayout({ children, title, description }: SettingsLayoutProps): JSX.Element {
   return (
     <div className="space-y-4">
-      <SettingsHeader {...rest} />
+      <SettingsHeader title={title} description={description} />
+
       {children}
     </div>
   );

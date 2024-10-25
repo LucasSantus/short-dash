@@ -1,3 +1,4 @@
+import { env } from "@/env";
 import { prismaClient } from "@/lib/prisma";
 import { getServerAuthSession } from "@/utils/get-server-auth-session";
 import { sleep } from "@/utils/sleep";
@@ -77,8 +78,10 @@ export const createTRPCRouter = t.router;
 const timingMiddleware = t.middleware(async ({ next, path }) => {
   const start = Date.now();
 
+  const delay = env.NEXT_PUBLIC_ARTIFICIAL_DELAY;
+
   // artificial delay
-  const [result] = await Promise.all([next(), sleep(700)]);
+  const [result] = await Promise.all([next(), sleep(delay)]);
 
   const end = Date.now();
 

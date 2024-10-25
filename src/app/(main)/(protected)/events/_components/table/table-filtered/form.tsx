@@ -1,7 +1,7 @@
+import { useEventFilters } from "@/app/(main)/(protected)/events/_hooks/use-event-filters";
 import { CalendarDatePicker } from "@/components/ui/calendar-date-picker";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { MultiSelect } from "@/components/ui/multi-select";
-import { useEventFilters } from "@/hooks/filters/use-event-filters";
 import { trpc } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PropsWithChildren } from "react";
@@ -29,17 +29,19 @@ export function EventTableFilteredForm({ onSubmit, children }: EventTableFiltere
 
   const { filters } = useEventFilters();
 
+  const createdAt =
+    filters.createdAtFrom && filters.createdAtTo
+      ? {
+          from: filters.createdAtFrom,
+          to: filters.createdAtTo,
+        }
+      : undefined;
+
   const form = useForm<EventFilteredSchema>({
     resolver: zodResolver(eventFilteredSchema),
     defaultValues: {
       linkIds: filters.linkIds ?? [],
-      // createdAt: filters.createdAt,
-      // filters?.createdAt?.from && filters?.createdAt?.to
-      //   ? {
-      //       from: new Date(filters.createdAt.from),
-      //       to: new Date(filters.createdAt.to),
-      //     }
-      //   : undefined,
+      createdAt,
     },
   });
 

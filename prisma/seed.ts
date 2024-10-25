@@ -34,7 +34,7 @@ async function main() {
         },
       });
 
-      const eventPromises = Array.from({ length: getRandomInt(100, 300) }).map(() =>
+      const eventPromises = Array.from({ length: getRandomInt(100, 500) }).map(() =>
         prisma.event.create({
           data: {
             isAnonymous: faker.datatype.boolean(),
