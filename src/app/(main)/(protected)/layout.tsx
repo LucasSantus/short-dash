@@ -1,14 +1,27 @@
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { getServerAuthSession } from "@/utils/get-server-auth-session";
 import { redirect } from "next/navigation";
-import ProtectedLayout from "./_components/layout";
+import { Footer } from "./_components/layout/footer";
+import { Sidebar } from "./_components/layout/sidebar";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 export default async function Layout({ children }: Readonly<LayoutProps>) {
-  const { isAuthenticated } = await getServerAuthSession();
+  const { isAuthenticated, user } = await getServerAuthSession();
+
   if (!isAuthenticated) redirect("/sign-in");
 
-  return <ProtectedLayout>{children}</ProtectedLayout>;
+  return (
+    <SidebarProvider>
+      <Sidebar user={user} />
+
+      <SidebarInset>
+        {children}
+
+        <Footer />
+      </SidebarInset>
+    </SidebarProvider>
+  );
 }

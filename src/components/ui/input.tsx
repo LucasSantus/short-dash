@@ -11,7 +11,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, isLoading, startComponent, endComponent, ...props }, ref) => {
-    const componentClass = "absolute bottom-0 top-0 z-10 flex h-full w-10 items-center justify-center";
+    const classes = "absolute bottom-0 top-0 z-10 flex h-full w-10 items-center justify-center";
 
     return (
       <div className="relative">
@@ -28,18 +28,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         />
 
         {!!startComponent && (
-          <div className={cn("left-0 rounded-l-md border border-input bg-background", componentClass)}>
-            {startComponent}
-          </div>
+          <div className={cn("left-0 rounded-l-md border border-input bg-background", classes)}>{startComponent}</div>
         )}
 
         {isLoading ? (
-          <div className={cn("right-0", componentClass)}>
+          <div className={cn("right-0", classes)}>
             <LoaderIcon className="h-5 w-5 animate-spin" />
           </div>
         ) : (
           !!endComponent && (
-            <div className={cn("right-0 rounded-r-md border-y border-r border-input bg-background", componentClass)}>
+            <div className={cn("right-0 rounded-r-md border-y border-r border-input bg-background", classes)}>
               {endComponent}
             </div>
           )
@@ -51,4 +49,3 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 Input.displayName = "Input";
 
 export { Input };
-

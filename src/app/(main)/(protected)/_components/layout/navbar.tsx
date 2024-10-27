@@ -20,7 +20,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
 import { useState, useTransition } from "react";
-import { SheetMenu } from "./sheet-menu";
 
 interface NavbarProps {
   session: ServerAuthSession;
@@ -56,7 +55,6 @@ export function Navbar({ session: { isAuthenticated, user } }: NavbarProps) {
               ))
             )}
           </nav>
-          <SheetMenu />
         </div>
 
         {isAuthenticated && (

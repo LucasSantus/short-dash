@@ -228,32 +228,32 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
     const years = Array.from({ length: yearsRange + 1 }, (_, i) => today.getFullYear() - yearsRange / 2 + i);
 
     const dateRanges = [
-      { label: "Today", start: today, end: today },
-      { label: "Yesterday", start: subDays(today, 1), end: subDays(today, 1) },
+      { label: "Hoje", start: today, end: today },
+      { label: "Ontem", start: subDays(today, 1), end: subDays(today, 1) },
       {
-        label: "This Week",
+        label: "Esta Semana",
         start: startOfWeek(today, { weekStartsOn: 1 }),
         end: endOfWeek(today, { weekStartsOn: 1 }),
       },
       {
-        label: "Last Week",
+        label: "Última Semana",
         start: subDays(startOfWeek(today, { weekStartsOn: 1 }), 7),
         end: subDays(endOfWeek(today, { weekStartsOn: 1 }), 7),
       },
-      { label: "Last 7 Days", start: subDays(today, 6), end: today },
+      { label: "Últimos 7 dias", start: subDays(today, 6), end: today },
       {
-        label: "This Month",
+        label: "Este Mês",
         start: startOfMonth(today),
         end: endOfMonth(today),
       },
       {
-        label: "Last Month",
+        label: "Último Mês",
         start: startOfMonth(subDays(today, today.getDate())),
         end: endOfMonth(subDays(today, today.getDate())),
       },
-      { label: "This Year", start: startOfYear(today), end: endOfYear(today) },
+      { label: "Este Ano", start: startOfYear(today), end: endOfYear(today) },
       {
-        label: "Last Year",
+        label: "Último Ano",
         start: startOfYear(subDays(today, 365)),
         end: endOfYear(subDays(today, 365)),
       },

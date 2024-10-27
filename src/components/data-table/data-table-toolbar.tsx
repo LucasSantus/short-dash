@@ -37,7 +37,7 @@ export function DataTableToolbar<TData>({
   }, [filterFields]);
 
   return (
-    <div className={cn("flex w-full items-center justify-between space-x-2 overflow-auto p-1", className)} {...props}>
+    <div className={cn("flex w-full items-center justify-between space-x-2 overflow-auto", className)} {...props}>
       <div className="flex items-center space-x-2">
         {searchableColumns.length > 0 &&
           searchableColumns.map(
@@ -48,7 +48,7 @@ export function DataTableToolbar<TData>({
                   placeholder={column.placeholder}
                   value={(table.getColumn(String(column.value))?.getFilterValue() as string) ?? ""}
                   onChange={(event) => table.getColumn(String(column.value))?.setFilterValue(event.target.value)}
-                  className="h-9 w-40 sm:w-60 lg:w-80"
+                  className="w-40 sm:w-60 lg:w-80"
                 />
               )
           )}
@@ -68,7 +68,7 @@ export function DataTableToolbar<TData>({
           <Button
             aria-label="Reset filters"
             variant="ghost"
-            className="h-9 px-2 lg:px-3"
+            className="px-2 lg:px-3"
             onClick={() => table.resetColumnFilters()}
           >
             Remover filtros

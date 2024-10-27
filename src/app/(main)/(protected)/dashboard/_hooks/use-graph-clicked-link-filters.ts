@@ -1,12 +1,12 @@
-import { endOfYear, startOfYear } from "date-fns";
+import { endOfMonth, startOfMonth } from "date-fns";
 import { parseAsIsoDateTime, parseAsString, useQueryStates } from "nuqs";
 
 export function useGraphClickedLinkFilters(linkId?: string) {
   const today = new Date();
 
   const [filters, setFilters] = useQueryStates({
-    createdAtFrom: parseAsIsoDateTime.withDefault(startOfYear(today)),
-    createdAtTo: parseAsIsoDateTime.withDefault(endOfYear(today)),
+    createdAtFrom: parseAsIsoDateTime.withDefault(startOfMonth(today)),
+    createdAtTo: parseAsIsoDateTime.withDefault(endOfMonth(today)),
 
     linkId: parseAsString.withDefault(linkId ?? ""),
   });

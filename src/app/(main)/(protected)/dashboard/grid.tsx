@@ -6,7 +6,7 @@ interface DashboardGridProps {}
 
 export function DashboardGrid({}: DashboardGridProps): JSX.Element {
   return (
-    <div className="flex flex-1 flex-col gap-4 md:gap-8 md:p-4">
+    <div className="flex flex-1 flex-col gap-4 md:gap-8">
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <CardsOverview />
       </div>
