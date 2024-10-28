@@ -9,7 +9,7 @@ import { prismaClient } from "./lib/prisma";
 import { signInFormSchema } from "./validation/auth/sign-in";
 
 export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
-  session: { strategy: "jwt" },
+  // session: { strategy: "jwt" },
   adapter: PrismaAdapter(prismaClient) as Adapter,
   providers: [
     Google({
@@ -65,15 +65,6 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
         return userData;
       },
     }),
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
   ],
   secret: env.NEXTAUTH_SECRET,
   pages: {

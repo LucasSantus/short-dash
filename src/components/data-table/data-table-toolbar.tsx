@@ -38,7 +38,7 @@ export function DataTableToolbar<TData>({
 
   return (
     <div className={cn("flex w-full items-center justify-between space-x-2 overflow-auto", className)} {...props}>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2 p-1">
         {searchableColumns.length > 0 &&
           searchableColumns.map(
             (column) =>
@@ -48,7 +48,7 @@ export function DataTableToolbar<TData>({
                   placeholder={column.placeholder}
                   value={(table.getColumn(String(column.value))?.getFilterValue() as string) ?? ""}
                   onChange={(event) => table.getColumn(String(column.value))?.setFilterValue(event.target.value)}
-                  className="w-40 sm:w-60 lg:w-80"
+                  className="w-40 sm:w-60 lg:w-72"
                 />
               )
           )}

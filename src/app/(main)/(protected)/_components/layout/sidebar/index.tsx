@@ -89,11 +89,10 @@ export const sidebarItems: SidebarItems = {
         },
         {
           id: 1,
-          type: "collapse",
+          type: "default",
           path: "/events",
           label: "Eventos",
           icon: HistoryIcon,
-          subItems: [{ label: "Teste", path: "/test" }],
         },
       ],
     },
@@ -121,7 +120,7 @@ export function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <SidebarShadcn variant="inset">
+    <SidebarShadcn>
       <SidebarContentShacn>
         <SidebarGroupShacn>
           {sidebarItems.routes.map(({ id, label, options }) => (
@@ -143,9 +142,8 @@ export function Sidebar({ user }: SidebarProps) {
                     );
 
                   if (option.type === "collapse") {
-                    const isCollapseActive = option.subItems.every(({ path }) => pathname.includes(path));
-
-                    console.log(isCollapseActive);
+                    const isCollapseActive =
+                      pathname.includes(option.path) || option.subItems.every(({ path }) => pathname.includes(path));
 
                     return (
                       <Collapsible key={option.label} asChild>
@@ -165,10 +163,10 @@ export function Sidebar({ user }: SidebarProps) {
                           </CollapsibleTrigger>
                           <CollapsibleContent>
                             <SidebarMenuSubShacn>
-                              {option.subItems?.map(({ label, path }) => (
-                                <SidebarMenuSubItemShacn key={path}>
-                                  <SidebarMenuSubButtonShacn asChild isActive={pathname.includes(option.path)}>
-                                    <a href={path}>
+                              {option.subItems?.map((subItem) => (
+                                <SidebarMenuSubItemShacn key={subItem.path}>
+                                  <SidebarMenuSubButtonShacn asChild isActive={pathname.includes(subItem.path)}>
+                                    <a href={subItem.path}>
                                       <span>{label}</span>
                                     </a>
                                   </SidebarMenuSubButtonShacn>

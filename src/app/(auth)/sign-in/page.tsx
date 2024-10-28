@@ -12,7 +12,7 @@ export default function SignIn(): JSX.Element {
   return (
     <AuthLayout
       title="Log In"
-      description="Selecione o tipo de autenticador que deseja acessar o sistema."
+      description="Selecione o método de autenticação que deseja acessar o sistema."
       icon={LogInIcon}
     >
       <SignInProviders />

@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -14,19 +16,31 @@ import {
   SidebarMenuItem as SidebarMenuItemShacn,
   SidebarMenu as SidebarMenuShacn,
 } from "@/components/ui/sidebar";
-import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, UserIcon } from "lucide-react";
+import { protectedHeaderItems } from "@/constants/protected-header-items";
+import { ChevronsUpDown, LoaderIcon, LogOutIcon, UserIcon } from "lucide-react";
 import { User } from "next-auth";
+import { signOut } from "next-auth/react";
+import { useRouter } from "nextjs-toploader/app";
+import { useState, useTransition } from "react";
 
 interface SidebarFooterProps {
   user: User;
 }
 
 export function SidebarFooter({ user }: SidebarFooterProps): JSX.Element {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isPendingLogout, startLogoutTransition] = useTransition();
+  const router = useRouter();
+
+  function onHandleLogout() {
+    startLogoutTransition(() => signOut());
+  }
+
   return (
     <SidebarFooterShacn>
       <SidebarMenuShacn>
         <SidebarMenuItemShacn>
-          <DropdownMenu>
+          <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButtonShacn
                 size="lg"
@@ -67,23 +81,25 @@ export function SidebarFooter({ user }: SidebarFooterProps): JSX.Element {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <BadgeCheck />
-                  Account
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <CreditCard />
-                  Billing
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Bell />
-                  Notifications
-                </DropdownMenuItem>
+                {protectedHeaderItems.map(({ href, icon: Icon, title }) => (
+                  <DropdownMenuItem className="space-x-2" onClick={() => router.push(href)} key={href}>
+                    <Icon className="size-4" />
+                    <span>{title}</span>
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <LogOut />
-                Log out
+              <DropdownMenuItem
+                onClick={(event) => {
+                  event.preventDefault();
+
+                  onHandleLogout();
+                }}
+                className="space-x-2"
+                icon={isPendingLogout ? <LoaderIcon className="size-4" /> : <LogOutIcon className="size-4" />}
+                disabled={isPendingLogout}
+              >
+                <span>Log out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
