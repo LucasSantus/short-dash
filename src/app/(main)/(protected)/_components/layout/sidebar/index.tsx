@@ -167,7 +167,7 @@ export function Sidebar({ user }: SidebarProps) {
                                 <SidebarMenuSubItemShacn key={subItem.path}>
                                   <SidebarMenuSubButtonShacn asChild isActive={pathname.includes(subItem.path)}>
                                     <a href={subItem.path}>
-                                      <span>{label}</span>
+                                      <span>{subItem.label}</span>
                                     </a>
                                   </SidebarMenuSubButtonShacn>
                                 </SidebarMenuSubItemShacn>
