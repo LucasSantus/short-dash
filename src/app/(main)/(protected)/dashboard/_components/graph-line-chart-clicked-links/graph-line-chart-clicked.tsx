@@ -2,6 +2,7 @@
 
 import QueryFailed from "@/components/query-failed";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { MultiSelectOption } from "@/components/ui/multi-select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
@@ -20,10 +21,14 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface GraphLineChartClickedProps {}
+interface GraphLineChartClickedProps {
+  initialDataFiltered?: MultiSelectOption;
+}
 
-export function GraphLineChartClicked({}: GraphLineChartClickedProps): JSX.Element {
-  const { filters } = useGraphClickedLinkFilters();
+export function GraphLineChartClicked({ initialDataFiltered }: GraphLineChartClickedProps): JSX.Element {
+  const linkId = initialDataFiltered ? initialDataFiltered.value : "";
+
+  const { filters } = useGraphClickedLinkFilters(linkId);
 
   const createdAt =
     filters.createdAtFrom && filters.createdAtTo

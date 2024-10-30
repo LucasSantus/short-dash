@@ -1,17 +1,21 @@
 "use client";
 
 import { CalendarDatePicker } from "@/components/ui/calendar-date-picker";
-import { MultiSelect, MultiSelectOptions } from "@/components/ui/multi-select";
+import { MultiSelect, MultiSelectOption, MultiSelectOptions } from "@/components/ui/multi-select";
 import { Fragment } from "react";
 import { DateRange } from "react-day-picker";
 import { useGraphClickedLinkFilters } from "../../_hooks/use-graph-clicked-link-filters";
 
 interface GraphLineChartClickedFiltersProps {
   data: MultiSelectOptions;
+  initialDataFiltered?: MultiSelectOption;
 }
 
-export function GraphLineChartClickedFilters({ data }: GraphLineChartClickedFiltersProps): JSX.Element {
-  const linkId = data.length ? data[0]!.value : "";
+export function GraphLineChartClickedFilters({
+  data,
+  initialDataFiltered,
+}: GraphLineChartClickedFiltersProps): JSX.Element {
+  const linkId = initialDataFiltered ? initialDataFiltered.value : "";
 
   const { filters, setFilters } = useGraphClickedLinkFilters(linkId);
 

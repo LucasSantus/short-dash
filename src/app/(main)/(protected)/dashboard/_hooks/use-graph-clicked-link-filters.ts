@@ -1,7 +1,7 @@
 import { endOfMonth, startOfMonth } from "date-fns";
 import { parseAsIsoDateTime, parseAsString, useQueryStates } from "nuqs";
 
-export function useGraphClickedLinkFilters(linkId?: string) {
+export function useGraphClickedLinkFilters(linkId: string) {
   const today = new Date();
 
   const [filters, setFilters] = useQueryStates({

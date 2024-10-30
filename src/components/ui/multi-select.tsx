@@ -36,7 +36,7 @@ const multiSelectVariants = cva("p-1.5 transition ease-in-out delay-150 duration
   },
 });
 
-export type MultiSelectOptions = Array<{
+export type MultiSelectOption = {
   /** The text to display for the option. */
   label: string;
 
@@ -45,7 +45,9 @@ export type MultiSelectOptions = Array<{
 
   /** Optional icon component to display alongside the option. */
   icon?: React.ComponentType<{ className?: string }>;
-}>;
+};
+
+export type MultiSelectOptions = Array<MultiSelectOption>;
 
 /**
  * Props for MultiSelect component
