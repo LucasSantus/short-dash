@@ -26,7 +26,7 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
 
   const utils = trpc.useUtils();
 
-  const { mutate, isPending } = trpc.link.delete.useMutation({
+  const { mutate, isPending } = trpc.link.deleteMultiple.useMutation({
     onError: (error) => {
       const errorMessage = getApiErrorMessage(error, messages.form.ERROR_DATA_HAS_BEEN_DELETED);
 
@@ -44,7 +44,7 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
 
   function onHandleSubmit() {
     mutate({
-      id: linkId,
+      ids: [linkId],
     });
   }
 
@@ -55,7 +55,7 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
           event.preventDefault();
           setIsOpen(true);
         }}
-        className="flex items-center gap-2"
+        className="flex items-center gap-2 !bg-destructive/60 !hover:bg-destructive"
         icon={<Trash2Icon className="size-4" />}
       >
         Deletar

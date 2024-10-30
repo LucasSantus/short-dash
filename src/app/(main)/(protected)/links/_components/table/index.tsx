@@ -7,19 +7,15 @@ import type { DataTableFilterField } from "@/types/data-table";
 import { Prisma } from "@prisma/client";
 import { useMemo } from "react";
 import { type LinkStatus } from "../../_types/links";
-import { CreateCategoryDialog } from "./form/create-link-dialog";
 import { type LinkTableColumns, getLinkColumns, getLinkLabelColumns, getLinkStatusDescription } from "./table-columns";
 import { LinkTableFloatingBar } from "./table-floating-bar";
+import { CreateCategoryDialog } from "./table-form/create-link-dialog";
+import { LinkTableRefetching } from "./table-refetching";
 
 interface LinkTableProps {
   links: Array<
     Prisma.LinkGetPayload<{
       include: {
-        _count: {
-          select: {
-            events: true;
-          };
-        };
         events: true;
       };
     }>
@@ -56,14 +52,14 @@ export function LinkTable({ links, pageCount, totalCount }: LinkTableProps): JSX
 
   const data = useMemo((): LinkTableColumns[] => {
     return links?.map((link) => {
-      const { events, _count, ...rest } = link;
+      const { events, clicks, ...rest } = link;
 
       const lastClickOnEvent = events.at(0)?.createdAt as Date;
 
       return {
         ...rest,
         lastClickOnEvent,
-        amountOfAccesses: _count.events,
+        amountOfAccesses: clicks,
       };
     });
   }, [links]);
@@ -79,7 +75,12 @@ export function LinkTable({ links, pageCount, totalCount }: LinkTableProps): JSX
 
   return (
     <DataTable table={table} totalCount={totalCount} floatingBar={<LinkTableFloatingBar table={table} />}>
-      <DataTableToolbar table={table} filterFields={filterFields} getLabelColumns={getLinkLabelColumns}>
+      <DataTableToolbar
+        table={table}
+        filterFields={filterFields}
+        getLabelColumns={getLinkLabelColumns}
+        options={<LinkTableRefetching />}
+      >
         <CreateCategoryDialog />
       </DataTableToolbar>
     </DataTable>

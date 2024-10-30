@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { messages } from "@/constants/messages";
 import type { ErrorHandlingData } from "@/types/error-handling";
 import { RefreshCcwIcon } from "lucide-react";
 import { useEffect } from "react";
@@ -10,7 +11,7 @@ export default function ErrorHandling({ error, reset }: ErrorHandlingData) {
     console.error(error);
   }, [error]);
 
-  const errorMessage = error?.message ?? "Ocorreu um erro inesperado!";
+  const errorMessage = error?.message ?? messages.globals.error.errorNotFound;
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-5">

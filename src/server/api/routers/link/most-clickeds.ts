@@ -13,18 +13,14 @@ export const mostClickedLinksQuery = protectedProcedure.query(async ({ ctx: { se
     select: {
       id: true,
       title: true,
-      _count: {
-        select: {
-          events: true,
-        },
-      },
+      clicks: true,
     },
   });
 
-  const data = links?.map(({ id, title, _count }) => ({
+  const data = links?.map(({ id, title, clicks }) => ({
     id,
     title,
-    amountOfAccesses: _count.events,
+    amountOfAccesses: clicks,
   }));
 
   return {

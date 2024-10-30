@@ -35,7 +35,7 @@ export function DataTable<TData>({
     <div className={cn("w-full space-y-2.5 overflow-auto", className)} {...props}>
       {children}
 
-      <div className="p-1">
+      <div className="pl-1">
         <div className="overflow-hidden rounded-md border">
           <Table>
             <TableHeader>

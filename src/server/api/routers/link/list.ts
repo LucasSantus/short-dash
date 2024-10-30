@@ -57,11 +57,6 @@ export const linksQuery = protectedProcedure
         skip: (pagination.page - 1) * pagination.pageSize,
         take: pagination.pageSize,
         include: {
-          _count: {
-            select: {
-              events: true,
-            },
-          },
           events: {
             take: 1,
             orderBy: {

@@ -5,8 +5,8 @@ import { DontHaveItems } from "@/components/dont-have-items";
 import QueryFailed from "@/components/query-failed";
 import { trpc } from "@/trpc/client";
 import { LinkTable } from "./_components/table";
-import { CreateCategoryDialog } from "./_components/table/form/create-link-dialog";
 import { getLinkColumns } from "./_components/table/table-columns";
+import { CreateCategoryDialog } from "./_components/table/table-form/create-link-dialog";
 import { useLinkFilters } from "./_hooks/use-link-filters";
 
 export function LinkList(): JSX.Element {

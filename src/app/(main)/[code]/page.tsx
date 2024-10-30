@@ -1,5 +1,5 @@
-import { trpcServer } from "@/trpc/server";
-import { redirect } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
+import { getShortUrl } from "./get-short-url";
 
 interface RedirectPageProps {
   params: {
@@ -8,11 +8,9 @@ interface RedirectPageProps {
 }
 
 export default async function RedirectPage({ params }: RedirectPageProps) {
-  const link = await trpcServer.link.redirectUrlByCode({
-    code: params.code,
-  });
+  const link = await getShortUrl(params.code);
 
-  if (!link) return <>DEU RUIM</>;
+  if (!link) notFound();
 
-  return redirect(link.originalUrl);
+  permanentRedirect(link.originalUrl);
 }

@@ -27,6 +27,10 @@ async function main() {
           title: faker.lorem.sentence(),
           description: faker.lorem.paragraph(),
           originalUrl: faker.internet.url(),
+          clicks: faker.number.int({
+            min: 100,
+            max: 5000,
+          }),
           code: faker.string.alphanumeric(8),
           status: faker.helpers.arrayElement(["Active", "Inactive"]),
           expiresAt: faker.date.future(),

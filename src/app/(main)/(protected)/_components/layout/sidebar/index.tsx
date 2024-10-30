@@ -20,6 +20,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 import { SidebarFooter } from "./sidebar-footer";
+import { SidebarHeader } from "./sidebar-header";
 import { SidebarSecondaryLinks } from "./sidebar-secondary-links";
 
 export interface SidebarSubMenuOption {
@@ -120,7 +121,8 @@ export function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <SidebarShadcn>
+    <SidebarShadcn variant="inset">
+      <SidebarHeader />
       <SidebarContentShacn>
         <SidebarGroupShacn>
           {sidebarItems.routes.map(({ id, label, options }) => (

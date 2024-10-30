@@ -14,7 +14,7 @@ interface DataTableToolbarProps<TData> extends React.HTMLAttributes<HTMLDivEleme
   table: Table<TData>;
   filterFields?: DataTableFilterField<TData>[];
   getLabelColumns?: Record<keyof TData, string>;
-  filterOptions?: ReactNode;
+  options?: ReactNode;
 }
 
 export function DataTableToolbar<TData>({
@@ -23,7 +23,7 @@ export function DataTableToolbar<TData>({
   children,
   className,
   getLabelColumns,
-  filterOptions,
+  options,
   ...props
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
@@ -81,7 +81,7 @@ export function DataTableToolbar<TData>({
 
         <DataTableViewOptions table={table} getLabelColumns={getLabelColumns} />
 
-        {filterOptions}
+        {options}
       </div>
     </div>
   );

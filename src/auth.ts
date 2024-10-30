@@ -9,7 +9,7 @@ import { prismaClient } from "./lib/prisma";
 import { signInFormSchema } from "./validation/auth/sign-in";
 
 export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
-  // session: { strategy: "jwt" },
+  session: { strategy: "jwt" },
   adapter: PrismaAdapter(prismaClient) as Adapter,
   providers: [
     Google({

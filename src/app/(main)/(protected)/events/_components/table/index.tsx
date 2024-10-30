@@ -60,7 +60,7 @@ export function EventTable({ events, pageCount, totalCount }: LinkTableProps): J
         table={table}
         filterFields={filterFields}
         getLabelColumns={getEventLabelColumn}
-        filterOptions={<EventTableFiltered />}
+        options={<EventTableFiltered />}
       />
     </DataTable>
   );

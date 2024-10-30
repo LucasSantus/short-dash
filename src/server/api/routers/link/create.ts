@@ -30,6 +30,7 @@ export const createLinkMutation = protectedProcedure
         title,
         description,
         code,
+        clicks: 0,
         originalUrl,
         ownerId: session.user.id,
       },

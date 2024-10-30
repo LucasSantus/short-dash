@@ -27,7 +27,7 @@ export function LinkBlockRow({ linkId }: LinkBlockRowProps): JSX.Element {
 
   const utils = trpc.useUtils();
 
-  const { mutate, isPending } = trpc.link.updateStatus.useMutation({
+  const { mutate, isPending } = trpc.link.updateMultipleStatus.useMutation({
     onError: (error) => {
       const errorMessage = getApiErrorMessage(error, messages.form.ERROR_DATA_HAS_BEEN_BLOCKED);
 
@@ -45,7 +45,7 @@ export function LinkBlockRow({ linkId }: LinkBlockRowProps): JSX.Element {
 
   async function onHandleSubmit() {
     mutate({
-      id: linkId,
+      ids: [linkId],
       status: LinkStatus.Inactive,
     });
   }

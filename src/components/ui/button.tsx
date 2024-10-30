@@ -52,7 +52,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         aria-disabled={isDisabled}
         {...rest}
       >
-        {isLoading ? <LoaderIcon className="mr-2 size-4 animate-spin" /> : icon}
+        {isLoading ? <LoaderIcon className="size-4 animate-spin" /> : icon}
         {children}
       </Component>
     );
@@ -61,4 +61,3 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button";
 
 export { Button, buttonVariants };
-

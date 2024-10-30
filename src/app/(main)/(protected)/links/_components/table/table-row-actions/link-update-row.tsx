@@ -18,8 +18,8 @@ import { PencilIcon, SaveIcon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { LinkForm } from "../form/link-form";
 import type { LinkTableColumns } from "../table-columns";
+import { LinkForm } from "../table-form/link-form";
 
 interface CategoryUpdateRowProps {
   link: LinkTableColumns;

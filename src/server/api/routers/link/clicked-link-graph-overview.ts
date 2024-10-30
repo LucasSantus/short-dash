@@ -51,11 +51,6 @@ export const clickedLinkGraphOverviewQuery = protectedProcedure
               }
             : undefined,
         },
-        _count: {
-          select: {
-            events: true,
-          },
-        },
       },
     });
 

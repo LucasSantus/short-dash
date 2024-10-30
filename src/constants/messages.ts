@@ -16,6 +16,9 @@ export const messages = {
     MUST_BE_URL_VALID: "Deve ser uma URL válida.",
   },
   globals: {
+    error: {
+      errorNotFound: "Ocorreu um erro desconhecido!",
+    },
     data: {
       noData: "Não existem dados registrados",
     },

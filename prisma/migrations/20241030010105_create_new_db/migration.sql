@@ -19,7 +19,7 @@ CREATE TABLE "urls" (
     "description" TEXT,
     "originalUrl" TEXT NOT NULL,
     "code" TEXT NOT NULL,
-    "amountOfAccesses" INTEGER NOT NULL DEFAULT 0,
+    "clicks" INTEGER NOT NULL,
     "status" "LinkStatus" NOT NULL DEFAULT 'Active',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

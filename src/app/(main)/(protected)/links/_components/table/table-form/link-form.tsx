@@ -27,7 +27,9 @@ export function LinkForm({ form, onSubmit, isPending, children }: LinkFormProps)
           disabled={isPending}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Título</FormLabel>
+              <FormLabel>
+                Título <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Insira o Título" {...field} />
               </FormControl>
@@ -57,7 +59,9 @@ export function LinkForm({ form, onSubmit, isPending, children }: LinkFormProps)
           disabled={isPending}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Url de Redirecionamento</FormLabel>
+              <FormLabel>
+                Url de Redirecionamento <span className="text-destructive">*</span>
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Insira a Url de Redirecionamento"

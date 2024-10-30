@@ -35,6 +35,7 @@ model Link {
   description String?
   originalUrl String
   code        String     @unique
+  clicks      Int
   status      LinkStatus @default(Active)
 
   createdAt DateTime  @default(now())
