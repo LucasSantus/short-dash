@@ -59,7 +59,7 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
       </DropdownMenuItem>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-3xl">
           <DialogHeader>
             <DialogTitle>Detalhes do Link</DialogTitle>
             <DialogDescription>
@@ -97,7 +97,7 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
                           <span className="text-sm font-semibold text-muted-foreground">URL Original:</span>
                           <div className="flex w-full">
                             <div
-                              className="cursor-pointer flex-1 rounded-e-none rounded-s-md bg-muted p-2 font-mono text-sm text-muted-foreground flex items-center"
+                              className="cursor-pointer flex-1 rounded-e-none rounded-s-md bg-muted p-2 font-mono text-sm text-muted-foreground flex items-center truncate max-w-xl"
                               onClick={() => handleCopyUrl(link.originalUrl)}
                             >
                               {link.originalUrl}
@@ -117,7 +117,7 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
                           <span className="text-sm font-semibold text-muted-foreground">URL Encurtada:</span>
                           <div className="flex w-full">
                             <div
-                              className="cursor-pointer flex-1 rounded-e-none rounded-s-md bg-muted p-2 font-mono text-sm text-muted-foreground flex items-center"
+                              className="cursor-pointer flex-1 rounded-e-none rounded-s-md bg-muted p-2 font-mono text-sm text-muted-foreground flex items-center truncate max-w-xl"
                               onClick={() => handleCopyUrl(shortUrl)}
                             >
                               {shortUrl}
@@ -137,7 +137,7 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
 
                     <Separator />
 
-                    <div className="space-y-2">
+                    <div className="space-y-2 max-w-xl">
                       <span className="text-base font-semibold">Código</span>
                       <p className="rounded bg-muted p-2 font-mono text-sm text-muted-foreground">{link.code}</p>
                     </div>
