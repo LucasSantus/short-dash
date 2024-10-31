@@ -1,5 +1,6 @@
 "use client";
 
+import { NumberTicker } from "@/components/number-ticker";
 import QueryFailed from "@/components/query-failed";
 import { trpc } from "@/trpc/client";
 import { LinkIcon, MousePointerClickIcon } from "lucide-react";
@@ -33,14 +34,14 @@ export function CardsOverview(): JSX.Element {
       <CardOverviewItem
         title="Links Criados"
         icon={LinkIcon}
-        content={data.totalLinksCreated}
+        content={<NumberTicker value={data.totalLinksCreated} className="text-2xl" />}
         summary={totalLinksCreatedThisMonth}
       />
 
       <CardOverviewItem
         title="Total de Clicks"
         icon={MousePointerClickIcon}
-        content={data.totalClicks}
+        content={<NumberTicker value={data.totalClicks} className="text-2xl" />}
         summary={totalClicksThisMonth}
       />
     </Fragment>

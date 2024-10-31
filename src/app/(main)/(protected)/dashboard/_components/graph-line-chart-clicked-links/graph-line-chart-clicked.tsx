@@ -13,11 +13,11 @@ import { useGraphClickedLinkFilters } from "../../_hooks/use-graph-clicked-link-
 const chartConfig = {
   title: {
     label: "Título",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--secondary))",
   },
   clicks: {
     label: "Clicks",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--primary))",
   },
 } satisfies ChartConfig;
 

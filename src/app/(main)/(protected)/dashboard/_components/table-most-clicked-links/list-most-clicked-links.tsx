@@ -1,3 +1,4 @@
+import { NumberTicker } from "@/components/number-ticker";
 import QueryFailed from "@/components/query-failed";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TableCell, TableRow } from "@/components/ui/table";
@@ -32,7 +33,9 @@ export function ListMostClickedLinks(): JSX.Element {
             <TableCell className="font-medium">
               <div className="truncate w-52 md:w-full lg:w-40 xl:w-56">{title}</div>
             </TableCell>
-            <TableCell className="text-right">{amountOfAccesses}</TableCell>
+            <TableCell className="text-right">
+              {amountOfAccesses > 0 ? <NumberTicker value={amountOfAccesses} className="text-sm" /> : 0}
+            </TableCell>
           </TableRow>
         ))
       ) : (
