@@ -1,3 +1,4 @@
+import { NumberTicker } from "@/components/number-ticker";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -79,7 +80,8 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
                       </Badge>
                       <div className="flex items-center space-x-2">
                         <Users className="size-4" />
-                        <span>{link.amountOfAccesses} Acessos</span>
+                        {link.amountOfAccesses > 0 ? <NumberTicker value={link.amountOfAccesses} /> : 0}
+                        <span className="mr-2">Acesso(s)</span>
                       </div>
                     </div>
 

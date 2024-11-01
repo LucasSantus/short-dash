@@ -9,6 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { FilterIcon, SlidersHorizontalIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { EventFilteredSchema, EventTableFilteredForm } from "./form";
@@ -47,9 +48,19 @@ export function EventTableFiltered(): JSX.Element {
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
-        <Button variant="outline" size="icon" icon={<SlidersHorizontalIcon className="size-4" />} />
-      </SheetTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <SheetTrigger asChild>
+            <TooltipTrigger asChild>
+              <Button variant="outline" size="icon" icon={<SlidersHorizontalIcon className="size-4" />} />
+            </TooltipTrigger>
+          </SheetTrigger>
+          <TooltipContent>
+            <p>Visualizar Filtros Avançados</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Filtros Avançados</SheetTitle>

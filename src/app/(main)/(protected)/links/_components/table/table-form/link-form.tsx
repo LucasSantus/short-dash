@@ -1,5 +1,6 @@
 "use client";
 
+import { DetailView, DetailViewContent, DetailViewTrigger } from "@/components/detail-view";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,16 +21,14 @@ export function LinkForm({ form, onSubmit, isPending, children }: LinkFormProps)
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-2">
         <FormField
           control={control}
           name="title"
           disabled={isPending}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
-                Título <span className="text-destructive">*</span>
-              </FormLabel>
+              <FormLabel>Título</FormLabel>
               <FormControl>
                 <Input placeholder="Insira o Título" {...field} />
               </FormControl>
@@ -60,7 +59,13 @@ export function LinkForm({ form, onSubmit, isPending, children }: LinkFormProps)
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Url de Redirecionamento <span className="text-destructive">*</span>
+                <DetailView>
+                  <DetailViewTrigger>Url de Redirecionamento</DetailViewTrigger>
+
+                  <DetailViewContent>
+                    A URL para a qual os usuários serão redirecionados ao acessarem o link encurtado.
+                  </DetailViewContent>
+                </DetailView>
               </FormLabel>
               <FormControl>
                 <Input

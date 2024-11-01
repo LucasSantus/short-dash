@@ -1,7 +1,6 @@
 "use client";
 
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { NumberTicker } from "@/components/number-ticker";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -103,7 +102,7 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
       cell: ({ row }) => {
         const title = row.original.title;
 
-        return <div className="max-w-44 min-w-16 w-full truncate text-start">{title ?? "-"}</div>;
+        return <div className="max-w-44 min-w-12 w-full truncate text-start">{title ?? "-"}</div>;
       },
       enableHiding: false,
     },
@@ -208,7 +207,8 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
               <Tooltip>
                 <TooltipTrigger className="flex gap-1.5 items-center border p-2 rounded-md">
                   <MousePointerClickIcon className="size-4" />
-                  {amountOfAccesses > 0 ? <NumberTicker value={amountOfAccesses} className="text-xs" /> : 0}
+
+                  {amountOfAccesses}
 
                   <span>Click(s)</span>
                 </TooltipTrigger>

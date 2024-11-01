@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import type { DataTableFilterField } from "@/types/data-table";
 import type { Table } from "@tanstack/react-table";
-import { XIcon } from "lucide-react";
+import { SearchIcon, XIcon } from "lucide-react";
 import { ReactNode, useMemo } from "react";
 
 interface DataTableToolbarProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
@@ -48,7 +48,8 @@ export function DataTableToolbar<TData>({
                   placeholder={column.placeholder}
                   value={(table.getColumn(String(column.value))?.getFilterValue() as string) ?? ""}
                   onChange={(event) => table.getColumn(String(column.value))?.setFilterValue(event.target.value)}
-                  className="w-40 sm:w-60 lg:w-72"
+                  className="w-40 sm:w-60 lg:w-96"
+                  startComponent={<SearchIcon className="size-4" />}
                 />
               )
           )}
