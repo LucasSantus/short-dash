@@ -4,7 +4,7 @@ import { InputPassword } from "@/components/input-password";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PROVIDER_KEY_LOCAL_STORAGE } from "@/constants/globals";
+import { KEY_PROVIDER_SELECTED } from "@/constants/globals";
 import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { type SignInFormData, signInFormSchema } from "@/validation/auth/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,7 +21,7 @@ import { AuthProviderType } from "../providers";
 export function SignInForm() {
   const router = useRouter();
   const [isPendingRedirect, startTransitionRedirect] = useTransition();
-  const [_, setProviderSelectedOnStorage] = useLocalStorage<AuthProviderType | null>(PROVIDER_KEY_LOCAL_STORAGE, null);
+  const [_, setProviderSelectedOnStorage] = useLocalStorage<AuthProviderType | null>(KEY_PROVIDER_SELECTED, null);
 
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInFormSchema),

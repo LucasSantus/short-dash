@@ -1,5 +1,5 @@
 import { getServerAuthSession } from "@/utils/get-server-auth-session";
-import { redirect } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 import type { ReactNode } from "react";
 
 interface AuthTemplateProps {
@@ -9,7 +9,7 @@ interface AuthTemplateProps {
 export default async function AuthTemplate({ children }: Readonly<AuthTemplateProps>) {
   const { isAuthenticated } = await getServerAuthSession();
 
-  if (isAuthenticated) redirect("/");
+  if (isAuthenticated) permanentRedirect("/");
 
   return (
     <div className="flex h-screen flex-col items-center justify-start bg-background px-2 py-3 text-foreground sm:justify-center">

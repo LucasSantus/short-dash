@@ -6,7 +6,7 @@ import { SettingsLayout } from "../_components/settings-layout";
 import { ProfileForm } from "./form";
 
 export const metadata: Metadata = {
-  title: "Conta",
+  title: "Minha Conta",
 };
 
 export default async function SettingsAccountPage() {
@@ -22,7 +22,7 @@ export default async function SettingsAccountPage() {
   return (
     <SettingsLayout title="Minha Conta" description="Atualize as configurações da sua conta.">
       <RenderOnClient>
-        <ProfileForm id={user.id} />
+        <ProfileForm user={user} />
       </RenderOnClient>
     </SettingsLayout>
   );

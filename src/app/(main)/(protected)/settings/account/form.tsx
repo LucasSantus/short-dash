@@ -6,36 +6,22 @@ import { Input } from "@/components/ui/input";
 import { ProfileFormData, profileFormSchema } from "@/validation/settings/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MailIcon, SaveIcon, User2Icon } from "lucide-react";
+import { User } from "next-auth";
 import { useForm } from "react-hook-form";
 import { DeleteAccount } from "./_components/delete-account";
 
 interface ProfileFormProps {
-  id: string;
+  user: User;
 }
 
-export function ProfileForm({ id }: ProfileFormProps) {
+export function ProfileForm({ user }: ProfileFormProps) {
   // const { update } = useSession();
-
-  // const {
-  //   data: profile,
-  //   isLoading,
-  //   error,
-  //   isError,
-  // } = useQuery({
-  //   queryKey: ["user-profile", id],
-  //   queryFn: async () => {
-  //     return {
-  //       name: "",
-  //       email: "",
-  //     };
-  //   },
-  // });
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileFormSchema),
     values: {
-      name: "",
-      email: "",
+      name: user.name ?? "",
+      email: user.email ?? "",
     },
   });
 
@@ -53,10 +39,6 @@ export function ProfileForm({ id }: ProfileFormProps) {
     //   },
     // });
   }
-
-  // if (isError) {
-  //   if (error instanceof Error) toast.error(error.message)
-  // }
 
   return (
     <Form {...form}>
@@ -109,7 +91,7 @@ export function ProfileForm({ id }: ProfileFormProps) {
             Salvar
           </Button>
 
-          <DeleteAccount userId={id} />
+          {user.id && <DeleteAccount userId={user.id} />}
         </div>
       </form>
     </Form>

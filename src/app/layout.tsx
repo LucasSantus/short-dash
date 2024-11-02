@@ -32,7 +32,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html lang="en" suppressHydrationWarning className={cn(inter.variable, mono.variable)}>
+    <html lang="en" className={cn(inter.variable, mono.variable)} suppressHydrationWarning>
       <body className={"min-h-screen bg-background font-sans antialiased"} suppressHydrationWarning>
         <Providers>{children}</Providers>
       </body>

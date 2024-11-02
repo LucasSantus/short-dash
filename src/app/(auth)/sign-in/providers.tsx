@@ -1,7 +1,7 @@
 "use client";
 
 import { GoogleIcon } from "@/components/icons/google";
-import { PROVIDER_KEY_LOCAL_STORAGE } from "@/constants/globals";
+import { KEY_PROVIDER_SELECTED } from "@/constants/globals";
 import { MailIcon } from "lucide-react";
 import type { BuiltInProviderType } from "next-auth/providers/index";
 import { type LiteralUnion, signIn } from "next-auth/react";
@@ -16,7 +16,7 @@ export function SignInProviders(): JSX.Element {
   const router = useRouter();
   const [isPendingRedirectCredentials, startTransitionRedirectCredentials] = useTransition();
   const [providerSelectedOnStorage, setProviderSelectedOnStorage] = useLocalStorage<AuthProviderType | null>(
-    PROVIDER_KEY_LOCAL_STORAGE,
+    KEY_PROVIDER_SELECTED,
     null
   );
 

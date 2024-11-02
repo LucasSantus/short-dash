@@ -1,6 +1,7 @@
 "use client";
 
 import { Toaster } from "@/components/ui/sonner";
+import { env } from "@/env";
 import { getQueryClient, trpc } from "@/trpc/client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -18,13 +19,9 @@ export function Providers({ children }: PropsWithChildren) {
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
-        // loggerLink({
-        //   enabled: (op) =>
-        //     process.env.NODE_ENV === "development" || (op.direction === "down" && op.result instanceof Error),
-        // }),
         unstable_httpBatchStreamLink({
           transformer: SuperJSON,
-          url: "http://localhost:3000/api/trpc",
+          url: env.NEXT_PUBLIC_BASE_URL.concat("/api/trpc"),
           headers: () => {
             const headers = new Headers();
             headers.set("x-trpc-source", "nextjs-react");
