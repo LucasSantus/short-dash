@@ -55,7 +55,7 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
           event.preventDefault();
           setIsOpen(true);
         }}
-        className="flex items-center gap-2 !bg-destructive/60 !hover:bg-destructive"
+        className="!bg-destructive/60 flex items-center gap-2 !hover:bg-destructive"
         icon={<Trash2Icon className="size-4" />}
       >
         Deletar

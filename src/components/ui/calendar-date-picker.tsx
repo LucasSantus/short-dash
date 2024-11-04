@@ -5,7 +5,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { cva, VariantProps } from "class-variance-authority";
+import { VariantProps, cva } from "class-variance-authority";
 import {
   endOfDay,
   endOfMonth,
@@ -38,7 +38,7 @@ const months = [
 ];
 
 const calendarDatePickerVariants = cva(
-  "flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium text-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "flex items-center justify-center whitespace-nowrap rounded-md font-medium text-foreground text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -46,8 +46,8 @@ const calendarDatePickerVariants = cva(
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground text-background",
-        link: "text-primary underline-offset-4 hover:underline text-background",
+        ghost: "text-background hover:bg-accent hover:text-accent-foreground",
+        link: "text-background text-primary underline-offset-4 hover:underline",
       },
     },
     defaultVariants: {
@@ -376,7 +376,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                     <>
                       <span
                         id={`firstDay-${id}`}
-                        className={cn("date-part", highlightedPart === "firstDay" && "underline font-bold")}
+                        className={cn("date-part", highlightedPart === "firstDay" && "font-bold underline")}
                         onMouseOver={() => handleMouseOver("firstDay")}
                         onMouseLeave={handleMouseLeave}
                       >
@@ -384,7 +384,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                       </span>{" "}
                       <span
                         id={`firstMonth-${id}`}
-                        className={cn("date-part", highlightedPart === "firstMonth" && "underline font-bold")}
+                        className={cn("date-part", highlightedPart === "firstMonth" && "font-bold underline")}
                         onMouseOver={() => handleMouseOver("firstMonth")}
                         onMouseLeave={handleMouseLeave}
                       >
@@ -393,7 +393,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                       ,{" "}
                       <span
                         id={`firstYear-${id}`}
-                        className={cn("date-part", highlightedPart === "firstYear" && "underline font-bold")}
+                        className={cn("date-part", highlightedPart === "firstYear" && "font-bold underline")}
                         onMouseOver={() => handleMouseOver("firstYear")}
                         onMouseLeave={handleMouseLeave}
                       >
@@ -404,7 +404,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                           {" - "}
                           <span
                             id={`secondDay-${id}`}
-                            className={cn("date-part", highlightedPart === "secondDay" && "underline font-bold")}
+                            className={cn("date-part", highlightedPart === "secondDay" && "font-bold underline")}
                             onMouseOver={() => handleMouseOver("secondDay")}
                             onMouseLeave={handleMouseLeave}
                           >
@@ -412,7 +412,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                           </span>{" "}
                           <span
                             id={`secondMonth-${id}`}
-                            className={cn("date-part", highlightedPart === "secondMonth" && "underline font-bold")}
+                            className={cn("date-part", highlightedPart === "secondMonth" && "font-bold underline")}
                             onMouseOver={() => handleMouseOver("secondMonth")}
                             onMouseLeave={handleMouseLeave}
                           >
@@ -421,7 +421,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                           ,{" "}
                           <span
                             id={`secondYear-${id}`}
-                            className={cn("date-part", highlightedPart === "secondYear" && "underline font-bold")}
+                            className={cn("date-part", highlightedPart === "secondYear" && "font-bold underline")}
                             onMouseOver={() => handleMouseOver("secondYear")}
                             onMouseLeave={handleMouseLeave}
                           >
@@ -434,7 +434,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                     <>
                       <span
                         id="day"
-                        className={cn("date-part", highlightedPart === "day" && "underline font-bold")}
+                        className={cn("date-part", highlightedPart === "day" && "font-bold underline")}
                         onMouseOver={() => handleMouseOver("day")}
                         onMouseLeave={handleMouseLeave}
                       >
@@ -442,7 +442,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                       </span>{" "}
                       <span
                         id="month"
-                        className={cn("date-part", highlightedPart === "month" && "underline font-bold")}
+                        className={cn("date-part", highlightedPart === "month" && "font-bold underline")}
                         onMouseOver={() => handleMouseOver("month")}
                         onMouseLeave={handleMouseLeave}
                       >
@@ -451,7 +451,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                       ,{" "}
                       <span
                         id="year"
-                        className={cn("date-part", highlightedPart === "year" && "underline font-bold")}
+                        className={cn("date-part", highlightedPart === "year" && "font-bold underline")}
                         onMouseOver={() => handleMouseOver("year")}
                         onMouseLeave={handleMouseLeave}
                       >
@@ -479,7 +479,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
             >
               <div className="flex">
                 {numberOfMonths === 2 && (
-                  <div className="hidden md:flex flex-col gap-1 pr-4 text-left border-r border-foreground/10">
+                  <div className="hidden flex-col gap-1 border-foreground/10 border-r pr-4 text-left md:flex">
                     {dateRanges.map(({ label, start, end }) => (
                       <Button
                         key={label}
@@ -505,7 +505,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                 )}
                 <div className="flex flex-col">
                   <div className="flex items-center gap-4">
-                    <div className="flex gap-2 ml-3">
+                    <div className="ml-3 flex gap-2">
                       <Select
                         onValueChange={(value) => {
                           handleMonthChange(months.indexOf(value), "from");
@@ -513,7 +513,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                         }}
                         value={monthFrom ? months[monthFrom.getMonth()] : undefined}
                       >
-                        <SelectTrigger className="hidden sm:flex w-[122px] focus:ring-0 focus:ring-offset-0 font-medium hover:bg-accent hover:text-accent-foreground">
+                        <SelectTrigger className="hidden w-[122px] font-medium hover:bg-accent hover:text-accent-foreground focus:ring-0 focus:ring-offset-0 sm:flex">
                           <SelectValue placeholder="Month" />
                         </SelectTrigger>
                         <SelectContent>
@@ -531,7 +531,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                         }}
                         value={yearFrom ? yearFrom.toString() : undefined}
                       >
-                        <SelectTrigger className="hidden sm:flex w-[122px] focus:ring-0 focus:ring-offset-0 font-medium hover:bg-accent hover:text-accent-foreground">
+                        <SelectTrigger className="hidden w-[122px] font-medium hover:bg-accent hover:text-accent-foreground focus:ring-0 focus:ring-offset-0 sm:flex">
                           <SelectValue placeholder="Year" />
                         </SelectTrigger>
                         <SelectContent>
@@ -552,7 +552,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                           }}
                           value={monthTo ? months[monthTo.getMonth()] : undefined}
                         >
-                          <SelectTrigger className="hidden sm:flex w-[122px] focus:ring-0 focus:ring-offset-0 font-medium hover:bg-accent hover:text-accent-foreground">
+                          <SelectTrigger className="hidden w-[122px] font-medium hover:bg-accent hover:text-accent-foreground focus:ring-0 focus:ring-offset-0 sm:flex">
                             <SelectValue placeholder="Month" />
                           </SelectTrigger>
                           <SelectContent>
@@ -570,7 +570,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                           }}
                           value={yearTo ? yearTo.toString() : undefined}
                         >
-                          <SelectTrigger className="hidden sm:flex w-[122px] focus:ring-0 focus:ring-offset-0 font-medium hover:bg-accent hover:text-accent-foreground">
+                          <SelectTrigger className="hidden w-[122px] font-medium hover:bg-accent hover:text-accent-foreground focus:ring-0 focus:ring-offset-0 sm:flex">
                             <SelectValue placeholder="Year" />
                           </SelectTrigger>
                           <SelectContent>

@@ -10,8 +10,8 @@ export function SettingsHeader({ title, description }: SettingsHeaderProps): JSX
   return (
     <Fragment>
       <div>
-        <h3 className="text-lg font-medium">{title}</h3>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <h3 className="font-medium text-lg">{title}</h3>
+        <p className="text-muted-foreground text-sm">{description}</p>
       </div>
       <Separator />
     </Fragment>

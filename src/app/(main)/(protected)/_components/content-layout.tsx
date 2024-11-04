@@ -13,8 +13,8 @@ export async function ContentLayout({ title, children }: ContentLayoutProps) {
         <SidebarTrigger />
       </div>
 
-      <div className="container flex flex-1 flex-col mx-auto px-5">
-        <span className="text-xl text-muted-foreground py-3">{title}</span>
+      <div className="container mx-auto flex flex-1 flex-col px-5">
+        <span className="py-3 text-muted-foreground text-xl">{title}</span>
 
         {children}
       </div>

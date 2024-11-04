@@ -9,10 +9,7 @@ export const metadata: Metadata = {
 
 export default function SettingsAppearancePage() {
   return (
-    <SettingsLayout
-      title="Aparência"
-      description="Personalize a aparência do sistema. Alterne entre os temas abaixo."
-    >
+    <SettingsLayout title="Aparência" description="Personalize a aparência do sistema. Alterne entre os temas abaixo.">
       <RenderOnClient>
         <AppearanceForm />
       </RenderOnClient>

@@ -25,7 +25,7 @@ export function AuthButton({
 
       <RenderOnClient>
         {isProviderWasSelectedAtLastLogin && (
-          <span className="text-xs text-muted-foreground">Iniciou sessão com o {label} da última vez</span>
+          <span className="text-muted-foreground text-xs">Iniciou sessão com o {label} da última vez</span>
         )}
       </RenderOnClient>
     </Fragment>

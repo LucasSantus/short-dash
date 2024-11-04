@@ -69,9 +69,9 @@ export function getEventColumns(): Array<ColumnDef<EventTableColumns>> {
         }
 
         return (
-          <div className="flex flex-col items-start gap-2 max-w-full">
-            <div className="flex justify-between items-center w-full">
-              <span className="text-muted-foreground font-bold lowercase">{shortUrl}</span>
+          <div className="flex max-w-full flex-col items-start gap-2">
+            <div className="flex w-full items-center justify-between">
+              <span className="font-bold text-muted-foreground lowercase">{shortUrl}</span>
 
               <Button
                 size="icon"
@@ -81,12 +81,12 @@ export function getEventColumns(): Array<ColumnDef<EventTableColumns>> {
                 className="size-7"
               />
             </div>
-            <span className="text-muted-foreground/70 flex items-center gap-1">
+            <span className="flex items-center gap-1 text-muted-foreground/70">
               <CornerDownRightIcon className="size-3" />
 
               <TooltipProvider>
                 <Tooltip>
-                  <TooltipTrigger className="truncate max-w-80">{originalUrl}</TooltipTrigger>
+                  <TooltipTrigger className="max-w-80 truncate">{originalUrl}</TooltipTrigger>
                   <TooltipContent>
                     <p>{originalUrl}</p>
                   </TooltipContent>
@@ -117,7 +117,7 @@ export function getEventColumns(): Array<ColumnDef<EventTableColumns>> {
         const isAnonymousAccess = row.original.isAnonymousAccess;
 
         return (
-          <div className="w-full flex items-center space-x-2 min-w-28">
+          <div className="flex w-full min-w-28 items-center space-x-2">
             {isAnonymousAccess ? (
               <div className="flex items-center text-red-500/70">
                 <UserXIcon className="size-4" />

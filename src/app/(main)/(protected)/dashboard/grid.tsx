@@ -11,11 +11,11 @@ export function DashboardGrid({}: DashboardGridProps): JSX.Element {
         <CardsOverview />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8">
-        <div className="lg:col-span-8 grid justify-items-stretch">
+      <div className="grid grid-cols-1 gap-4 md:gap-8 lg:grid-cols-12">
+        <div className="grid justify-items-stretch lg:col-span-8">
           <GraphLineChartClickedLinks />
         </div>
-        <div className="lg:col-span-4 grid justify-items-stretch">
+        <div className="grid justify-items-stretch lg:col-span-4">
           <TableMostClickedLinks />
         </div>
       </div>

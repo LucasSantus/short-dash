@@ -19,13 +19,13 @@ export const signUpMutation = publicProcedure
         message: messages.globals.email.registeredOnSystem,
       });
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const newPassword = await bcrypt.hash(password, 10);
 
     const user = await db.user.create({
       data: {
         name,
         email,
-        hashedPassword,
+        password: newPassword,
       },
     });
 

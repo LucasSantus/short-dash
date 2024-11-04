@@ -14,20 +14,21 @@ export const resetPasswordMutation = publicProcedure
 
     if (!user) throw new Error(messages.globals.email.dontRegisteredOnSystem);
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const newPassword = await bcrypt.hash(password, 10);
 
     await Promise.all([
       db.user.update({
         where: { email },
-        data: { hashedPassword },
+        data: { password: newPassword },
       }),
-      db.verificationToken.deleteMany({
-        where: {
-          user: {
-            email,
-          },
-        },
-      }),
+
+      // db.verificationToken.deleteMany({
+      //   where: {
+      //     user: {
+      //       email,
+      //     },
+      //   },
+      // }),
     ]);
 
     return user;

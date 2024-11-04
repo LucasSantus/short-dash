@@ -18,7 +18,9 @@ export const allLinkListOptionsQuery = protectedProcedure.query(async ({ ctx: { 
     },
   });
 
-  const data: MultiSelectOptions = allLinks?.map(({ id, title }) => ({
+  if (!allLinks.length) return { data: [] as MultiSelectOptions };
+
+  const data: MultiSelectOptions = allLinks.map(({ id, title }) => ({
     value: id,
     label: title,
   }));

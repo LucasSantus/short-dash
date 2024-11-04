@@ -1,6 +1,6 @@
 "use server";
 
-import { AccountNotFoundError } from "@/data/errors/account-not-found";
+import { AccountNotFoundError } from "@/errors/account-not-found";
 import { prismaClient } from "@/lib/prisma";
 import { compare } from "bcryptjs";
 
@@ -25,9 +25,9 @@ export async function signInAction({ email, password }: { email: string; passwor
 
   if (!account) throw new AccountNotFoundError();
 
-  if (!user.hashedPassword) throw new Error("Ocorreu um problema ao tentar recuperar a Conta!");
+  if (!user.password) throw new Error("Ocorreu um problema ao tentar recuperar a Conta!");
 
-  const passwordMatch = compare(password, user.hashedPassword);
+  const passwordMatch = compare(password, user.password);
 
   if (!passwordMatch) throw new Error("A Senha informada está incorreta!");
 

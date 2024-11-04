@@ -56,10 +56,21 @@
         "useSemanticElements": "off",
         "useFocusableInteractive": "off",
         "useKeyWithClickEvents": "off",
-        "useKeyWithMouseEvents": "off"
+        "useKeyWithMouseEvents": "off",
+        "noBlankTarget": "off"
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "fix": "safe",
+          "level": "warn",
+          "options": {
+            "attributes": ["classList"],
+            "functions": ["clsx", "cva", "tw"]
+          }
+        }
       }
     }
   },

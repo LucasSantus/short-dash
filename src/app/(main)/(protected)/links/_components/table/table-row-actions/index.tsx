@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { Row } from "@tanstack/react-table";
 import { EllipsisIcon } from "lucide-react";
-import { ReactNode } from "react";
+import { Fragment, ReactNode } from "react";
 import { LinkStatus } from "../../../_types/links";
 import type { LinkTableColumns } from "../table-columns";
 import { LinkBlockRow } from "./link-block-row";
@@ -30,6 +30,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   const linkStatus: Record<LinkStatus, ReactNode> = {
     Active: <LinkBlockRow linkId={link.id} />,
     Inactive: <LinkUnBlockRow linkId={link.id} />,
+    Expired: <Fragment />,
   };
 
   return (

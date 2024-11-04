@@ -163,7 +163,7 @@ export function DataTableSkeleton(props: DataTableSkeletonProps) {
               <Skeleton className="h-8 w-32" />
               <Skeleton className="h-8 w-16" />
             </div>
-            <div className="flex items-center justify-center text-sm font-medium">
+            <div className="flex items-center justify-center font-medium text-sm">
               <Skeleton className="h-8 w-20" />
             </div>
             <div className="flex items-center space-x-2">

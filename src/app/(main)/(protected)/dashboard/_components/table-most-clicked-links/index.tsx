@@ -9,13 +9,13 @@ export function TableMostClickedLinks(): JSX.Element {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex justify-between items-center">
+        <CardTitle className="flex items-center justify-between">
           <span>Links Populares</span>
 
           <MousePointerClickIcon className="size-5" />
         </CardTitle>
       </CardHeader>
-      <CardContent className="grid gap-8 flex-1">
+      <CardContent className="grid flex-1 gap-8">
         <Table>
           <TableBody>
             <ListMostClickedLinks />

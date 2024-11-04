@@ -31,7 +31,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
     formState: { isSubmitting },
   } = form;
 
-  async function onSubmit(values: ProfileFormData) {
+  async function onSubmit(_values: ProfileFormData) {
     // await showToastBeforeSubmit({
     //   callback: async () => {
     //     await updateProfileServer(values);

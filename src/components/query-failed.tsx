@@ -14,7 +14,7 @@ export default function QueryFailed({ refetch, isFetching, error }: QueryFailedP
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-5">
-      <h2 className="text-center text-sm font-medium text-red-600">{errorMessage}</h2>
+      <h2 className="text-center font-medium text-red-600 text-sm">{errorMessage}</h2>
 
       {refetch ? (
         <Button onClick={refetch} isLoading={isFetching}>

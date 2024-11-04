@@ -3,6 +3,7 @@ import { getServerAuthSession } from "@/utils/get-server-auth-session";
 import { isBefore } from "date-fns";
 import { cache } from "react";
 import "server-only";
+import { LinkStatus } from "../(protected)/links/_types/links";
 
 export const getShortUrl = cache(async (code: string) => {
   const [session, link] = await Promise.all([
@@ -15,12 +16,12 @@ export const getShortUrl = cache(async (code: string) => {
   if (!link) return null;
 
   // Link Expired
-  if (link.expiresAt && isBefore(link.expiresAt, new Date())) {
+  if (link.status === LinkStatus.Expired && link.expiresAt && isBefore(link.expiresAt, new Date())) {
     return null;
   }
 
   // Link Inactive
-  if (link.status === "Inactive") {
+  if (link.status === LinkStatus.Inactive) {
     return link;
   }
 

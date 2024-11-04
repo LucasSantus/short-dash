@@ -54,7 +54,7 @@ export function SidebarFooter({ user }: SidebarFooterProps): JSX.Element {
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{user.name ?? "Minha Conta"}</span>
-                  <span className="truncate text-xs text-muted-foreground">{user.email}</span>
+                  <span className="truncate text-muted-foreground text-xs">{user.email}</span>
                 </div>
                 <ChevronsUpDown className="ml-auto size-4" />
               </SidebarMenuButtonShacn>
@@ -75,7 +75,7 @@ export function SidebarFooter({ user }: SidebarFooterProps): JSX.Element {
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">{user.name ?? "Minha Conta"}</span>
-                    <span className="truncate text-xs text-muted-foreground">{user.email}</span>
+                    <span className="truncate text-muted-foreground text-xs">{user.email}</span>
                   </div>
                 </div>
               </DropdownMenuLabel>

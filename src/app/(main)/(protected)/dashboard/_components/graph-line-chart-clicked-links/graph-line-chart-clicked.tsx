@@ -45,17 +45,22 @@ export function GraphLineChartClicked({ initialDataFiltered }: GraphLineChartCli
     refetch,
     isError,
     error,
-  } = trpc.link.clickedLinkGraphOverview.useQuery({
-    search: {
-      linkId: filters.linkId,
-      createdAt,
+  } = trpc.link.clickedLinkGraphOverview.useQuery(
+    {
+      search: {
+        linkId: filters.linkId,
+        createdAt,
+      },
     },
-  });
+    {
+      enabled: Boolean(linkId),
+    }
+  );
 
   if (isLoading)
     return (
-      <div className="aspect-auto w-full h-72 flex-1">
-        <Skeleton className="w-full h-full" />
+      <div className="aspect-auto h-72 w-full flex-1">
+        <Skeleton className="h-full w-full" />
       </div>
     );
 
@@ -64,7 +69,7 @@ export function GraphLineChartClicked({ initialDataFiltered }: GraphLineChartCli
   return (
     <Fragment>
       {overview && overview.data.length > 0 ? (
-        <ChartContainer config={chartConfig} className="aspect-auto w-full h-72 flex-1">
+        <ChartContainer config={chartConfig} className="aspect-auto h-72 w-full flex-1">
           <LineChart
             accessibilityLayer
             data={overview.data ?? []}
@@ -107,8 +112,8 @@ export function GraphLineChartClicked({ initialDataFiltered }: GraphLineChartCli
           </LineChart>
         </ChartContainer>
       ) : (
-        <div className="aspect-auto w-full h-72 flex-1">
-          <div className="w-full h-full flex justify-center items-center">
+        <div className="aspect-auto h-72 w-full flex-1">
+          <div className="flex h-full w-full items-center justify-center">
             <span className="text-muted-foreground">{messages.globals.data.noData}</span>
           </div>
         </div>

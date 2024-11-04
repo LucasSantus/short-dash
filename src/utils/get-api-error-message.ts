@@ -1,5 +1,13 @@
+import { Prisma } from "@prisma/client";
+
 export function getApiErrorMessage(error: unknown, defaultErrorMessage?: string): string {
   let errorMessage = defaultErrorMessage ?? "Ocorreu um erro inesperado!";
+
+  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    if (error.code === "P1001") {
+      errorMessage = "Banco de dados Indisponível.";
+    }
+  }
 
   if (error instanceof Error) {
     if (

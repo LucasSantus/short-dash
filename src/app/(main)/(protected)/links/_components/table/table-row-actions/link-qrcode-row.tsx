@@ -31,7 +31,7 @@ export function LinkQrCodeRow({ originalUrl }: LinkQrCodeRowProps): JSX.Element 
             <DialogTitle>QR Code Preview</DialogTitle>
           </DialogHeader>
 
-          <div className="flex justify-center items-center bg-muted/10 p-4 border rounded-md">
+          <div className="flex items-center justify-center rounded-md border bg-muted/10 p-4">
             <QRCodeSVG value={originalUrl} size={128} />
           </div>
         </DialogContent>

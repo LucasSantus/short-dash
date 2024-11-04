@@ -22,10 +22,10 @@ import { ScrollArea } from "./scroll-area";
  * Variants for the multi-select component to handle different styles.
  * Uses class-variance-authority (cva) to define different styles based on "variant" prop.
  */
-const multiSelectVariants = cva("p-1.5 transition ease-in-out delay-150 duration-300", {
+const multiSelectVariants = cva("p-1.5 transition delay-150 duration-300 ease-in-out", {
   variants: {
     variant: {
-      default: "border-foreground/10 text-foreground bg-card hover:bg-card/80",
+      default: "border-foreground/10 bg-card text-foreground hover:bg-card/80",
       secondary: "border-foreground/10 bg-secondary text-secondary-foreground hover:bg-secondary/80",
       destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
       inverted: "inverted",
@@ -234,7 +234,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         <div key={value} className={multiSelectVariants({ variant, className: "text-start" })}>
                           {IconComponent && <IconComponent className="mr-2 size-4" />}
 
-                          <div className="truncate max-w-32">{option?.label}</div>
+                          <div className="max-w-32 truncate">{option?.label}</div>
                         </div>
                       );
                     }

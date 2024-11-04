@@ -32,14 +32,14 @@ export function DataTableFloatingBar<TData>({ table, children }: DataTableFloati
         <div className="w-full overflow-x-auto">
           <div className="mx-auto flex w-fit items-center gap-2 rounded-md border bg-card p-2 shadow-2xl">
             <div className="flex h-7 items-center rounded-sm border border-dashed">
-              <span className="whitespace-nowrap text-xs px-2">{rows.length} Selecionado(s)</span>
+              <span className="whitespace-nowrap px-2 text-xs">{rows.length} Selecionado(s)</span>
               <Separator orientation="vertical" />
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="size-6 rounded-[2px] mx-[1px]"
+                    className="mx-[1px] size-6 rounded-[2px]"
                     onClick={() => table.toggleAllRowsSelected(false)}
                     icon={<XIcon className="size-4" />}
                   />

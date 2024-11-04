@@ -78,13 +78,13 @@ export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
       </DropdownMenuItem>
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent className="max-w-3xl w-full">
+        <SheetContent className="w-full max-w-3xl">
           <SheetHeader>
             <SheetTitle>Atualizar Link</SheetTitle>
             <SheetDescription>Preencha os campos abaixo para atualizar as informações do link.</SheetDescription>
           </SheetHeader>
           <LinkForm form={form} onSubmit={onHandleSubmit} isPending={isPending}>
-            <SheetFooter className="gap-2 pt-2 sm:space-x-0 justify-between">
+            <SheetFooter className="justify-between gap-2 pt-2 sm:space-x-0">
               <SheetClose asChild>
                 <Button
                   type="button"

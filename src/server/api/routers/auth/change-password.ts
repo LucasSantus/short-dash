@@ -12,17 +12,17 @@ export const changePasswordMutation = publicProcedure
       },
     });
 
-    if (!user || !user.hashedPassword) throw new Error(messages.globals.user.notFound);
+    if (!user || !user.password) throw new Error(messages.globals.user.notFound);
 
-    const passwordMatch = await bcrypt.compare(oldPassword, user.hashedPassword);
+    const isPasswordMatch = await bcrypt.compare(oldPassword, user.password);
 
-    if (!passwordMatch) throw new Error("Sua senha antiga está incorreta!");
+    if (!isPasswordMatch) throw new Error("Sua senha antiga está incorreta!");
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const newPassword = await bcrypt.hash(password, 10);
 
     await db.user.update({
       where: { email },
-      data: { hashedPassword },
+      data: { password: newPassword },
     });
 
     return user;

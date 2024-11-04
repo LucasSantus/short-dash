@@ -15,8 +15,8 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useLocalStorage } from "usehooks-ts";
-import { AuthLink } from "../../_components/auth-link";
-import { AuthProviderType } from "../providers";
+import { AuthLink } from "../_components/auth-link";
+import { AuthProviderType } from "./providers";
 
 export function SignInForm() {
   const router = useRouter();
@@ -46,7 +46,7 @@ export function SignInForm() {
         toast.error(response.error);
       }
 
-      // setProviderSelectedOnStorage("credentials");
+      setProviderSelectedOnStorage("credentials");
 
       // startTransitionRedirect(() => router.push("/"));
     } catch (error) {

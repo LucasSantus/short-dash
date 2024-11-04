@@ -15,8 +15,8 @@ export function ListMostClickedLinks(): JSX.Element {
       <Fragment>
         {Array.from({ length: MAX_POPULAR_LINKS }).map((_, index) => (
           <TableRow key={index}>
-            <TableCell colSpan={2} className="py-1 px-0 rounded-sm">
-              <Skeleton className="w-full h-10 rounded-sm" />
+            <TableCell colSpan={2} className="rounded-sm px-0 py-1">
+              <Skeleton className="h-10 w-full rounded-sm" />
             </TableCell>
           </TableRow>
         ))}
@@ -31,7 +31,7 @@ export function ListMostClickedLinks(): JSX.Element {
         mostClickedLinks.data.map(({ id, title, amountOfAccesses }) => (
           <TableRow key={id}>
             <TableCell className="font-medium">
-              <div className="truncate w-52 md:w-full lg:w-40 xl:w-56">{title}</div>
+              <div className="w-52 truncate md:w-full lg:w-40 xl:w-56">{title}</div>
             </TableCell>
             <TableCell className="text-right">
               {amountOfAccesses > 0 ? <NumberTicker value={amountOfAccesses} className="text-sm" /> : 0}
@@ -39,9 +39,13 @@ export function ListMostClickedLinks(): JSX.Element {
           </TableRow>
         ))
       ) : (
-        <div className="flex justify-center items-center w-full">
-          <span className="text-muted-foreground">{messages.globals.data.noData}</span>
-        </div>
+        <TableRow>
+          <TableCell className="font-medium" colSpan={2}>
+            <div className="flex w-full items-center justify-center">
+              <span className="text-muted-foreground">{messages.globals.data.noData}</span>
+            </div>
+          </TableCell>
+        </TableRow>
       )}
     </Fragment>
   );

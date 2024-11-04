@@ -15,7 +15,7 @@ import { Calendar, CalendarIcon, ExternalLinkIcon, EyeIcon, Users } from "lucide
 import Link from "next/link";
 import { Fragment, useState } from "react";
 import { toast } from "sonner";
-import { getLinkStatusDescription, type LinkTableColumns } from "../table-columns";
+import { type LinkTableColumns, getLinkStatusDescription } from "../table-columns";
 
 interface CategoryDetailsRowProps {
   link: LinkTableColumns;
@@ -33,6 +33,7 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
   const statusColor: Record<LinkStatus, string> = {
     Active: "bg-green-500",
     Inactive: "bg-yellow-500",
+    Expired: "bg-red-500",
   };
 
   async function handleCopyUrl(copyUrl: string) {
@@ -86,20 +87,20 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
                     </div>
 
                     <div className="space-y-2">
-                      <span className="text-base font-semibold">Descrição</span>
-                      <p className="text-sm text-muted-foreground">{link.description || "-"}</p>
+                      <span className="font-semibold text-base">Descrição</span>
+                      <p className="text-muted-foreground text-sm">{link.description || "-"}</p>
                     </div>
 
                     <Separator />
 
                     <div className="space-y-2">
-                      <span className="text-base font-semibold">URLs</span>
+                      <span className="font-semibold text-base">URLs</span>
                       <div className="grid gap-2">
-                        <div className="grid text-sm space-y-2">
-                          <span className="text-sm font-semibold text-muted-foreground">URL Original:</span>
+                        <div className="grid space-y-2 text-sm">
+                          <span className="font-semibold text-muted-foreground text-sm">URL Original:</span>
                           <div className="flex w-full">
                             <div
-                              className="cursor-pointer flex-1 rounded-e-none rounded-s-md bg-muted p-2 font-mono text-sm text-muted-foreground flex items-center truncate max-w-xl"
+                              className="flex max-w-xl flex-1 cursor-pointer items-center truncate rounded-s-md rounded-e-none bg-muted p-2 font-mono text-muted-foreground text-sm"
                               onClick={() => handleCopyUrl(link.originalUrl)}
                             >
                               {link.originalUrl}
@@ -115,11 +116,11 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
                           </div>
                         </div>
 
-                        <div className="grid text-sm space-y-2">
-                          <span className="text-sm font-semibold text-muted-foreground">URL Encurtada:</span>
+                        <div className="grid space-y-2 text-sm">
+                          <span className="font-semibold text-muted-foreground text-sm">URL Encurtada:</span>
                           <div className="flex w-full">
                             <div
-                              className="cursor-pointer flex-1 rounded-e-none rounded-s-md bg-muted p-2 font-mono text-sm text-muted-foreground flex items-center truncate max-w-xl"
+                              className="flex max-w-xl flex-1 cursor-pointer items-center truncate rounded-s-md rounded-e-none bg-muted p-2 font-mono text-muted-foreground text-sm"
                               onClick={() => handleCopyUrl(shortUrl)}
                             >
                               {shortUrl}
@@ -139,13 +140,12 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
 
                     <Separator />
 
-                    <div className="space-y-2 max-w-xl">
-                      <span className="text-base font-semibold">Código</span>
-                      <p className="rounded bg-muted p-2 font-mono text-sm text-muted-foreground">{link.code}</p>
+                    <div className="max-w-xl space-y-2">
+                      <span className="font-semibold text-base">Código</span>
+                      <p className="rounded bg-muted p-2 font-mono text-muted-foreground text-sm">{link.code}</p>
                     </div>
 
                     <Separator />
-
                     <div className="grid gap-2 text-sm">
                       <div className="grid gap-2">
                         <div className="flex items-center gap-2">
@@ -164,6 +164,17 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
 
                         <span className="text-muted-foreground">{formatDate(link.updatedAt)}</span>
                       </div>
+
+                      {!!link.expiresAt && (
+                        <div className="grid gap-2 text-sm">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="size-4" />
+                            <span>Atualizado em:</span>
+                          </div>
+
+                          <span className="text-muted-foreground">{formatDate(link.expiresAt)}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </CardContent>

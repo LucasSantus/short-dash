@@ -52,12 +52,13 @@ export function LinkTable({ links, pageCount, totalCount }: LinkTableProps): JSX
 
   const data = useMemo((): LinkTableColumns[] => {
     return links?.map((link) => {
-      const { events, clicks, ...rest } = link;
+      const { events, clicks, expiresAt, ...rest } = link;
 
-      const lastClickOnEvent = events.at(0)?.createdAt as Date;
+      const lastClickOnEvent = events?.at(0)?.createdAt ?? null;
 
       return {
         ...rest,
+        expiresAt: expiresAt ?? undefined,
         lastClickOnEvent,
         amountOfAccesses: clicks,
       };

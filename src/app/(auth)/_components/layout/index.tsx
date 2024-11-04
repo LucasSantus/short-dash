@@ -11,12 +11,12 @@ export function AuthLayout({ title, description, icon: Icon, children }: AuthLay
   return (
     <Fragment>
       <div className="flex flex-col items-center justify-start gap-2 text-center">
-        <div className="flex gap-2 items-start">
+        <div className="flex items-start gap-2">
           <Icon className="size-6" />
-          <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+          <h1 className="font-semibold text-2xl tracking-tight">{title}</h1>
         </div>
 
-        <span className="text-sm text-muted-foreground text-justify">{description}</span>
+        <span className="text-justify text-muted-foreground text-sm">{description}</span>
       </div>
 
       {children}

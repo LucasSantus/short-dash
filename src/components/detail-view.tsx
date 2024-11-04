@@ -20,7 +20,7 @@ function DetailViewTrigger({ children }: DetailViewProps): JSX.Element {
     <div className="flex items-center gap-2">
       {children}
       <TooltipTrigger type="button" disabled>
-        <HelpCircleIcon className="size-4 text-muted-foreground cursor-pointer" />
+        <HelpCircleIcon className="size-4 cursor-pointer text-muted-foreground" />
       </TooltipTrigger>
     </div>
   );

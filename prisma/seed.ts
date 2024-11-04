@@ -21,7 +21,7 @@ async function main() {
   }
 
   for (const user of users) {
-    const urlPromises = Array.from({ length: getRandomInt(2, 20) }).map(async () => {
+    const urlPromises = Array.from({ length: getRandomInt(2, 10) }).map(async () => {
       const link = await prisma.link.create({
         data: {
           title: faker.lorem.sentence(),
@@ -38,7 +38,7 @@ async function main() {
         },
       });
 
-      const eventPromises = Array.from({ length: getRandomInt(100, 500) }).map(() =>
+      const eventPromises = Array.from({ length: getRandomInt(50, 100) }).map(() =>
         prisma.event.create({
           data: {
             isAnonymous: faker.datatype.boolean(),

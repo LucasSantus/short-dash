@@ -10,7 +10,7 @@ import { CheckCircleIcon, LoaderIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 import { LinkStatus } from "../../../_types/links";
-import { getLinkStatusDescription, LinkTableColumns } from "../table-columns";
+import { LinkTableColumns, getLinkStatusDescription } from "../table-columns";
 
 interface UpdateStatusFloatingBarItemProps {
   table: Table<LinkTableColumns>;
@@ -89,8 +89,8 @@ export function UpdateStatusFloatingBarItem({
             const { label, icon: Icon } = getLinkStatusDescription[enumStatus];
 
             return (
-              <SelectItem key={enumStatus} value={enumStatus} className="capitalize pl-2">
-                <div className="flex gap-1 items-center">
+              <SelectItem key={enumStatus} value={enumStatus} className="pl-2 capitalize">
+                <div className="flex items-center gap-1">
                   <Icon className="size-3.5" />
                   {label}
                 </div>

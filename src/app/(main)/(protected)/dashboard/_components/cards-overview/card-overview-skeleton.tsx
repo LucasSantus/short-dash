@@ -7,14 +7,14 @@ export function CardOverviewSkeleton(): JSX.Element {
     <Fragment>
       {Array.from({ length: 2 }).map((_, index) => (
         <Card key={index}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 gap-2">
-            <Skeleton className="w-32 h-5" />
+          <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
+            <Skeleton className="h-5 w-32" />
 
-            <Skeleton className="w-6 h-5" />
+            <Skeleton className="h-5 w-6" />
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            <Skeleton className="w-16 h-7" />
-            <Skeleton className="w-full h-4" />
+            <Skeleton className="h-7 w-16" />
+            <Skeleton className="h-4 w-full" />
           </CardContent>
         </Card>
       ))}

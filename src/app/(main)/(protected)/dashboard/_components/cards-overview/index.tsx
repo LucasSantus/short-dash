@@ -34,14 +34,14 @@ export function CardsOverview(): JSX.Element {
       <CardOverviewItem
         title="Links Criados"
         icon={LinkIcon}
-        content={<NumberTicker value={data.totalLinksCreated} className="text-2xl" />}
+        content={data.totalLinksCreated > 0 ? <NumberTicker value={data.totalLinksCreated} className="text-2xl" /> : 0}
         summary={totalLinksCreatedThisMonth}
       />
 
       <CardOverviewItem
         title="Total de Clicks"
         icon={MousePointerClickIcon}
-        content={<NumberTicker value={data.totalClicks} className="text-2xl" />}
+        content={data.totalClicks > 0 ? <NumberTicker value={data.totalClicks} className="text-2xl" /> : 0}
         summary={totalClicksThisMonth}
       />
     </Fragment>

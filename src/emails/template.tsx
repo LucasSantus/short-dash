@@ -12,7 +12,7 @@ export function EmailTemplate({ children, previewText }: EmailTemplateProps) {
       <Preview>{previewText}</Preview>
       <Tailwind>
         <Body className="mx-auto my-auto bg-white font-sans">
-          <Container className="mx-auto my-11 w-[465px] rounded border border-solid border-gray-300 p-9">
+          <Container className="mx-auto my-11 w-[465px] rounded border border-gray-300 border-solid p-9">
             {children}
           </Container>
         </Body>

@@ -36,7 +36,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          className="border-dashed h-10"
+          className="h-10 border-dashed"
           icon={<PlusCircleIcon className="size-3.5" />}
         >
           {title}

@@ -9,17 +9,17 @@ export function GraphLineChartClickedLinksSkeleton(): JSX.Element {
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Clicks</CardTitle>
         </div>
-        <div className="flex items-center p-3 gap-2">
+        <div className="flex items-center gap-2 p-3">
           <Fragment>
-            <Skeleton className="w-40 h-10" />
+            <Skeleton className="h-10 w-40" />
 
-            <Skeleton className="w-36 h-10" />
+            <Skeleton className="h-10 w-36" />
           </Fragment>
         </div>
       </CardHeader>
       <CardContent className="px-2 sm:p-6">
-        <div className="aspect-auto w-full h-72 flex-1">
-          <Skeleton className="w-full h-full" />
+        <div className="aspect-auto h-72 w-full flex-1">
+          <Skeleton className="h-full w-full" />
         </div>
       </CardContent>
     </Card>

@@ -10,7 +10,15 @@ import { $Enums } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { CheckIcon, CopyIcon, CornerDownRightIcon, LucideIcon, MousePointerClickIcon, XIcon } from "lucide-react";
+import {
+  CheckIcon,
+  CopyIcon,
+  CornerDownRightIcon,
+  LucideIcon,
+  MousePointerClickIcon,
+  TimerOffIcon,
+  XIcon,
+} from "lucide-react";
 import { toast } from "sonner";
 import { LinkStatus } from "../../_types/links";
 import { DataTableRowActions } from "./table-row-actions";
@@ -25,6 +33,7 @@ export type LinkTableColumns = {
   status: $Enums.LinkStatus;
   createdAt: Date;
   updatedAt: Date;
+  expiresAt?: Date;
   lastClickOnEvent: Date | null;
   ownerId: string | null;
 };
@@ -40,6 +49,7 @@ export const getLinkLabelColumns: Record<keyof LinkTableColumns, string> = {
   ownerId: "Id do Dono",
   createdAt: "Criada em",
   updatedAt: "Atualizada em",
+  expiresAt: "Expirado em",
   lastClickOnEvent: "Último Clique",
 };
 
@@ -65,6 +75,13 @@ export const getLinkStatusDescription: Record<
     icon: XIcon,
     color: {
       textColor: "text-gray-400",
+    },
+  },
+  Expired: {
+    label: "Expirado",
+    icon: TimerOffIcon,
+    color: {
+      textColor: "text-red-400",
     },
   },
 };
@@ -102,7 +119,7 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
       cell: ({ row }) => {
         const title = row.original.title;
 
-        return <div className="max-w-44 min-w-12 w-full truncate text-start">{title ?? "-"}</div>;
+        return <div className="w-full min-w-12 max-w-44 truncate text-start">{title ?? "-"}</div>;
       },
       enableHiding: false,
     },
@@ -124,9 +141,9 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
         }
 
         return (
-          <div className="flex flex-col items-start gap-2 max-w-full">
-            <div className="flex justify-between items-center w-full">
-              <a className="text-muted-foreground font-bold lowercase" href={shortUrl}>
+          <div className="flex max-w-full flex-col items-start gap-2">
+            <div className="flex w-full items-center justify-between">
+              <a className="font-bold text-muted-foreground lowercase" href={shortUrl} target="_blank">
                 {shortUrl}
               </a>
 
@@ -138,12 +155,16 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
                 className="size-7"
               />
             </div>
-            <span className="text-muted-foreground/70 flex items-center gap-1">
+            <span className="flex items-center gap-1 text-muted-foreground/70">
               <CornerDownRightIcon className="size-3" />
 
               <TooltipProvider>
                 <Tooltip>
-                  <TooltipTrigger className="truncate max-w-80">{originalUrl}</TooltipTrigger>
+                  <TooltipTrigger className="max-w-80 truncate" asChild>
+                    <a className="text-muted-foreground lowercase" href={shortUrl} target="_blank">
+                      {originalUrl}
+                    </a>
+                  </TooltipTrigger>
                   <TooltipContent>
                     <p>{originalUrl}</p>
                   </TooltipContent>
@@ -205,7 +226,7 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
           <div className="flex items-center justify-center text-muted-foreground">
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger className="flex gap-1.5 items-center border p-2 rounded-md">
+                <TooltipTrigger className="flex items-center gap-1.5 rounded-md border p-2">
                   <MousePointerClickIcon className="size-4" />
 
                   {amountOfAccesses}
@@ -213,7 +234,7 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
                   <span>Click(s)</span>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <div className="p-1 flex flex-col gap-1">
+                  <div className="flex flex-col gap-1 p-1">
                     <span>
                       <span className="font-bold">{amountOfAccesses}</span> Clicks
                     </span>
