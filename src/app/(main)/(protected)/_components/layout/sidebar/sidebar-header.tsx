@@ -4,6 +4,7 @@ import {
   SidebarMenuItem as SidebarMenuItemShadcn,
   SidebarMenu as SidebarMenuShadcn,
 } from "@/components/ui/sidebar";
+import { application } from "@/config/metadata";
 import { LinkIcon } from "lucide-react";
 
 export function SidebarHeader(): JSX.Element {
@@ -16,8 +17,8 @@ export function SidebarHeader(): JSX.Element {
               <LinkIcon className="size-4" />
             </div>
             <div className="flex flex-col gap-0.5 leading-none">
-              <span className="font-semibold">Short Dash</span>
-              <span>v0.0.1</span>
+              <span className="font-semibold">{application.name}</span>
+              <span>{application.version}</span>
             </div>
           </SidebarMenuButtonShadcn>
         </SidebarMenuItemShadcn>

@@ -16,7 +16,6 @@ import { LinkBlockRow } from "./link-block-row";
 import { LinkDeleteRow } from "./link-delete-row";
 import { LinkDetailsRow } from "./link-details-row";
 import { LinkEventRow } from "./link-event-row";
-import { LinkQrCodeRow } from "./link-qrcode-row";
 import { LinkUnBlockRow } from "./link-unblock-row";
 import { LinkUpdateRow } from "./link-update-row";
 
@@ -45,7 +44,6 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
           <LinkUpdateRow link={link} />
           <LinkDetailsRow link={link} />
           <LinkEventRow linkId={link.id} />
-          <LinkQrCodeRow originalUrl={link.originalUrl} />
           <DropdownMenuSeparator />
           {linkStatus[link.status]}
           <DropdownMenuSeparator />
