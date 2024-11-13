@@ -18,6 +18,7 @@ import {
   subDays,
 } from "date-fns";
 import { formatInTimeZone, toDate } from "date-fns-tz";
+import { ptBR } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import * as React from "react";
 import { DateRange } from "react-day-picker";
@@ -486,9 +487,8 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                         variant="ghost"
                         size="sm"
                         className={cn(
-                          "justify-start hover:bg-primary/90 hover:text-background",
-                          selectedRange === label &&
-                            "bg-primary text-background hover:bg-primary/90 hover:text-background"
+                          "justify-start hover:bg-primary/70 hover:text-foreground",
+                          selectedRange === label && "bg-primary text-foreground hover:bg-primary/60"
                         )}
                         onClick={() => {
                           selectDateRange(start, end, label);
@@ -595,6 +595,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
                       numberOfMonths={numberOfMonths}
                       showOutsideDays={false}
                       className={className}
+                      locale={ptBR}
                     />
                   </div>
                 </div>
