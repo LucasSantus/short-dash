@@ -29,7 +29,7 @@ export function ListMostClickedLinks(): JSX.Element {
     <Fragment>
       {mostClickedLinks.data.length ? (
         mostClickedLinks.data.map(({ id, title, amountOfAccesses }) => (
-          <TableRow key={id}>
+          <TableRow key={id} className="border-b">
             <TableCell className="font-medium">
               <div className="w-52 truncate md:w-full lg:w-40 xl:w-56">{title}</div>
             </TableCell>

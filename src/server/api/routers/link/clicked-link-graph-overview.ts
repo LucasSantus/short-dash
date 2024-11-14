@@ -61,7 +61,7 @@ export const clickedLinkGraphOverviewQuery = protectedProcedure
         })
       : [];
 
-    const data = daysInterval.map((day) => {
+    const data = daysInterval?.map((day) => {
       const formattedDate = format(day, "yyyy-MM-dd");
 
       const dailyClicks = links.map(({ title, events }) => {
