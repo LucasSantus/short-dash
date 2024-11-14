@@ -1,7 +1,7 @@
 "use client";
 
+import { CopyButton } from "@/components/copy-button";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
@@ -12,14 +12,12 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import {
   CheckIcon,
-  CopyIcon,
   CornerDownRightIcon,
   LucideIcon,
   MousePointerClickIcon,
   TimerOffIcon,
-  XIcon,
+  XIcon
 } from "lucide-react";
-import { toast } from "sonner";
 import { LinkStatus } from "../../_types/links";
 import { DataTableRowActions } from "./table-row-actions";
 
@@ -131,15 +129,6 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
 
         const shortUrl = generateUrl(code);
 
-        async function handleCopyUrl() {
-          try {
-            await navigator.clipboard.writeText(shortUrl);
-            toast.success("Url copiada com sucesso!");
-          } catch {
-            toast.error("Ocorreu uma falha ao tentar copiar a url!");
-          }
-        }
-
         return (
           <div className="flex max-w-full flex-col items-start gap-2">
             <div className="flex w-full items-center justify-between">
@@ -147,13 +136,7 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
                 {shortUrl}
               </a>
 
-              <Button
-                size="icon"
-                variant="ghost"
-                icon={<CopyIcon className="size-3.5" />}
-                onClick={handleCopyUrl}
-                className="size-7"
-              />
+              <CopyButton text={shortUrl} textCopySuccess="Url copiada com sucesso!"  />
             </div>
             <span className="flex items-center gap-1 text-muted-foreground/70">
               <CornerDownRightIcon className="size-3" />
