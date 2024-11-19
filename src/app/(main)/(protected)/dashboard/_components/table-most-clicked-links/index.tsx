@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { Table, TableBody } from "@/components/ui/table";
 import { MousePointerClickIcon } from "lucide-react";
 import { ListMostClickedLinks } from "./list-most-clicked-links";
@@ -15,6 +16,7 @@ export function TableMostClickedLinks(): JSX.Element {
           <MousePointerClickIcon className="size-5" />
         </CardTitle>
       </CardHeader>
+      <Separator />
       <CardContent className="grid flex-1 gap-8">
         <Table>
           <TableBody>
