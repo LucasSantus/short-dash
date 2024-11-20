@@ -36,8 +36,8 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
     <div className="flex justify-center">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button aria-label="Open menu" variant="secondary" className="flex size-8 p-0">
-            <EllipsisIcon className="size-4" aria-hidden="true" />
+          <Button aria-label="Open menu" variant="secondary" size="icon">
+            <EllipsisIcon aria-hidden="true" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-40">

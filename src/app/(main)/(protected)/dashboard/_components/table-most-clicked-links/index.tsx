@@ -16,8 +16,10 @@ export function TableMostClickedLinks(): JSX.Element {
           <MousePointerClickIcon className="size-5" />
         </CardTitle>
       </CardHeader>
+
       <Separator />
-      <CardContent className="grid flex-1 gap-8">
+
+      <CardContent className="grid flex-1 gap-8 py-5">
         <Table>
           <TableBody>
             <ListMostClickedLinks />

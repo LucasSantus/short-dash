@@ -217,7 +217,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             variant="ghost"
             onClick={handleTogglePopover}
             className={cn(
-              "flex h-auto min-h-10 w-full items-center justify-between rounded-md border bg-inherit p-1 hover:bg-inherit",
+              "flex h-10 w-full items-center justify-between rounded-md border bg-inherit p-1 hover:bg-inherit",
               className
             )}
             disabled={isDisabled}

@@ -4,6 +4,7 @@ import type { Table } from "@tanstack/react-table";
 import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
 
 const pageSizeOptions: number[] = [10, 20, 30, 40, 50];
+
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
   totalCount: number;
@@ -22,7 +23,7 @@ export function DataTablePagination<TData>({ table, totalCount = 0 }: DataTableP
           Mostrando de {from} até {to} de {totalCount} resultados
         </p>
       </div>
-      <div className="flex flex-col-reverse items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
+      <div className="flex flex-col-reverse items-center gap-4 py-2 sm:flex-row sm:gap-5">
         <div className="flex items-center space-x-2">
           <p className="whitespace-nowrap font-medium text-sm">Linhas por página</p>
           <Select
@@ -31,7 +32,7 @@ export function DataTablePagination<TData>({ table, totalCount = 0 }: DataTableP
               table.setPageSize(Number(value));
             }}
           >
-            <SelectTrigger className="h-8 w-[4.5rem]">
+            <SelectTrigger className="h-9 w-[4.5rem]">
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
@@ -50,37 +51,38 @@ export function DataTablePagination<TData>({ table, totalCount = 0 }: DataTableP
           <Button
             aria-label="Go to first page"
             variant="outline"
-            className="hidden size-8 p-0 lg:flex"
+            size="icon"
+            className="hidden size-9 lg:flex"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
-            icon={<ChevronsLeftIcon className="size-4" aria-hidden="true" />}
+            icon={<ChevronsLeftIcon aria-hidden="true" />}
           />
           <Button
             aria-label="Go to previous page"
             variant="outline"
             size="icon"
-            className="size-8"
+            className="size-9"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            icon={<ChevronLeftIcon className="size-4" aria-hidden="true" />}
+            icon={<ChevronLeftIcon aria-hidden="true" />}
           />
           <Button
             aria-label="Go to next page"
             variant="outline"
             size="icon"
-            className="size-8"
+            className="size-9"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            icon={<ChevronRightIcon className="size-4" aria-hidden="true" />}
+            icon={<ChevronRightIcon aria-hidden="true" />}
           />
           <Button
             aria-label="Go to last page"
             variant="outline"
             size="icon"
-            className="hidden size-8 lg:flex"
+            className="hidden size-9 lg:flex"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
-            icon={<ChevronsRightIcon className="size-4" aria-hidden="true" />}
+            icon={<ChevronsRightIcon aria-hidden="true" />}
           />
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import {
@@ -14,7 +15,7 @@ import { trpc } from "@/trpc/client";
 import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { type LinkSchema, linkSchema } from "@/validation/main/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PencilIcon, SaveIcon, XIcon } from "lucide-react";
+import { PencilIcon, SaveIcon, TriangleAlertIcon, XIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -78,27 +79,38 @@ export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
       </DropdownMenuItem>
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent className="w-full max-w-3xl">
+        <SheetContent className="p-4">
           <SheetHeader>
             <SheetTitle>Atualizar Link</SheetTitle>
             <SheetDescription>Preencha os campos abaixo para atualizar as informações do link.</SheetDescription>
           </SheetHeader>
+
           <LinkForm form={form} onSubmit={onHandleSubmit} isPending={isPending}>
-            <SheetFooter className="justify-between gap-2 pt-2 sm:space-x-0">
-              <SheetClose asChild>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  disabled={isPending}
-                  icon={<XIcon className="size-4" />}
-                  className="w-full"
-                >
-                  Cancelar
+            <SheetFooter className="sm:!flex-col absolute inset-x-4 bottom-4">
+              <div>
+                <Alert>
+                  <TriangleAlertIcon className="size-5" />
+                  <AlertTitle>Atenção</AlertTitle>
+                  <AlertDescription>Salve as alterações antes de sair.</AlertDescription>
+                </Alert>
+              </div>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <SheetClose asChild>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    disabled={isPending}
+                    icon={<XIcon className="size-4" />}
+                    className="w-full"
+                  >
+                    Cancelar
+                  </Button>
+                </SheetClose>
+
+                <Button isLoading={isPending} icon={<SaveIcon className="size-4" />} className="w-full">
+                  Salvar
                 </Button>
-              </SheetClose>
-              <Button isLoading={isPending} icon={<SaveIcon className="size-4" />} className="w-full">
-                Salvar
-              </Button>
+              </div>
             </SheetFooter>
           </LinkForm>
         </SheetContent>

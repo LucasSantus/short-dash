@@ -21,7 +21,7 @@ export function LinkForm({ form, onSubmit, isPending, children }: LinkFormProps)
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-2 flex flex-col gap-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={control}
           name="title"
