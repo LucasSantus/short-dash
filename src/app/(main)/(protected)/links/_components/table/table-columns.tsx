@@ -10,7 +10,7 @@ import { $Enums } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { CheckIcon, CornerDownRightIcon, LucideIcon, MousePointerClickIcon, TimerOffIcon, XIcon } from "lucide-react";
+import { CheckIcon, CornerDownRightIcon, LucideIcon, MousePointerClickIcon, XIcon } from "lucide-react";
 import { LinkStatus } from "../../_types/links";
 import { DataTableRowActions } from "./table-row-actions";
 
@@ -64,13 +64,6 @@ export const getLinkStatusDescription: Record<
     icon: XIcon,
     color: {
       textColor: "text-gray-400",
-    },
-  },
-  Expired: {
-    label: "Expirado",
-    icon: TimerOffIcon,
-    color: {
-      textColor: "text-red-400",
     },
   },
 };

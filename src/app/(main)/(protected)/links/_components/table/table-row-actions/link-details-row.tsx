@@ -33,7 +33,6 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
   const statusColor: Record<LinkStatus, string> = {
     Active: "bg-green-500",
     Inactive: "bg-yellow-500",
-    Expired: "bg-red-500",
   };
 
   async function handleCopyUrl(copyUrl: string) {
