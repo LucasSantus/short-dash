@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
+import { createNewCode } from "@/utils/create-new-code";
 import { type LinkSchema, linkSchema } from "@/validation/main/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon, SaveIcon, XIcon } from "lucide-react";
@@ -26,6 +27,10 @@ export function CreateCategoryDialog() {
 
   const form = useForm<LinkSchema>({
     resolver: zodResolver(linkSchema),
+    defaultValues: {
+      code: createNewCode(),
+      hasPassword: false,
+    },
   });
 
   const utils = trpc.useUtils();

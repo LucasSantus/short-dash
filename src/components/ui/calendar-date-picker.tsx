@@ -11,13 +11,14 @@ import {
   endOfMonth,
   endOfWeek,
   endOfYear,
+  format,
   startOfDay,
   startOfMonth,
   startOfWeek,
   startOfYear,
   subDays,
 } from "date-fns";
-import { formatInTimeZone, toDate } from "date-fns-tz";
+import { toDate } from "date-fns-tz";
 import { ptBR } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import * as React from "react";
@@ -80,7 +81,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
       date,
       closeOnSelect = false,
       numberOfMonths = 2,
-      yearsRange = 20,
+      yearsRange = 30,
       onDateSelect,
       variant,
       align = "end",
@@ -91,14 +92,13 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
     ref
   ) => {
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
-    const [selectedRange, setSelectedRange] = React.useState<string | null>(numberOfMonths === 2 ? "Este Ano" : "Hoje");
+    const [selectedRange, setSelectedRange] = React.useState<string | null>(null);
     const [monthFrom, setMonthFrom] = React.useState<Date | undefined>(date?.from);
     const [yearFrom, setYearFrom] = React.useState<number | undefined>(date?.from?.getFullYear());
     const [monthTo, setMonthTo] = React.useState<Date | undefined>(numberOfMonths === 2 ? date?.to : date?.from);
     const [yearTo, setYearTo] = React.useState<number | undefined>(
       numberOfMonths === 2 ? date?.to?.getFullYear() : date?.from?.getFullYear()
     );
-    const [highlightedPart, setHighlightedPart] = React.useState<string | null>(null);
 
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -140,6 +140,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 
     const handleMonthChange = (newMonthIndex: number, part: string) => {
       setSelectedRange(null);
+
       if (part === "from") {
         if (yearFrom !== undefined) {
           if (newMonthIndex < 0 || newMonthIndex > yearsRange + 1) return;
@@ -181,6 +182,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
 
     const handleYearChange = (newYear: number, part: string) => {
       setSelectedRange(null);
+
       if (part === "from") {
         if (years.includes(newYear)) {
           const newMonth = monthFrom
@@ -260,53 +262,9 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
       },
     ];
 
-    const handleMouseOver = (part: string) => {
-      setHighlightedPart(part);
-    };
-
-    const handleMouseLeave = () => {
-      setHighlightedPart(null);
-    };
-
     const handleWheel = (event: React.WheelEvent) => {
       event.preventDefault();
       setSelectedRange(null);
-      if (highlightedPart === "firstDay") {
-        const newDate = new Date(date?.from as Date);
-        const increment = event.deltaY > 0 ? -1 : 1;
-        newDate.setDate(newDate.getDate() + increment);
-        if (newDate <= (date?.to as Date)) {
-          numberOfMonths === 2
-            ? onDateSelect({ from: newDate, to: new Date(date?.to as Date) })
-            : onDateSelect({ from: newDate, to: newDate });
-          setMonthFrom(newDate);
-        } else if (newDate > (date?.to as Date) && numberOfMonths === 1) {
-          onDateSelect({ from: newDate, to: newDate });
-          setMonthFrom(newDate);
-        }
-      } else if (highlightedPart === "firstMonth") {
-        const currentMonth = monthFrom ? monthFrom.getMonth() : 0;
-        const newMonthIndex = currentMonth + (event.deltaY > 0 ? -1 : 1);
-        handleMonthChange(newMonthIndex, "from");
-      } else if (highlightedPart === "firstYear" && yearFrom !== undefined) {
-        const newYear = yearFrom + (event.deltaY > 0 ? -1 : 1);
-        handleYearChange(newYear, "from");
-      } else if (highlightedPart === "secondDay") {
-        const newDate = new Date(date?.to as Date);
-        const increment = event.deltaY > 0 ? -1 : 1;
-        newDate.setDate(newDate.getDate() + increment);
-        if (newDate >= (date?.from as Date)) {
-          onDateSelect({ from: new Date(date?.from as Date), to: newDate });
-          setMonthTo(newDate);
-        }
-      } else if (highlightedPart === "secondMonth") {
-        const currentMonth = monthTo ? monthTo.getMonth() : 0;
-        const newMonthIndex = currentMonth + (event.deltaY > 0 ? -1 : 1);
-        handleMonthChange(newMonthIndex, "to");
-      } else if (highlightedPart === "secondYear" && yearTo !== undefined) {
-        const newYear = yearTo + (event.deltaY > 0 ? -1 : 1);
-        handleYearChange(newYear, "to");
-      }
     };
 
     React.useEffect(() => {
@@ -343,9 +301,7 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
           }
         });
       };
-    }, [highlightedPart, date]);
-
-    const formatWithTz = (date: Date, fmt: string) => formatInTimeZone(date, timeZone, fmt);
+    }, [date]);
 
     const isDisabled = isLoading || disabled;
 
@@ -364,106 +320,32 @@ export const CalendarDatePicker = React.forwardRef<HTMLButtonElement, CalendarDa
               id="date"
               ref={ref}
               {...props}
-              className={cn("w-auto", calendarDatePickerVariants({ variant, className }))}
+              variant="outline"
               onClick={handleTogglePopover}
               disabled={isDisabled}
               isLoading={isLoading}
               icon={<CalendarIcon className="mr-2 size-4" />}
               suppressHydrationWarning
+              className={cn("!justify-start !gap-1 w-auto", calendarDatePickerVariants({ variant, className }))}
             >
-              <span>
-                {date?.from ? (
-                  date.to ? (
-                    <>
-                      <span
-                        id={`firstDay-${id}`}
-                        className={cn("date-part", highlightedPart === "firstDay" && "font-bold underline")}
-                        onMouseOver={() => handleMouseOver("firstDay")}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        {formatWithTz(date.from, "dd")}
-                      </span>{" "}
-                      <span
-                        id={`firstMonth-${id}`}
-                        className={cn("date-part", highlightedPart === "firstMonth" && "font-bold underline")}
-                        onMouseOver={() => handleMouseOver("firstMonth")}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        {formatWithTz(date.from, "LLL")}
-                      </span>
-                      ,{" "}
-                      <span
-                        id={`firstYear-${id}`}
-                        className={cn("date-part", highlightedPart === "firstYear" && "font-bold underline")}
-                        onMouseOver={() => handleMouseOver("firstYear")}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        {formatWithTz(date.from, "y")}
-                      </span>
-                      {numberOfMonths === 2 && (
-                        <>
-                          {" - "}
-                          <span
-                            id={`secondDay-${id}`}
-                            className={cn("date-part", highlightedPart === "secondDay" && "font-bold underline")}
-                            onMouseOver={() => handleMouseOver("secondDay")}
-                            onMouseLeave={handleMouseLeave}
-                          >
-                            {formatWithTz(date.to, "dd")}
-                          </span>{" "}
-                          <span
-                            id={`secondMonth-${id}`}
-                            className={cn("date-part", highlightedPart === "secondMonth" && "font-bold underline")}
-                            onMouseOver={() => handleMouseOver("secondMonth")}
-                            onMouseLeave={handleMouseLeave}
-                          >
-                            {formatWithTz(date.to, "LLL")}
-                          </span>
-                          ,{" "}
-                          <span
-                            id={`secondYear-${id}`}
-                            className={cn("date-part", highlightedPart === "secondYear" && "font-bold underline")}
-                            onMouseOver={() => handleMouseOver("secondYear")}
-                            onMouseLeave={handleMouseLeave}
-                          >
-                            {formatWithTz(date.to, "y")}
-                          </span>
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <span
-                        id="day"
-                        className={cn("date-part", highlightedPart === "day" && "font-bold underline")}
-                        onMouseOver={() => handleMouseOver("day")}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        {formatWithTz(date.from, "dd")}
-                      </span>{" "}
-                      <span
-                        id="month"
-                        className={cn("date-part", highlightedPart === "month" && "font-bold underline")}
-                        onMouseOver={() => handleMouseOver("month")}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        {formatWithTz(date.from, "LLL")}
-                      </span>
-                      ,{" "}
-                      <span
-                        id="year"
-                        className={cn("date-part", highlightedPart === "year" && "font-bold underline")}
-                        onMouseOver={() => handleMouseOver("year")}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        {formatWithTz(date.from, "y")}
-                      </span>
-                    </>
-                  )
+              {date?.from ? (
+                date.to ? (
+                  <React.Fragment>
+                    <span>{format(date.from, "dd MMM, yyyy")}</span>
+
+                    {numberOfMonths === 2 && (
+                      <React.Fragment>
+                        {" - "}
+                        <span>{format(date.to, "dd MMM, yyyy")}</span>
+                      </React.Fragment>
+                    )}
+                  </React.Fragment>
                 ) : (
-                  <span>Selecione uma Data</span>
-                )}
-              </span>
+                  <span>{format(date.from, "dd MMM, yyyy")}</span>
+                )
+              ) : (
+                <span>Selecione uma Data</span>
+              )}
             </Button>
           </PopoverTrigger>
           {isPopoverOpen && (

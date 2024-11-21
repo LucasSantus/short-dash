@@ -2,10 +2,11 @@
 
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { type VariantProps, cva } from "class-variance-authority";
-import { X } from "lucide-react";
+import { TriangleAlertIcon, X } from "lucide-react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { Alert, AlertDescription, AlertTitle } from "./alert";
 
 const Sheet = SheetPrimitive.Root;
 
@@ -79,6 +80,24 @@ const SheetFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElemen
 );
 SheetFooter.displayName = "SheetFooter";
 
+const SheetAlertFooter = ({ message, children }: React.PropsWithChildren & { message?: string }) => {
+  const alertMessage = message ?? "Salve as alterações antes de sair.";
+
+  return (
+    <div className="absolute inset-x-6 bottom-6 flex flex-col gap-3">
+      <Alert>
+        <TriangleAlertIcon className="size-5" />
+        <AlertTitle>Atenção</AlertTitle>
+        <AlertDescription>{alertMessage}</AlertDescription>
+      </Alert>
+
+      <div className="flex flex-col gap-3 sm:flex-row">{children}</div>
+    </div>
+  );
+};
+
+SheetAlertFooter.displayName = "SheetAlertFooter";
+
 const SheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
@@ -97,6 +116,7 @@ SheetDescription.displayName = SheetPrimitive.Description.displayName;
 
 export {
   Sheet,
+  SheetAlertFooter,
   SheetClose,
   SheetContent,
   SheetDescription,

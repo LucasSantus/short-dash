@@ -2,9 +2,9 @@ import { useEventFilters } from "@/app/(main)/(protected)/events/_hooks/use-even
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
+  SheetAlertFooter,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -64,25 +64,24 @@ export function EventTableFiltered(): JSX.Element {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Filtros Avançados</SheetTitle>
-          <SheetDescription>Ajuste os critérios para refinar os resultados do histórico de links.</SheetDescription>
+          <SheetDescription>Ajuste os critérios para refinar os resultados dos eventos.</SheetDescription>
         </SheetHeader>
         <EventTableFilteredForm onSubmit={onSubmit}>
-          <SheetFooter>
+          <SheetAlertFooter message="Aplique os filtros antes de sair.">
             <Button
-              size="sm"
               type="button"
               variant="secondary"
               icon={<XIcon className="size-4" />}
-              className="h-9"
               onClick={onHandleRemoveFilters}
+              className="w-full"
             >
               Remover Filtros
             </Button>
 
-            <Button size="sm" icon={<FilterIcon className="size-4" />}>
+            <Button icon={<FilterIcon className="size-4" />} className="w-full">
               Aplicar Filtros
             </Button>
-          </SheetFooter>
+          </SheetAlertFooter>
         </EventTableFilteredForm>
       </SheetContent>
     </Sheet>

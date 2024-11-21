@@ -78,7 +78,7 @@ export const createTRPCRouter = t.router;
 const timingMiddleware = t.middleware(async ({ next, path }) => {
   const start = Date.now();
 
-  const delay = env.NEXT_PUBLIC_ARTIFICIAL_DELAY;
+  const delay = env.NEXT_PUBLIC_ARTIFICIAL_DELAY_IN_MS;
 
   // artificial delay
   const [result] = await Promise.all([next(), sleep(delay)]);

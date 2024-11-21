@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Table, TableBody } from "@/components/ui/table";
 import { MousePointerClickIcon } from "lucide-react";
 import { ListMostClickedLinks } from "./list-most-clicked-links";
 
@@ -19,12 +18,8 @@ export function TableMostClickedLinks(): JSX.Element {
 
       <Separator />
 
-      <CardContent className="grid flex-1 gap-8 py-5">
-        <Table>
-          <TableBody>
-            <ListMostClickedLinks />
-          </TableBody>
-        </Table>
+      <CardContent className="h-full">
+        <ListMostClickedLinks />
       </CardContent>
     </Card>
   );

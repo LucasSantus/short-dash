@@ -20,7 +20,7 @@ export const messages = {
       errorNotFound: "Ocorreu um erro desconhecido!",
     },
     data: {
-      noData: "Não existem dados registrados",
+      noData: "Não existem dados disponíveis no momento.",
     },
     email: {
       dontRegisteredOnSystem: "Este e-mail não está cadastrado no sistema.",

@@ -164,17 +164,6 @@ export function LinkDetailsRow({ link }: CategoryDetailsRowProps): JSX.Element {
 
                         <span className="text-muted-foreground">{formatDate(link.updatedAt)}</span>
                       </div>
-
-                      {!!link.expiresAt && (
-                        <div className="grid gap-2 text-sm">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="size-4" />
-                            <span>Atualizado em:</span>
-                          </div>
-
-                          <span className="text-muted-foreground">{formatDate(link.expiresAt)}</span>
-                        </div>
-                      )}
                     </div>
                   </div>
                 </CardContent>

@@ -10,14 +10,7 @@ import { $Enums } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import {
-  CheckIcon,
-  CornerDownRightIcon,
-  LucideIcon,
-  MousePointerClickIcon,
-  TimerOffIcon,
-  XIcon
-} from "lucide-react";
+import { CheckIcon, CornerDownRightIcon, LucideIcon, MousePointerClickIcon, TimerOffIcon, XIcon } from "lucide-react";
 import { LinkStatus } from "../../_types/links";
 import { DataTableRowActions } from "./table-row-actions";
 
@@ -31,7 +24,6 @@ export type LinkTableColumns = {
   status: $Enums.LinkStatus;
   createdAt: Date;
   updatedAt: Date;
-  expiresAt?: Date;
   lastClickOnEvent: Date | null;
   ownerId: string | null;
 };
@@ -47,7 +39,6 @@ export const getLinkLabelColumns: Record<keyof LinkTableColumns, string> = {
   ownerId: "Id do Dono",
   createdAt: "Criada em",
   updatedAt: "Atualizada em",
-  expiresAt: "Expirado em",
   lastClickOnEvent: "Último Clique",
 };
 
@@ -136,7 +127,7 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
                 {shortUrl}
               </a>
 
-              <CopyButton text={shortUrl} textCopySuccess="Url copiada com sucesso!"  />
+              <CopyButton text={shortUrl} textCopySuccess="Url copiada com sucesso!" />
             </div>
             <span className="flex items-center gap-1 text-muted-foreground/70">
               <CornerDownRightIcon className="size-3" />

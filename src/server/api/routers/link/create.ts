@@ -1,29 +1,20 @@
-import { messages } from "@/constants/messages";
-import { createNewCode } from "@/utils/create-new-code";
-import { z } from "zod";
+import { linkSchema } from "@/validation/main/link";
 import { protectedProcedure } from "../../trpc";
 
 export const createLinkMutation = protectedProcedure
-  .input(
-    z.object({
-      title: z.string({ message: messages.form.REQUIRED_FIELD }),
-      description: z.string().optional(),
-      originalUrl: z.string({ message: messages.form.REQUIRED_FIELD }).url(messages.form.MUST_BE_URL_VALID),
-    })
-  )
-  .mutation(async ({ input: { title, description, originalUrl }, ctx: { db, session } }) => {
-    let code: string;
-    let isUniqueCode: boolean;
+  .input(linkSchema)
+  .mutation(async ({ input: { title, description, code, originalUrl }, ctx: { db, session } }) => {
+    const titleIfExists = await db.link.findFirst({
+      where: { title, ownerId: session.user.id },
+    });
 
-    do {
-      code = createNewCode();
+    if (titleIfExists) throw new Error("Um link com este título já existe. Por favor, escolha um título diferente.");
 
-      const codeIfExists = await db.link.findUnique({
-        where: { code },
-      });
+    const codeIfExists = await db.link.findFirst({
+      where: { code },
+    });
 
-      isUniqueCode = !!codeIfExists;
-    } while (isUniqueCode);
+    if (codeIfExists) throw new Error("Um link com este código já existe. Por favor, escolha um código diferente.");
 
     await db.link.create({
       data: {

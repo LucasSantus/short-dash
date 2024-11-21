@@ -2,7 +2,7 @@ import { RenderOnClient } from "@/components/render-on-client";
 import { messages } from "@/constants/messages";
 import { getServerAuthSession } from "@/utils/get-server-auth-session";
 import { Metadata } from "next";
-import { SettingsLayout } from "../_components/settings-layout";
+import { SettingsLayout } from "../_components/layout";
 import { ChangePasswordForm } from "./form";
 
 export const metadata: Metadata = {

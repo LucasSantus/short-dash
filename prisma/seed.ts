@@ -33,7 +33,6 @@ async function main() {
           }),
           code: faker.string.alphanumeric(8),
           status: faker.helpers.arrayElement(["Active", "Inactive"]),
-          expiresAt: faker.date.future(),
           ownerId: user.id,
         },
       });

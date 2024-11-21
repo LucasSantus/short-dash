@@ -46,7 +46,7 @@ export const env = createEnv({
     NEXT_PUBLIC_BASE_URL: z.string().url().default("http://localhost:3000"),
 
     // ARTIFICIAL_DELAY IN MS
-    NEXT_PUBLIC_ARTIFICIAL_DELAY: z.coerce.number().default(500),
+    NEXT_PUBLIC_ARTIFICIAL_DELAY_IN_MS: z.coerce.number().default(500),
   },
 
   /**
@@ -70,7 +70,7 @@ export const env = createEnv({
     RESEND_TO_EMAIL: process.env.RESEND_TO_EMAIL,
 
     NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
-    NEXT_PUBLIC_ARTIFICIAL_DELAY: process.env.NEXT_PUBLIC_ARTIFICIAL_DELAY,
+    NEXT_PUBLIC_ARTIFICIAL_DELAY_IN_MS: process.env.NEXT_PUBLIC_ARTIFICIAL_DELAY_IN_MS,
   },
 
   /**

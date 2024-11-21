@@ -1,6 +1,6 @@
 import { RenderOnClient } from "@/components/render-on-client";
 import { Metadata } from "next";
-import { SettingsLayout } from "../_components/settings-layout";
+import { SettingsLayout } from "../_components/layout";
 import { AppearanceForm } from "./form";
 
 export const metadata: Metadata = {

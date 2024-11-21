@@ -23,8 +23,14 @@ export const eventListQuery = protectedProcedure
       }),
     })
   )
-  .query(async ({ input: { search, pagination }, ctx: { db } }) => {
-    const whereClauses: Prisma.EventWhereInput[] = [];
+  .query(async ({ input: { search, pagination }, ctx: { db, session } }) => {
+    const whereClauses: Prisma.EventWhereInput[] = [
+      {
+        link: {
+          ownerId: session.user.id,
+        },
+      },
+    ];
 
     if (search) {
       if (search.username) {

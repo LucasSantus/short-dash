@@ -1,7 +1,6 @@
 import { NumberTicker } from "@/components/number-ticker";
 import QueryFailed from "@/components/query-failed";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TableCell, TableRow } from "@/components/ui/table";
 import { MAX_POPULAR_LINKS } from "@/constants/globals";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
@@ -14,39 +13,29 @@ export function ListMostClickedLinks(): JSX.Element {
     return (
       <Fragment>
         {Array.from({ length: MAX_POPULAR_LINKS }).map((_, index) => (
-          <TableRow key={index}>
-            <TableCell colSpan={2} className="rounded-sm px-0 py-1">
-              <Skeleton className="h-10 w-full rounded-sm" />
-            </TableCell>
-          </TableRow>
+          <div className="flex h-14 items-center border-b px-2" key={index}>
+            <Skeleton className="h-10 w-full rounded-sm" />
+          </div>
         ))}
       </Fragment>
     );
 
   if (isError || !mostClickedLinks) return <QueryFailed isFetching={isFetching} refetch={refetch} error={error} />;
 
+  if (!mostClickedLinks.data.length)
+    return <div className="mt-5 text-center text-muted-foreground">{messages.globals.data.noData}</div>;
+
   return (
     <Fragment>
-      {mostClickedLinks.data.length ? (
-        mostClickedLinks.data.map(({ id, title, amountOfAccesses }) => (
-          <TableRow key={id} className="border-b">
-            <TableCell className="font-medium">
-              <div className="w-52 truncate md:w-full lg:w-40 xl:w-56">{title}</div>
-            </TableCell>
-            <TableCell className="text-right">
-              {amountOfAccesses > 0 ? <NumberTicker value={amountOfAccesses} className="text-sm" /> : 0}
-            </TableCell>
-          </TableRow>
-        ))
-      ) : (
-        <TableRow>
-          <TableCell className="font-medium" colSpan={2}>
-            <div className="flex w-full items-center justify-center">
-              <span className="text-muted-foreground">{messages.globals.data.noData}</span>
-            </div>
-          </TableCell>
-        </TableRow>
-      )}
+      {mostClickedLinks.data.map(({ id, title, amountOfAccesses }) => (
+        <div key={id} className="flex h-14 items-center border-b px-2">
+          <div className="w-52 truncate md:w-full lg:w-40 xl:w-56">{title}</div>
+
+          <div className="ml-auto">
+            {amountOfAccesses > 0 ? <NumberTicker value={amountOfAccesses} className="text-sm" /> : 0}
+          </div>
+        </div>
+      ))}
     </Fragment>
   );
 }

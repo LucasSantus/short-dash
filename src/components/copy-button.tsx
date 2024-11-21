@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 
 interface CopyButtonProps extends ComponentProps<typeof Button> {
-  textCopySuccess: string
+  textCopySuccess: string;
   text: string;
 }
 
@@ -19,9 +19,9 @@ export function CopyButton({ text, textCopySuccess, ...rest }: CopyButtonProps):
       setCopied(true);
       toast.success(textCopySuccess);
       setTimeout(() => setCopied(false), 1500);
-    } catch(error) {
+    } catch (error) {
       setCopied(false);
-      console.error(error)
+      console.error(error);
       toast.error("Ocorreu uma falha ao tentar copiar!");
     }
   }
@@ -33,41 +33,27 @@ export function CopyButton({ text, textCopySuccess, ...rest }: CopyButtonProps):
           <Button
             variant="ghost"
             size="icon"
-            className="disabled:opacity-100 size-7"
+            className="size-7 disabled:opacity-100"
             onClick={handleCopy}
             aria-label={copied ? "Copied" : "Copy to clipboard"}
             disabled={copied}
             icon={
               <Fragment>
-                <div
-                  className={cn(
-                    "transition-all",
-                    copied ? "scale-100 opacity-100" : "scale-0 opacity-0",
-                  )}
-                >
-                  <Check className="stroke-emerald-500 size-3.5" strokeWidth={3} aria-hidden="true" />
+                <div className={cn("transition-all", copied ? "scale-100 opacity-100" : "scale-0 opacity-0")}>
+                  <Check className="size-3.5 stroke-emerald-500" strokeWidth={3} aria-hidden="true" />
                 </div>
-                <div
-                  className={cn(
-                    "absolute transition-all",
-                    copied ? "scale-0 opacity-0" : "scale-100 opacity-100",
-                  )}
-                >
-                  <Copy className="size-3.5" strokeWidth={3} aria-hidden="true"  />
-                </div>  
+                <div className={cn("absolute transition-all", copied ? "scale-0 opacity-0" : "scale-100 opacity-100")}>
+                  <Copy className="size-3.5" strokeWidth={3} aria-hidden="true" />
+                </div>
               </Fragment>
             }
             {...rest}
           />
-      
         </TooltipTrigger>
-        <TooltipContent className="border border-input bg-popover px-2 py-1 text-xs text-muted-foreground">
+        <TooltipContent className="border border-input bg-popover px-2 py-1 text-muted-foreground text-xs">
           Clique para Copiar
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
-    )
-  
-  // <Button size="icon" variant="outline" {...rest} icon={<Copy className="size-4" />} onClick={handleCopyUrl} />;
-  
+  );
 }

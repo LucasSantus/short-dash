@@ -2,6 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { getApiErrorMessage } from "@/utils/get-api-error-message";
+import { AlertCircleIcon } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 
 export interface QueryFailedProps {
   refetch?: () => void;
@@ -13,8 +15,12 @@ export default function QueryFailed({ refetch, isFetching, error }: QueryFailedP
   const errorMessage = getApiErrorMessage(error);
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-5">
-      <h2 className="text-center font-medium text-red-600 text-sm">{errorMessage}</h2>
+    <div className="flex h-full w-full flex-col items-center justify-center gap-4 px-4">
+      <Alert variant="destructive">
+        <AlertCircleIcon className="size-4" />
+        <AlertTitle>Atenção!</AlertTitle>
+        <AlertDescription>{errorMessage}</AlertDescription>
+      </Alert>
 
       {refetch ? (
         <Button onClick={refetch} isLoading={isFetching}>
