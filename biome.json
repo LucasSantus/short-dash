@@ -26,13 +26,15 @@
         "noParameterAssign": "off",
         "useSelfClosingElements": "off",
         "useImportType": "off",
-        "noUnusedTemplateLiteral": "off"
+        "noUnusedTemplateLiteral": "off",
+        "noDefaultExport": "error"
       },
       "correctness": {
         "noEmptyPattern": "off",
         "useExhaustiveDependencies": "off",
         "noUnusedImports": "warn",
-        "noUnusedVariables": "warn"
+        "noUnusedVariables": "warn",
+        "noUnsafeFinally": "off"
       },
       "complexity": {
         "noBannedTypes": "off",
@@ -40,7 +42,9 @@
         "useArrowFunction": "off",
         "noUselessSwitchCase": "off",
         "noStaticOnlyClass": "off",
-        "noExtraBooleanCast": "off"
+        "noExtraBooleanCast": "off",
+        "noThisInStatic": "off",
+        "noUselessFragments": "off"
       },
       "suspicious": {
         "noArrayIndexKey": "off",
@@ -48,7 +52,8 @@
         "noEmptyInterface": "off",
         "noConsoleLog": "warn",
         "noAssignInExpressions": "off",
-        "noMisleadingCharacterClass": "off"
+        "noMisleadingCharacterClass": "off",
+        "noExplicitAny": "warn"
       },
       "a11y": {
         "noSvgWithoutTitle": "off",
@@ -61,6 +66,9 @@
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"
+      },
+      "performance": {
+        "noDelete": "off"
       },
       "nursery": {
         "useSortedClasses": {
@@ -90,7 +98,14 @@
   },
   "overrides": [
     {
-      "include": ["**/package.json"],
+      "include": ["**/page.tsx", "**/layout.tsx", "**/not-found.tsx", "*.config.[jt]s", "*.config.m[jt]s"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      },
       "formatter": {
         "lineWidth": 1
       }
