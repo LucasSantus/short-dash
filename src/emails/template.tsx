@@ -2,14 +2,14 @@ import { Body, Container, Head, Html, Preview, Tailwind } from "@react-email/com
 import type { PropsWithChildren } from "react";
 
 interface EmailTemplateProps extends PropsWithChildren {
-  previewText: string;
+  preview: string;
 }
 
-export function EmailTemplate({ children, previewText }: EmailTemplateProps) {
+export function EmailTemplate({ children, preview }: EmailTemplateProps) {
   return (
     <Html>
       <Head />
-      <Preview>{previewText}</Preview>
+      <Preview>{preview}</Preview>
       <Tailwind>
         <Body className="mx-auto my-auto bg-white font-sans">
           <Container className="mx-auto my-11 w-[465px] rounded border border-gray-300 border-solid p-9">

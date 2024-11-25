@@ -8,10 +8,10 @@ interface EmailResetPasswordProps {
 }
 
 export const EmailResetPassword = ({ url, username, applicationName }: EmailResetPasswordProps) => {
-  const previewText = `Recuperação de Senha | ${applicationName}`;
+  const preview = `Recuperação de Senha | ${applicationName}`;
 
   return (
-    <EmailTemplate previewText={previewText}>
+    <EmailTemplate preview={preview}>
       <Heading className="mx-0 my-5 p-0 text-center font-normal text-2xl text-black">
         <strong>Recuperação de Senha</strong>
       </Heading>
