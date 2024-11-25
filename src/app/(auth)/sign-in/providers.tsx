@@ -4,7 +4,7 @@ import { GoogleIcon } from "@/components/icons/google";
 import { KEY_PROVIDER_SELECTED } from "@/constants/globals";
 import type { BuiltInProviderType } from "next-auth/providers/index";
 import { type LiteralUnion, signIn } from "next-auth/react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useTransition } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { AuthButton } from "../_components/auth-button";
 
@@ -20,14 +20,10 @@ export function SignInProviders({ children }: SignInProviderProps): JSX.Element 
     null
   );
 
-  const [isRedirect, setIsRedirect] = useState<boolean>(false);
+  const [isPendingRedirect, startRedirectTransition] = useTransition();
 
   async function onHandleSelectedProvider(providerType: AuthProviderType) {
-    setIsRedirect(true);
-
-    await signIn(providerType).then(() => setProviderSelectedOnStorage(providerType));
-
-    setIsRedirect(false);
+    startRedirectTransition(() => signIn(providerType).then(() => setProviderSelectedOnStorage(providerType)));
   }
 
   return (
@@ -38,7 +34,7 @@ export function SignInProviders({ children }: SignInProviderProps): JSX.Element 
         onClick={() => onHandleSelectedProvider("google")}
         variant="outline"
         icon={<GoogleIcon />}
-        isLoading={isRedirect}
+        isLoading={isPendingRedirect}
         isProviderWasSelectedAtLastLogin={providerSelectedOnStorage === "google"}
       />
 

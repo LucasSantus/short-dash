@@ -20,12 +20,15 @@ export function SignUpForm() {
 
   const { mutate, isPending } = trpc.auth.signUp.useMutation({
     onSuccess: () => {
-      toast.success("Usuário criado com sucesso!");
+      toast.success("Novo usuário registrado com sucesso!");
 
       startRedirectTransition(() => router.push("/sign-in"));
     },
     onError: (error) => {
-      const errorMessage = getApiErrorMessage(error, "Ocorreu uma falha ao tentar criar um novo usuário!");
+      const errorMessage = getApiErrorMessage(
+        error,
+        "Não foi possível registrar o novo usuário. Por favor, tente novamente."
+      );
 
       toast.error(errorMessage);
     },
@@ -46,7 +49,7 @@ export function SignUpForm() {
   return (
     <Form {...form}>
       <div className="grid gap-2">
-        <form onSubmit={handleSubmit(onSubmit)} className="grid w-full gap-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="grid gap-3">
           <FormField
             control={control}
             name="name"

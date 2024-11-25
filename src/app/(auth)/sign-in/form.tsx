@@ -1,5 +1,6 @@
 "use client";
 
+import { authenticate } from "@/actions/auth/authenticate";
 import { InputPassword } from "@/components/input-password";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -8,8 +9,8 @@ import { KEY_PROVIDER_SELECTED } from "@/constants/globals";
 import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { type SignInFormData, signInFormSchema } from "@/validation/auth/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { LogInIcon } from "lucide-react";
-import { signIn } from "next-auth/react";
 import { useRouter } from "nextjs-toploader/app";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -20,43 +21,39 @@ import { AuthProviderType } from "./providers";
 
 export function SignInForm() {
   const router = useRouter();
-  const [isPendingRedirect, startTransitionRedirect] = useTransition();
+  const [isRedirectPending, startRedirectTransition] = useTransition();
   const [_, setProviderSelectedOnStorage] = useLocalStorage<AuthProviderType | null>(KEY_PROVIDER_SELECTED, null);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (values: SignInFormData) => {
+      await authenticate(values);
+    },
+    onError: (error) => {
+      const errorMessage = getApiErrorMessage(
+        error,
+        "Ocorreu um problema ao tentar autenticar na plataforma, tente novamente mais tarde!"
+      );
+
+      toast.error(errorMessage);
+    },
+    onSuccess: () => {
+      setProviderSelectedOnStorage("credentials");
+
+      startRedirectTransition(() => router.push("/dashboard"));
+    },
+  });
 
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInFormSchema),
   });
 
-  const {
-    handleSubmit,
-    control,
-    formState: { isSubmitting },
-  } = form;
+  const { handleSubmit, control } = form;
 
-  async function onSubmit({ email, password }: SignInFormData) {
-    try {
-      const response = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (!!response && response.error) {
-        console.error(response);
-        toast.error(response.error);
-      }
-
-      setProviderSelectedOnStorage("credentials");
-
-      // startTransitionRedirect(() => router.push("/"));
-    } catch (error) {
-      const errorMessage = getApiErrorMessage(error, "Ocorreu uma falha ao tentar acessar o sistema!");
-
-      toast.error(errorMessage);
-    }
+  async function onSubmit(values: SignInFormData) {
+    mutate(values);
   }
 
-  const isLoading = isPendingRedirect || isSubmitting;
+  const isLoading = isRedirectPending || isPending;
 
   return (
     <Form {...form}>

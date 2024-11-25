@@ -1,6 +1,6 @@
 import { KeyRoundIcon } from "lucide-react";
 import type { Metadata } from "next";
-import { AlreadyAccount } from "../_components/already-account";
+import { AuthFooter } from "../_components/auth-footer";
 import { AuthLayout } from "../_components/layout";
 import { SignUpForm } from "./form";
 
@@ -17,7 +17,13 @@ export default function SignUpPage(): JSX.Element {
     >
       <SignUpForm />
 
-      <AlreadyAccount />
+      <AuthFooter
+        text="Já possuí uma conta?"
+        link={{
+          title: "Acessar",
+          path: "/sign-in",
+        }}
+      />
     </AuthLayout>
   );
 }

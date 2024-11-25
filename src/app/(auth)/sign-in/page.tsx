@@ -1,6 +1,6 @@
 import { LogInIcon } from "lucide-react";
 import type { Metadata } from "next";
-import { DontAlreadyAccount } from "../_components/dont-already-account";
+import { AuthFooter } from "../_components/auth-footer";
 import { AuthLayout } from "../_components/layout";
 import { SignInForm } from "./form";
 import { SignInProviders } from "./providers";
@@ -20,7 +20,13 @@ export default function SignIn(): JSX.Element {
         <SignInForm />
       </SignInProviders>
 
-      <DontAlreadyAccount />
+      <AuthFooter
+        text="Não possuí uma conta?"
+        link={{
+          title: "Crie uma gratis!",
+          path: "/sign-up",
+        }}
+      />
     </AuthLayout>
   );
 }
