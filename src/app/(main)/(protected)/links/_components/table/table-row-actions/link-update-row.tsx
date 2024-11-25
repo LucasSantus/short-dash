@@ -41,14 +41,14 @@ export function LinkUpdateRow({ link }: CategoryUpdateRowProps): JSX.Element {
 
   const { mutate, isPending } = trpc.link.update.useMutation({
     onError: (error) => {
-      const errorMessage = getApiErrorMessage(error, messages.form.ERROR_DATA_HAS_BEEN_UPDATED);
+      const errorMessage = getApiErrorMessage(error, messages.globals.data.errorUpdated);
 
       toast.error(errorMessage);
     },
     onSuccess: () => {
       form.reset();
 
-      toast.success(messages.form.DATA_HAS_BEEN_UPDATED);
+      toast.success(messages.globals.data.updated);
     },
     onSettled: async () => {
       await utils.link.list.invalidate();

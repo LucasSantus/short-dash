@@ -4,10 +4,10 @@ import { z } from "zod";
 export const forgetPasswordFormSchema = z.object({
   email: z
     .string({
-      required_error: messages.form.REQUIRED_FIELD,
+      required_error: messages.globals.form.requiredField,
     })
     .email({
-      message: messages.form.INSERT_VALID_EMAIL,
+      message: messages.globals.email.validEmail,
     }),
 });
 

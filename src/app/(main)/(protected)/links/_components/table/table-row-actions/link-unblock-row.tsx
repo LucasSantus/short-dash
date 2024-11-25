@@ -15,12 +15,12 @@ export function LinkUnBlockRow({ linkId }: LinkUnBlockRowProps): JSX.Element {
 
   const { mutate, isPending } = trpc.link.updateMultipleStatus.useMutation({
     onError: (error) => {
-      const errorMessage = getApiErrorMessage(error, messages.form.ERROR_DATA_HAS_BEEN_BLOCKED);
+      const errorMessage = getApiErrorMessage(error, messages.globals.data.errorUnblocked);
 
       toast.error(errorMessage);
     },
     onSuccess: () => {
-      toast.success(messages.form.DATA_HAS_BEEN_UNBLOCKED);
+      toast.success(messages.globals.data.unblocked);
     },
     onSettled: async () => {
       await utils.link.list.invalidate();

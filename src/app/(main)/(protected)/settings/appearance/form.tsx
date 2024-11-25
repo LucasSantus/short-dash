@@ -30,7 +30,7 @@ export function AppearanceForm() {
   function onSubmit(data: AppearanceFormData) {
     setTheme(data.theme);
 
-    toast.success(messages.form.DATA_HAS_BEEN_UPDATED);
+    toast.success(messages.globals.data.updated);
   }
 
   return (

@@ -27,7 +27,7 @@ export function UpdateStatusFloatingBarItem({
 
   const { mutateAsync, isPending } = trpc.link.updateMultipleStatus.useMutation({
     onSuccess: () => {
-      toast.success(messages.form.DATA_HAS_BEEN_UPDATED);
+      toast.success(messages.globals.data.updated);
 
       table.toggleAllRowsSelected(false);
     },
@@ -49,7 +49,7 @@ export function UpdateStatusFloatingBarItem({
         status: value,
       });
     } catch (error) {
-      const errorMessage = getApiErrorMessage(error, messages.form.ERROR_DATA_HAS_BEEN_BLOCKED);
+      const errorMessage = getApiErrorMessage(error, messages.globals.data.errorUpdated);
 
       toast.error(errorMessage);
     }

@@ -3,16 +3,16 @@ import { z } from "zod";
 
 export const linkSchema = z
   .object({
-    title: z.string().min(1, messages.form.REQUIRED_FIELD).trim(),
+    title: z.string().min(1, messages.globals.form.requiredField).trim(),
     tags: z.string().trim().optional(),
-    description: z.string({ message: messages.form.REQUIRED_FIELD }).optional(),
+    description: z.string({ message: messages.globals.form.requiredField }).optional(),
 
-    code: z.string().min(1, messages.form.REQUIRED_FIELD).trim(),
+    code: z.string().min(1, messages.globals.form.requiredField).trim(),
 
     hasPassword: z.boolean(),
     hashedPassword: z.string().optional(),
 
-    originalUrl: z.string({ message: messages.form.REQUIRED_FIELD }).url(messages.form.MUST_BE_URL_VALID),
+    originalUrl: z.string({ message: messages.globals.form.requiredField }).url(messages.globals.data.mustBeUrlValid),
   })
   .refine(
     (data) => {

@@ -29,12 +29,12 @@ export function LinkBlockRow({ linkId }: LinkBlockRowProps): JSX.Element {
 
   const { mutate, isPending } = trpc.link.updateMultipleStatus.useMutation({
     onError: (error) => {
-      const errorMessage = getApiErrorMessage(error, messages.form.ERROR_DATA_HAS_BEEN_BLOCKED);
+      const errorMessage = getApiErrorMessage(error, messages.globals.data.errorBlocked);
 
       toast.error(errorMessage);
     },
     onSuccess: () => {
-      toast.success(messages.form.DATA_HAS_BEEN_BLOCKED);
+      toast.success(messages.globals.data.blocked);
 
       setIsOpen(false);
     },

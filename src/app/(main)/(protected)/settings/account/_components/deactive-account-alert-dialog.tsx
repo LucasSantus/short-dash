@@ -1,3 +1,4 @@
+import { logOut } from "@/actions/auth/logout";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   AlertDialog,
@@ -11,24 +12,33 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useMutation } from "@tanstack/react-query";
-import { Trash2Icon } from "lucide-react";
+import { trpc } from "@/trpc/client";
+import { getApiErrorMessage } from "@/utils/get-api-error-message";
+import { LoaderIcon, Trash2Icon } from "lucide-react";
+import { useTransition } from "react";
 import { toast } from "sonner";
 
-interface DeactiveAccountAlertDialogProps {
-  userId: string;
-}
+export function DeactiveAccountAlertDialog(): JSX.Element {
+  const [isPendingLogout, startLogoutTransition] = useTransition();
 
-export function DeactiveAccountAlertDialog({ userId }: DeactiveAccountAlertDialogProps): JSX.Element {
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["mutation-user-deleting-by-id", userId],
-    mutationFn: async ({ userId }: DeactiveAccountAlertDialogProps) => {},
-    onError: () => toast.error("Não foi possível excluir sua conta. Tente novamente mais tarde."),
+  const { mutate, isPending } = trpc.user.deactivate.useMutation({
+    onSuccess: async () => {
+      toast.success("A conta foi desativada com sucesso!");
+
+      startLogoutTransition(() => logOut());
+    },
+    onError: (error) => {
+      const errorMessage = getApiErrorMessage(error, "Ocorreu uma falha ao tentar alterar a senha do usuário!");
+
+      toast.error(errorMessage);
+    },
   });
 
-  async function onHandleDeleteUser() {
-    mutate({ userId });
+  async function onSubmit() {
+    mutate();
   }
+
+  const isLoading = isPendingLogout || isPending;
 
   return (
     <AlertDialog>
@@ -56,8 +66,9 @@ export function DeactiveAccountAlertDialog({ userId }: DeactiveAccountAlertDialo
           </AlertDescription>
         </Alert>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isPending}>Fechar</AlertDialogCancel>
-          <AlertDialogAction disabled={isPending} onClick={onHandleDeleteUser}>
+          <AlertDialogCancel disabled={isLoading}>Fechar</AlertDialogCancel>
+          <AlertDialogAction disabled={isLoading} onClick={onSubmit} className="flex items-center gap-2">
+            {isLoading && <LoaderIcon className="size-4 animate-spin" />}
             Confirmar
           </AlertDialogAction>
         </AlertDialogFooter>

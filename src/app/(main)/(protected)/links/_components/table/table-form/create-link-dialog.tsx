@@ -14,6 +14,7 @@ import {
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
 import { createNewCode } from "@/utils/create-new-code";
+import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { type LinkSchema, linkSchema } from "@/validation/main/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon, SaveIcon, XIcon } from "lucide-react";
@@ -36,20 +37,20 @@ export function CreateCategoryDialog() {
   const utils = trpc.useUtils();
 
   const { mutate, isPending } = trpc.link.create.useMutation({
-    onError: (error) => {
-      console.error(error);
-
-      if (error instanceof Error) toast.error(error.message);
-    },
     onSuccess: () => {
       form.reset();
 
-      toast.success(messages.form.DATA_HAS_BEEN_STORED);
+      toast.success(messages.globals.data.stored);
 
       setOpen(false);
     },
     onSettled: async () => {
       await utils.link.list.invalidate();
+    },
+    onError: (error) => {
+      const errorMessage = getApiErrorMessage(error, messages.globals.data.errorStored);
+
+      toast.error(errorMessage);
     },
   });
 

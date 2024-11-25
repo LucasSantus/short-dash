@@ -9,7 +9,7 @@ import { publicProcedure } from "../../trpc";
 export const verifyTokenQuery = publicProcedure
   .input(
     z.object({
-      token: z.string({ required_error: messages.form.REQUIRED_FIELD }),
+      token: z.string({ required_error: messages.globals.form.requiredField }),
     })
   )
   .mutation(async ({ input: { token } }) => {

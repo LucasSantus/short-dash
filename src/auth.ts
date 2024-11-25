@@ -6,7 +6,7 @@ import { env } from "./env";
 import { CredentialsAccountNotFoundError } from "./errors/auth/credentials-account-not-found";
 import { CredentialsPasswordNotFoundError } from "./errors/auth/credentials-password-not-found-error";
 import { CredentialsPasswordNotIsValidError } from "./errors/auth/credentials-password-not-is-valid-error";
-import { CredentialsUserDeletedError } from "./errors/auth/credentials-user-deleted";
+import { CredentialsUserDeactivateError } from "./errors/auth/credentials-user-deleted";
 import { CredentialsUserNotFoundError } from "./errors/auth/credentials-user-not-found";
 import { prismaClient } from "./lib/prisma";
 import { signInFormSchema } from "./validation/auth/sign-in";
@@ -44,7 +44,7 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
 
         if (!user) throw new CredentialsUserNotFoundError();
 
-        if (user.deletedAt) throw new CredentialsUserDeletedError();
+        if (user.deletedAt) throw new CredentialsUserDeactivateError();
 
         const account = await prismaClient.account.findFirst({
           where: {

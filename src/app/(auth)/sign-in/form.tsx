@@ -1,6 +1,6 @@
 "use client";
 
-import { authenticate } from "@/actions/auth/authenticate";
+import { logIn } from "@/actions/auth/authenticate";
 import { InputPassword } from "@/components/input-password";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -30,7 +30,7 @@ export function SignInForm() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: SignInFormData) => {
-      await authenticate(values);
+      await logIn(values);
     },
     onError: (error) => {
       const errorMessage = getApiErrorMessage(

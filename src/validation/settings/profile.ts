@@ -3,11 +3,11 @@ import { z } from "zod";
 
 export const profileFormSchema = z.object({
   name: z.string({
-    required_error: messages.form.REQUIRED_FIELD,
+    required_error: messages.globals.form.requiredField,
   }),
   email: z
     .string({
-      required_error: messages.form.REQUIRED_FIELD,
+      required_error: messages.globals.form.requiredField,
     })
     .optional(),
 });

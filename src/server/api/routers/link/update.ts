@@ -5,10 +5,10 @@ import { protectedProcedure } from "../../trpc";
 export const updateLinkMutation = protectedProcedure
   .input(
     z.object({
-      id: z.string({ message: messages.form.REQUIRED_FIELD }),
-      title: z.string({ message: messages.form.REQUIRED_FIELD }),
+      id: z.string({ message: messages.globals.form.requiredField }),
+      title: z.string({ message: messages.globals.form.requiredField }),
       description: z.string().optional(),
-      originalUrl: z.string({ message: messages.form.REQUIRED_FIELD }).url(messages.form.MUST_BE_URL_VALID),
+      originalUrl: z.string({ message: messages.globals.form.requiredField }).url(messages.globals.data.mustBeUrlValid),
     })
   )
   .mutation(async ({ input: { id, title, description, originalUrl }, ctx: { db, session } }) => {

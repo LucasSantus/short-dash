@@ -28,12 +28,12 @@ export function LinkDeleteRow({ linkId }: LinkDeleteRowProps): JSX.Element {
 
   const { mutate, isPending } = trpc.link.deleteMultiple.useMutation({
     onError: (error) => {
-      const errorMessage = getApiErrorMessage(error, messages.form.ERROR_DATA_HAS_BEEN_DELETED);
+      const errorMessage = getApiErrorMessage(error, messages.globals.data.errorDeleted);
 
       toast.error(errorMessage);
     },
     onSuccess: async () => {
-      toast.success(messages.form.DATA_HAS_BEEN_DELETED);
+      toast.success(messages.globals.data.deleted);
 
       setIsOpen(false);
     },

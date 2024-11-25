@@ -7,19 +7,19 @@ export const changePasswordFormSchema = z
     email: z.string(),
     oldPassword: z
       .string({
-        required_error: messages.form.REQUIRED_FIELD,
+        required_error: messages.globals.form.requiredField,
       })
       .min(8, FORM_MIN_CHAR_LENGTH(8))
       .max(50, FORM_MAX_CHAR_LENGTH(50)),
     password: z
       .string({
-        required_error: messages.form.REQUIRED_FIELD,
+        required_error: messages.globals.form.requiredField,
       })
       .min(8, FORM_MIN_CHAR_LENGTH(8))
       .max(50, FORM_MAX_CHAR_LENGTH(50)),
     confirmPassword: z
       .string({
-        required_error: messages.form.REQUIRED_FIELD,
+        required_error: messages.globals.form.requiredField,
       })
       .min(8, FORM_MIN_CHAR_LENGTH(8))
       .max(50, FORM_MAX_CHAR_LENGTH(50)),

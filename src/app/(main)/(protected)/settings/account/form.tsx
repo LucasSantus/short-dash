@@ -106,7 +106,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
             Salvar
           </Button>
 
-          {user.id && <DeactiveAccountAlertDialog userId={user.id} />}
+          <DeactiveAccountAlertDialog />
         </div>
       </form>
     </Form>

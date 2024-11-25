@@ -5,7 +5,7 @@ import { publicProcedure } from "../../trpc";
 export const updateProfileMutation = publicProcedure
   .input(
     z.object({
-      name: z.string({ required_error: messages.form.REQUIRED_FIELD }),
+      name: z.string({ required_error: messages.globals.form.requiredField }),
     })
   )
   .mutation(async ({ input: { name }, ctx: { db, session } }) => {

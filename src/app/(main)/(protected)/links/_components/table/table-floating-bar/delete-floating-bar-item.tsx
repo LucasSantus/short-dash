@@ -31,7 +31,7 @@ export function DeleteFloatingBarItem({ table, isLoading, setIsLoading }: Delete
 
   const { mutateAsync, isPending } = trpc.link.deleteMultiple.useMutation({
     onSuccess: () => {
-      toast.success(messages.form.DATA_HAS_BEEN_DELETED);
+      toast.success(messages.globals.data.deleted);
 
       table.toggleAllRowsSelected(false);
     },
@@ -52,7 +52,7 @@ export function DeleteFloatingBarItem({ table, isLoading, setIsLoading }: Delete
         ids,
       });
     } catch (error) {
-      const errorMessage = getApiErrorMessage(error, messages.form.ERROR_DATA_HAS_BEEN_BLOCKED);
+      const errorMessage = getApiErrorMessage(error, messages.globals.data.errorDeleted);
 
       toast.error(errorMessage);
     }

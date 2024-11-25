@@ -6,7 +6,7 @@ import { protectedProcedure } from "../../trpc";
 export const updateStatusMultipleLinkMutationRoute = protectedProcedure
   .input(
     z.object({
-      ids: z.array(z.string({ message: messages.form.REQUIRED_FIELD })),
+      ids: z.array(z.string({ message: messages.globals.form.requiredField })),
       status: z.nativeEnum(LinkStatus),
     })
   )

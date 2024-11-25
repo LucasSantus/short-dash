@@ -1,5 +1,6 @@
 "use client";
 
+import { logOut } from "@/actions/auth/logout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -19,7 +20,6 @@ import {
 import { protectedHeaderItems } from "@/constants/protected-header-items";
 import { ChevronsUpDown, LoaderIcon, LogOutIcon, UserIcon } from "lucide-react";
 import { User } from "next-auth";
-import { signOut } from "next-auth/react";
 import { useRouter } from "nextjs-toploader/app";
 import { useState, useTransition } from "react";
 
@@ -33,7 +33,7 @@ export function SidebarFooter({ user }: SidebarFooterProps): JSX.Element {
   const router = useRouter();
 
   function onHandleLogout() {
-    startLogoutTransition(() => signOut());
+    startLogoutTransition(() => logOut());
   }
 
   return (
