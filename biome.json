@@ -26,8 +26,7 @@
         "noParameterAssign": "off",
         "useSelfClosingElements": "off",
         "useImportType": "off",
-        "noUnusedTemplateLiteral": "off",
-        "noDefaultExport": "error"
+        "noUnusedTemplateLiteral": "off"
       },
       "correctness": {
         "noEmptyPattern": "off",
@@ -99,13 +98,6 @@
   "overrides": [
     {
       "include": ["**/page.tsx", "**/layout.tsx", "**/not-found.tsx", "*.config.[jt]s", "*.config.m[jt]s"],
-      "linter": {
-        "rules": {
-          "style": {
-            "noDefaultExport": "off"
-          }
-        }
-      },
       "formatter": {
         "lineWidth": 1
       }
