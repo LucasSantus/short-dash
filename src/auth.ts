@@ -1,15 +1,19 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import NextAuth, { AuthError } from "next-auth";
+import { compare } from "bcryptjs";
+import NextAuth from "next-auth";
 import type { Adapter } from "next-auth/adapters";
 import { env } from "./env";
+import { CredentialsAccountNotFoundError } from "./errors/auth/credentials-account-not-found";
+import { CredentialsPasswordNotFoundError } from "./errors/auth/credentials-password-not-found-error";
+import { CredentialsPasswordNotIsValidError } from "./errors/auth/credentials-password-not-is-valid-error";
+import { CredentialsUserDeletedError } from "./errors/auth/credentials-user-deleted";
+import { CredentialsUserNotFoundError } from "./errors/auth/credentials-user-not-found";
 import { prismaClient } from "./lib/prisma";
 import { signInFormSchema } from "./validation/auth/sign-in";
 
-import { compare } from "bcryptjs";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import Resend from "next-auth/providers/resend";
-import { messages } from "./constants/messages";
 
 export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
   session: { strategy: "jwt" },
@@ -25,16 +29,11 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
     Credentials({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
+        email: { label: "E-mail", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         const { email, password } = await signInFormSchema.parseAsync(credentials);
-
-        // const userData = await signInAction({
-        //   email,
-        //   password,
-        // });
 
         const user = await prismaClient.user.findUnique({
           where: {
@@ -42,9 +41,9 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
           },
         });
 
-        if (!user) throw new AuthError("Usuário não encontrado!");
+        if (!user) throw new CredentialsUserNotFoundError();
 
-        if (user.deletedAt) throw new AuthError("Este usuário foi deletado!");
+        if (user.deletedAt) throw new CredentialsUserDeletedError();
 
         const account = await prismaClient.account.findFirst({
           where: {
@@ -52,13 +51,14 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
           },
         });
 
-        if (!account) throw new AuthError(messages.globals.account.notFound);
+        if (!account) throw new CredentialsAccountNotFoundError();
 
-        if (!user.password) throw new AuthError("Ocorreu um problema ao tentar recuperar a Conta!");
+        if (!user.password)
+          throw new CredentialsPasswordNotFoundError("Ocorreu um problema ao tentar recuperar a conta do usuário!");
 
-        const isPasswordValid = await compare(password as string, user.password);
+        const isPasswordValid = await compare(password, user.password);
 
-        if (!isPasswordValid) throw new AuthError("A Senha informada está incorreta!");
+        if (!isPasswordValid) throw new CredentialsPasswordNotIsValidError();
 
         return {
           id: user.id,
