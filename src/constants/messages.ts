@@ -20,17 +20,18 @@ export const messages = {
       errorNotFound: "Ocorreu um erro desconhecido!",
     },
     data: {
-      noData: "Não existem dados disponíveis no momento.",
+      noData: "Não existem dados disponíveis no momento!",
     },
     email: {
-      dontRegisteredOnSystem: "Este e-mail não está cadastrado no sistema.",
-      registeredOnSystem: "Este e-mail já está cadastrado no sistema.",
+      dontRegisteredOnSystem: "Este e-mail não está cadastrado no sistema!",
+      registeredOnSystem: "Este e-mail já está cadastrado no sistema!",
     },
     user: {
-      notFound: "Usuário não encontrado.",
+      notFound: "Usuário não encontrado!",
+      deleted: "Este usuário foi deletado!",
     },
     account: {
-      notFound: "Conta não encontrada.",
+      notFound: "Conta não encontrada!",
     },
   },
 };
