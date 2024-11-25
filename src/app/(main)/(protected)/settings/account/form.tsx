@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { MailIcon, SaveIcon, User2Icon } from "lucide-react";
 import { User } from "next-auth";
 import { useForm } from "react-hook-form";
-import { DeleteAccount } from "./_components/delete-account";
+import { DeactiveAccountAlertDialog } from "./_components/deactive-account-alert-dialog";
 
 interface ProfileFormProps {
   user: User;
@@ -81,17 +81,18 @@ export function ProfileForm({ user }: ProfileFormProps) {
           )}
         />
 
-        <div className="flex justify-start gap-2">
+        <div className="flex justify-between gap-2">
           <Button
             type="submit"
             aria-label="Submit for update user data"
             isLoading={isSubmitting}
-            icon={<SaveIcon className="size-4" />}
+            icon={<SaveIcon />}
+            size="sm"
           >
             Salvar
           </Button>
 
-          {user.id && <DeleteAccount userId={user.id} />}
+          {user.id && <DeactiveAccountAlertDialog userId={user.id} />}
         </div>
       </form>
     </Form>

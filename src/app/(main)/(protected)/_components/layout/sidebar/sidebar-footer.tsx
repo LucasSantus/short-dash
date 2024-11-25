@@ -83,7 +83,7 @@ export function SidebarFooter({ user }: SidebarFooterProps): JSX.Element {
               <DropdownMenuGroup>
                 {protectedHeaderItems.map(({ href, icon: Icon, title }) => (
                   <DropdownMenuItem className="space-x-2" onClick={() => router.push(href)} key={href}>
-                    <Icon className="size-4" />
+                    <Icon />
                     <span>{title}</span>
                   </DropdownMenuItem>
                 ))}
@@ -96,7 +96,7 @@ export function SidebarFooter({ user }: SidebarFooterProps): JSX.Element {
                   onHandleLogout();
                 }}
                 className="space-x-2"
-                icon={isPendingLogout ? <LoaderIcon className="size-4" /> : <LogOutIcon className="size-4" />}
+                icon={isPendingLogout ? <LoaderIcon /> : <LogOutIcon />}
                 disabled={isPendingLogout}
               >
                 <span>Log out</span>

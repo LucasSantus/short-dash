@@ -15,14 +15,14 @@ import { useMutation } from "@tanstack/react-query";
 import { Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 
-interface DeleteAccountProps {
+interface DeactiveAccountAlertDialogProps {
   userId: string;
 }
 
-export function DeleteAccount({ userId }: DeleteAccountProps): JSX.Element {
+export function DeactiveAccountAlertDialog({ userId }: DeactiveAccountAlertDialogProps): JSX.Element {
   const { mutate, isPending } = useMutation({
     mutationKey: ["mutation-user-deleting-by-id", userId],
-    mutationFn: async ({ userId }: DeleteAccountProps) => {},
+    mutationFn: async ({ userId }: DeactiveAccountAlertDialogProps) => {},
     onError: () => toast.error("Não foi possível excluir sua conta. Tente novamente mais tarde."),
   });
 
@@ -38,20 +38,21 @@ export function DeleteAccount({ userId }: DeleteAccountProps): JSX.Element {
           aria-label="delete user"
           isLoading={isPending}
           variant="destructive"
-          icon={<Trash2Icon className="size-4" />}
+          icon={<Trash2Icon />}
+          size="sm"
         >
-          Deletar Conta
+          Desativar Conta
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Deletar Conta</AlertDialogTitle>
-          <AlertDialogDescription>Ao confirmar essa ação, sua conta será removida do sistema.</AlertDialogDescription>
+          <AlertDialogTitle>Desativar Conta</AlertDialogTitle>
+          <AlertDialogDescription>Ao confirmar essa ação, sua conta será desativada do sistema.</AlertDialogDescription>
         </AlertDialogHeader>
         <Alert variant="destructive">
           <AlertDescription>
-            Tem certeza absoluta de que pretende apagar a sua conta? Logo após a confirmação, não será possível
-            recuperar a sua conta.
+            Tem certeza absoluta de que pretende desativar a sua conta? Logo após a confirmação, não será possível
+            recupera-la.
           </AlertDescription>
         </Alert>
         <AlertDialogFooter>
