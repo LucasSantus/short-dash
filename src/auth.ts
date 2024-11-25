@@ -76,7 +76,17 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
     newUser: "/sign-up",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update" && !!session) {
+        /**
+         * Todos os campos que seram alterados devem ser passados aqui.
+         * Exemplo:
+         *  token.name = session?.name;
+         *  token.email = session?.email;
+         */
+        token.name = session?.name;
+      }
+
       if (user)
         return {
           ...token,
@@ -86,7 +96,7 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
       return token;
     },
 
-    async session({ session, user, token }) {
+    async session({ session, user, trigger, token, newSession }) {
       if (token) {
         const { user } = token as {
           user: {
@@ -95,6 +105,14 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
         };
 
         session.user = { ...session.user, id: user.id };
+      } else if (trigger === "update") {
+        /**
+         * Todos os campos que seram alterados devem ser passados aqui.
+         * Exemplo:
+         *  session.user.name = newSession.name;
+         *  session.user.email = newSession.email;
+         */
+        session.user.name = newSession.name;
       } else {
         session.user = {
           ...session.user,
