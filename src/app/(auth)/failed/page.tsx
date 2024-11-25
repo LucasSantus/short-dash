@@ -1,9 +1,8 @@
-import ErrorHandling from "@/components/error-handling";
-import { ErrorHandlingData } from "@/types/error-handling";
+import { messages } from "@/constants/messages";
 import { KeyRoundIcon } from "lucide-react";
 import { AuthLayout } from "../_components/layout";
 
-export default function Failed({ error }: ErrorHandlingData) {
+export default function Failed() {
   return (
     <AuthLayout
       title="Erro!"
@@ -11,7 +10,8 @@ export default function Failed({ error }: ErrorHandlingData) {
       icon={KeyRoundIcon}
     >
       <div className="py-4">
-        <ErrorHandling error={error} />
+        {messages.globals.error.errorNotFound}
+        {/* <ErrorHandling error={error} /> */}
       </div>
     </AuthLayout>
   );
