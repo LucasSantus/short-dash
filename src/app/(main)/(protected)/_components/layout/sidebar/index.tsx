@@ -14,7 +14,7 @@ import {
   SidebarMenuSub as SidebarMenuSubShacn,
   Sidebar as SidebarShadcn,
 } from "@/components/ui/sidebar";
-import { ChevronRight, HistoryIcon, LayoutDashboardIcon, LifeBuoy, LinkIcon, LucideIcon, Send } from "lucide-react";
+import { ChevronRight, HistoryIcon, LayoutDashboardIcon, LinkIcon, LucideIcon } from "lucide-react";
 import { User } from "next-auth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -100,16 +100,16 @@ export const sidebarItems: SidebarItems = {
   ],
 
   secondary: [
-    {
-      label: "Support",
-      path: "#",
-      icon: LifeBuoy,
-    },
-    {
-      label: "Feedback",
-      path: "#",
-      icon: Send,
-    },
+    // {
+    //   label: "Support",
+    //   path: "#",
+    //   icon: LifeBuoy,
+    // },
+    // {
+    //   label: "Feedback",
+    //   path: "#",
+    //   icon: Send,
+    // },
   ],
 };
 

@@ -19,6 +19,10 @@ export function ForgetPasswordForm({}: ForgetPasswordFormProps) {
   const router = useRouter();
   const [isRedirectPending, startRedirectTransition] = useTransition();
 
+  const form = useForm<ForgetPasswordFormData>({
+    resolver: zodResolver(forgetPasswordFormSchema),
+  });
+
   const { mutate, isPending } = trpc.auth.forgetPassword.useMutation({
     onSuccess: () => {
       toast.success("E-mail enviado com sucesso!");
@@ -32,10 +36,6 @@ export function ForgetPasswordForm({}: ForgetPasswordFormProps) {
 
       toast.error(errorMessage);
     },
-  });
-
-  const form = useForm<ForgetPasswordFormData>({
-    resolver: zodResolver(forgetPasswordFormSchema),
   });
 
   async function onSubmit(values: ForgetPasswordFormData) {

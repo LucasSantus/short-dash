@@ -24,6 +24,10 @@ export function SignInForm() {
   const [isRedirectPending, startRedirectTransition] = useTransition();
   const [_, setProviderSelectedOnStorage] = useLocalStorage<AuthProviderType | null>(KEY_PROVIDER_SELECTED, null);
 
+  const form = useForm<SignInFormData>({
+    resolver: zodResolver(signInFormSchema),
+  });
+
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: SignInFormData) => {
       await authenticate(values);
@@ -41,10 +45,6 @@ export function SignInForm() {
 
       startRedirectTransition(() => router.push("/dashboard"));
     },
-  });
-
-  const form = useForm<SignInFormData>({
-    resolver: zodResolver(signInFormSchema),
   });
 
   async function onSubmit(values: SignInFormData) {

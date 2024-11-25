@@ -21,6 +21,13 @@ export function ResetPasswordForm({ email }: ResetPasswordFormProps) {
   const router = useRouter();
   const [isPendingRedirect, startRedirectTransition] = useTransition();
 
+  const form = useForm<ResetPasswordFormData>({
+    resolver: zodResolver(resetPasswordFormSchema),
+    defaultValues: {
+      email,
+    },
+  });
+
   const { mutate, isPending } = trpc.auth.resetPassword.useMutation({
     onSuccess: () => {
       toast.success("Senha recuperada com sucesso!");
@@ -31,13 +38,6 @@ export function ResetPasswordForm({ email }: ResetPasswordFormProps) {
       const errorMessage = getApiErrorMessage(error, "Ocorreu uma falha ao tentar recuperar a senha do usuário!");
 
       toast.error(errorMessage);
-    },
-  });
-
-  const form = useForm<ResetPasswordFormData>({
-    resolver: zodResolver(resetPasswordFormSchema),
-    defaultValues: {
-      email,
     },
   });
 

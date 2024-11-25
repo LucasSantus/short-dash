@@ -8,7 +8,6 @@ import { AppearanceFormData, appearanceFormSchema } from "@/validation/settings/
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SaveIcon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -34,15 +33,9 @@ export function AppearanceForm() {
     toast.success(messages.form.DATA_HAS_BEEN_UPDATED);
   }
 
-  useEffect(() => {
-    if (theme === "system") {
-      setTheme("dark");
-    }
-  }, [setTheme, theme]);
-
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={control}
           name="theme"

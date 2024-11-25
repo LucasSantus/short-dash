@@ -18,6 +18,10 @@ export function SignUpForm() {
   const router = useRouter();
   const [isPendingRedirect, startRedirectTransition] = useTransition();
 
+  const form = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpFormSchema),
+  });
+
   const { mutate, isPending } = trpc.auth.signUp.useMutation({
     onSuccess: () => {
       toast.success("Novo usuário registrado com sucesso!");
@@ -32,10 +36,6 @@ export function SignUpForm() {
 
       toast.error(errorMessage);
     },
-  });
-
-  const form = useForm<SignUpFormData>({
-    resolver: zodResolver(signUpFormSchema),
   });
 
   function onSubmit(values: SignUpFormData) {

@@ -32,8 +32,7 @@
         "noEmptyPattern": "off",
         "useExhaustiveDependencies": "off",
         "noUnusedImports": "warn",
-        "noUnusedVariables": "warn",
-        "noUnsafeFinally": "off"
+        "noUnusedVariables": "warn"
       },
       "complexity": {
         "noBannedTypes": "off",
@@ -41,9 +40,7 @@
         "useArrowFunction": "off",
         "noUselessSwitchCase": "off",
         "noStaticOnlyClass": "off",
-        "noExtraBooleanCast": "off",
-        "noThisInStatic": "off",
-        "noUselessFragments": "off"
+        "noExtraBooleanCast": "off"
       },
       "suspicious": {
         "noArrayIndexKey": "off",
@@ -51,8 +48,7 @@
         "noEmptyInterface": "off",
         "noConsoleLog": "warn",
         "noAssignInExpressions": "off",
-        "noMisleadingCharacterClass": "off",
-        "noExplicitAny": "warn"
+        "noMisleadingCharacterClass": "off"
       },
       "a11y": {
         "noSvgWithoutTitle": "off",
@@ -65,9 +61,6 @@
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"
-      },
-      "performance": {
-        "noDelete": "off"
       },
       "nursery": {
         "useSortedClasses": {
@@ -97,7 +90,7 @@
   },
   "overrides": [
     {
-      "include": ["**/page.tsx", "**/layout.tsx", "**/not-found.tsx", "*.config.[jt]s", "*.config.m[jt]s"],
+      "include": ["**/package.json"],
       "formatter": {
         "lineWidth": 1
       }
