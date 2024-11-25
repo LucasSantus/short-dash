@@ -32,7 +32,7 @@ export const signUpMutation = publicProcedure
     if (!user)
       throw new TRPCError({
         code: "UNAUTHORIZED",
-        message: "Erro ao criar novo usuário!",
+        message: "Houve um problema ao tentar registrar o novo usuário. Tente novamente mais tarde.",
       });
 
     const newAccount = await db.account.create({
@@ -44,7 +44,15 @@ export const signUpMutation = publicProcedure
       },
     });
 
-    if (!newAccount) throw new Error("erro ao criar nova conta");
+    if (!newAccount) {
+      await db.user.delete({
+        where: {
+          id: user.id,
+        },
+      });
+
+      throw new Error("Houve um problema ao tentar registrar a nova conta. Por favor, tente novamente mais tarde.");
+    }
 
     return newAccount;
   });
