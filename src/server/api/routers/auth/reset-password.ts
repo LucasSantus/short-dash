@@ -22,13 +22,13 @@ export const resetPasswordMutation = publicProcedure
         data: { password: newPassword },
       }),
 
-      // db.verificationToken.deleteMany({
-      //   where: {
-      //     user: {
-      //       email,
-      //     },
-      //   },
-      // }),
+      db.verificationToken.deleteMany({
+        where: {
+          user: {
+            email,
+          },
+        },
+      }),
     ]);
 
     return user;

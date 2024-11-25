@@ -5,7 +5,9 @@ import { publicProcedure } from "../../trpc";
 
 export const changePasswordMutation = publicProcedure
   .input(changePasswordFormSchema)
-  .mutation(async ({ input: { email, password, oldPassword }, ctx: { db } }) => {
+  .mutation(async ({ input: { email, password, oldPassword }, ctx: { db, session } }) => {
+    if (session.user?.email !== email) throw new Error("Você não pode alterar a senha que não seja da sua conta!");
+
     const user = await db.user.findUnique({
       where: {
         email,
