@@ -1,5 +1,5 @@
 export function createNewCode(size = 15): string {
-  const letters: string = "abcdefghijklmnopqrstuvwxyz1234567890";
+  const letters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let code = "";
 
   for (let count = 1; count <= size; count++) {
