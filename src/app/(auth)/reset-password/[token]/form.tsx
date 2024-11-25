@@ -41,50 +41,48 @@ export function ResetPasswordForm({ email }: ResetPasswordFormProps) {
     },
   });
 
-  const { handleSubmit, control } = form;
-
-  const isLoading = isPendingRedirect || isPending;
-
   async function onSubmit(values: ResetPasswordFormData) {
     mutate(values);
   }
 
+  const isLoading = isPendingRedirect || isPending;
+
+  const { handleSubmit, control } = form;
+
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <div className="grid gap-3">
-          <FormField
-            control={control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Senha</FormLabel>
-                <FormControl>
-                  <InputPassword placeholder="Digite a senha:" disabled={isLoading} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <form onSubmit={handleSubmit(onSubmit)} className="grid gap-3">
+        <FormField
+          control={control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Senha</FormLabel>
+              <FormControl>
+                <InputPassword placeholder="Digite a senha:" disabled={isLoading} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <FormField
-            control={control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirmação de Senha</FormLabel>
-                <FormControl>
-                  <InputPassword placeholder="Digite a confirmação de senha:" disabled={isLoading} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <FormField
+          control={control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirmação de Senha</FormLabel>
+              <FormControl>
+                <InputPassword placeholder="Digite a confirmação de senha:" disabled={isLoading} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <Button type="submit" aria-label="reset password of user" isLoading={isLoading} icon={<SaveIcon />}>
-            Salvar
-          </Button>
-        </div>
+        <Button type="submit" aria-label="reset password of user" isLoading={isLoading} icon={<SaveIcon />}>
+          Salvar
+        </Button>
       </form>
     </Form>
   );

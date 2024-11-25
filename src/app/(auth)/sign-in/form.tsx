@@ -47,59 +47,57 @@ export function SignInForm() {
     resolver: zodResolver(signInFormSchema),
   });
 
-  const { handleSubmit, control } = form;
-
   async function onSubmit(values: SignInFormData) {
     mutate(values);
   }
 
   const isLoading = isRedirectPending || isPending;
 
+  const { handleSubmit, control } = form;
+
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <div className="grid gap-2">
-          <FormField
-            control={control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="Digite o e-mail:" disabled={isLoading} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <form onSubmit={handleSubmit(onSubmit)} className="grid gap-3">
+        <FormField
+          control={control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="Digite o e-mail:" disabled={isLoading} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <FormField
-            control={control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Senha</FormLabel>
-                <FormControl>
-                  <InputPassword placeholder="Digite a senha:" disabled={isLoading} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <FormField
+          control={control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Senha</FormLabel>
+              <FormControl>
+                <InputPassword placeholder="Digite a senha:" disabled={isLoading} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <div className="flex justify-end">
-            <AuthLink title="Esqueci minha senha" href="/forget-password" />
-          </div>
-
-          <Button
-            type="submit"
-            aria-label="log-in in system"
-            isLoading={isLoading}
-            icon={<LogInIcon className="size-4" />}
-          >
-            Entrar
-          </Button>
+        <div className="flex justify-end">
+          <AuthLink title="Esqueci minha senha" href="/forget-password" />
         </div>
+
+        <Button
+          type="submit"
+          aria-label="log-in in system"
+          isLoading={isLoading}
+          icon={<LogInIcon className="size-4" />}
+        >
+          Entrar
+        </Button>
       </form>
     </Form>
   );

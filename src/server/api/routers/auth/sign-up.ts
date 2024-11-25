@@ -38,7 +38,7 @@ export const signUpMutation = publicProcedure
     const newAccount = await db.account.create({
       data: {
         type: "credentials",
-        provider: "Credentials",
+        provider: "credentials",
         providerAccountId: crypto.randomUUID(),
         userId: user.id,
       },

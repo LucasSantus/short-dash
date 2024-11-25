@@ -38,36 +38,34 @@ export function ForgetPasswordForm({}: ForgetPasswordFormProps) {
     resolver: zodResolver(forgetPasswordFormSchema),
   });
 
-  const { handleSubmit, control } = form;
-
   async function onSubmit(values: ForgetPasswordFormData) {
     mutate(values);
   }
 
-  const isLoading = isPending;
+  const isLoading = isPending || isRedirectPending;
+
+  const { handleSubmit, control } = form;
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <div className="grid gap-2">
-          <FormField
-            control={control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>E-mail</FormLabel>
-                <FormControl>
-                  <Input placeholder="Digite o e-mail:" disabled={isLoading} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <form onSubmit={handleSubmit(onSubmit)} className="grid gap-3">
+        <FormField
+          control={control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>E-mail</FormLabel>
+              <FormControl>
+                <Input placeholder="Digite o e-mail:" disabled={isLoading} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <Button type="submit" aria-label="forget password of user" isLoading={isLoading} icon={<SendIcon />}>
-            Enviar E-mail
-          </Button>
-        </div>
+        <Button type="submit" aria-label="forget password of user" isLoading={isLoading} icon={<SendIcon />}>
+          Enviar E-mail
+        </Button>
       </form>
     </Form>
   );

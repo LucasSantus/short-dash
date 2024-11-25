@@ -22,6 +22,7 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
     Google({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
     Resend({
       from: env.RESEND_TO_EMAIL,
@@ -48,6 +49,7 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
         const account = await prismaClient.account.findFirst({
           where: {
             userId: user.id,
+            provider: "credentials",
           },
         });
 

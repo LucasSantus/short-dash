@@ -38,71 +38,69 @@ export function SignUpForm() {
     resolver: zodResolver(signUpFormSchema),
   });
 
-  const { handleSubmit, control } = form;
-
   function onSubmit(values: SignUpFormData) {
     mutate(values);
   }
 
   const isLoading = isPendingRedirect || isPending;
 
+  const { handleSubmit, control } = form;
+
   return (
     <Form {...form}>
-      <div className="grid gap-2">
-        <form onSubmit={handleSubmit(onSubmit)} className="grid gap-3">
-          <FormField
-            control={control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome</FormLabel>
-                <FormControl>
-                  <Input placeholder="Digite o Nome:" {...field} disabled={isLoading} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <form onSubmit={handleSubmit(onSubmit)} className="grid gap-3">
+        <FormField
+          control={control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nome</FormLabel>
+              <FormControl>
+                <Input placeholder="Digite o Nome:" {...field} disabled={isLoading} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <FormField
-            control={control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>E-mail</FormLabel>
-                <FormControl>
-                  <Input placeholder="Digite o e-mail:" {...field} disabled={isLoading} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <FormField
+          control={control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>E-mail</FormLabel>
+              <FormControl>
+                <Input placeholder="Digite o e-mail:" {...field} disabled={isLoading} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <FormField
-            control={control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Senha</FormLabel>
-                <FormControl>
-                  <InputPassword placeholder="Digite a senha:" {...field} disabled={isLoading} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <FormField
+          control={control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Senha</FormLabel>
+              <FormControl>
+                <InputPassword placeholder="Digite a senha:" {...field} disabled={isLoading} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <Button
-            type="submit"
-            aria-label="Submit for create new user"
-            isLoading={isLoading}
-            icon={<SaveIcon className="size-4" />}
-            className="mt-2"
-          >
-            Salvar
-          </Button>
-        </form>
-      </div>
+        <Button
+          type="submit"
+          aria-label="Submit for create new user"
+          isLoading={isLoading}
+          icon={<SaveIcon className="size-4" />}
+          className="mt-2"
+        >
+          Salvar
+        </Button>
+      </form>
     </Form>
   );
 }
