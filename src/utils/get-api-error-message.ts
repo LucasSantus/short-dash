@@ -1,28 +1,14 @@
 import { Prisma } from "@prisma/client";
+import { AuthError } from "next-auth";
 
 export function getApiErrorMessage(error: unknown, defaultErrorMessage?: string): string {
   let errorMessage = defaultErrorMessage ?? "Ocorreu um erro inesperado!";
 
-  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+  if (error instanceof Error || error instanceof AuthError) {
+    errorMessage = error.message;
+  } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
     if (error.code === "P1001") {
       errorMessage = "Banco de dados Indisponível.";
-    }
-  }
-
-  if (error instanceof Error) {
-    if (
-      "response" in error &&
-      typeof error.response === "object" &&
-      error.response !== null &&
-      "errors" in error.response &&
-      Array.isArray(error.response.errors)
-    ) {
-      errorMessage =
-        error.response.errors.at(0)?.extensions?.originalError?.message?.at(0)?.errors?.at(0) ||
-        error.response.errors[0].message ||
-        error.message;
-    } else {
-      errorMessage = error.message;
     }
   }
 
