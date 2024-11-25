@@ -11,10 +11,11 @@ export const updateLinkMutation = protectedProcedure
       originalUrl: z.string({ message: messages.form.REQUIRED_FIELD }).url(messages.form.MUST_BE_URL_VALID),
     })
   )
-  .mutation(async ({ input: { id, title, description, originalUrl }, ctx: { db } }) => {
+  .mutation(async ({ input: { id, title, description, originalUrl }, ctx: { db, session } }) => {
     await db.link.update({
       where: {
         id,
+        ownerId: session.user.id,
       },
       data: {
         title,

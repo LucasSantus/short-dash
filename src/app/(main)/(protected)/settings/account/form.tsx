@@ -66,7 +66,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>E-mail</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Digite o e-mail:"

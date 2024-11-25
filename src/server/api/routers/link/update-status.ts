@@ -10,12 +10,13 @@ export const updateStatusMultipleLinkMutationRoute = protectedProcedure
       status: z.nativeEnum(LinkStatus),
     })
   )
-  .mutation(async ({ input: { ids, status }, ctx: { db } }) => {
+  .mutation(async ({ input: { ids, status }, ctx: { db, session } }) => {
     await db.link.updateMany({
       where: {
         id: {
           in: ids,
         },
+        ownerId: session.user.id,
       },
       data: {
         status,
