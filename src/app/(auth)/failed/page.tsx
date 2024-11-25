@@ -3,7 +3,7 @@ import { ErrorHandlingData } from "@/types/error-handling";
 import { KeyRoundIcon } from "lucide-react";
 import { AuthLayout } from "../_components/layout";
 
-export default function ErrorPage({ error }: ErrorHandlingData) {
+export default function Failed({ error }: ErrorHandlingData) {
   return (
     <AuthLayout
       title="Erro!"
