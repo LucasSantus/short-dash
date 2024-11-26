@@ -1,4 +1,4 @@
-export function createNewCode(size = 15): string {
+export function createNewCode(size = 10): string {
   const letters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let code = "";
 
