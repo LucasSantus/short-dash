@@ -44,3 +44,7 @@ yarn-error.log*
 
 # idea files
 .idea
+
+# docker
+.postgres-data
+.redis-data
