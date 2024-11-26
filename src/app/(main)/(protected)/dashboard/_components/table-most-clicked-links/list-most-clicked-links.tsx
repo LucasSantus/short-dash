@@ -5,9 +5,24 @@ import { MAX_POPULAR_LINKS } from "@/constants/globals";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
 import { Fragment } from "react";
+import { useDashboardFilters } from "../../_hooks/use-dashboard-filters";
 
 export function ListMostClickedLinks(): JSX.Element {
-  const { data: mostClickedLinks, isLoading, isFetching, refetch, isError, error } = trpc.link.mostClickeds.useQuery();
+  const { filters } = useDashboardFilters();
+
+  const {
+    data: mostClickedLinks,
+    isLoading,
+    isFetching,
+    refetch,
+    isError,
+    error,
+  } = trpc.link.mostClickeds.useQuery({
+    search: {
+      month: filters.month,
+      year: filters.year,
+    },
+  });
 
   if (isLoading)
     return (

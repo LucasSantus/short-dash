@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dialog";
 import { messages } from "@/constants/messages";
 import { trpc } from "@/trpc/client";
-import { createNewCode } from "@/utils/create-new-code";
 import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { type LinkSchema, linkSchema } from "@/validation/main/link";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,10 +27,6 @@ export function CreateCategoryDialog() {
 
   const form = useForm<LinkSchema>({
     resolver: zodResolver(linkSchema),
-    defaultValues: {
-      code: createNewCode(),
-      hasPassword: false,
-    },
   });
 
   const utils = trpc.useUtils();

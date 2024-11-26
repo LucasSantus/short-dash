@@ -1,3 +1,4 @@
+"use client";
 import { CardsOverview } from "./_components/cards-overview";
 import { GraphLineChartClickedLinks } from "./_components/graph-line-chart-clicked-links";
 import { TableMostClickedLinks } from "./_components/table-most-clicked-links";

@@ -5,11 +5,19 @@ import QueryFailed from "@/components/query-failed";
 import { trpc } from "@/trpc/client";
 import { LinkIcon, MousePointerClickIcon } from "lucide-react";
 import { Fragment } from "react";
+import { useDashboardFilters } from "../../_hooks/use-dashboard-filters";
 import { CardOverviewItem } from "./card-overview-item";
 import { CardOverviewSkeleton } from "./card-overview-skeleton";
 
 export function CardsOverview(): JSX.Element {
-  const { data, isLoading, refetch, isError, isFetching, error } = trpc.link.overview.useQuery();
+  const { filters } = useDashboardFilters();
+
+  const { data, isLoading, refetch, isError, isFetching, error } = trpc.link.overview.useQuery({
+    search: {
+      year: filters.year,
+      month: filters.month,
+    },
+  });
 
   if (isLoading) return <CardOverviewSkeleton />;
 
