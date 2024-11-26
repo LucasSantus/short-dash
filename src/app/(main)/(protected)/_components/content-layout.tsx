@@ -1,12 +1,12 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { ReactNode } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 
-interface ContentLayoutProps {
+interface ContentLayoutProps extends PropsWithChildren {
   title: string;
-  children: ReactNode;
+  options?: ReactNode;
 }
 
-export async function ContentLayout({ title, children }: ContentLayoutProps) {
+export async function ContentLayout({ title, children, options }: ContentLayoutProps) {
   return (
     <div className="flex flex-1 flex-col">
       <div className="p-3">
@@ -14,7 +14,11 @@ export async function ContentLayout({ title, children }: ContentLayoutProps) {
       </div>
 
       <div className="container mx-auto flex flex-1 flex-col px-5">
-        <span className="py-3 text-muted-foreground text-xl">{title}</span>
+        <div className="flex items-center justify-between py-3">
+          <span className="text-muted-foreground text-xl">{title}</span>
+
+          {options}
+        </div>
 
         {children}
       </div>
