@@ -18,7 +18,6 @@ export function SidebarHeader(): JSX.Element {
             </div>
             <div className="flex flex-col gap-0.5 leading-none">
               <span className="font-semibold">{application.name}</span>
-              <span>{application.version}</span>
             </div>
           </SidebarMenuButtonShadcn>
         </SidebarMenuItemShadcn>
