@@ -1,22 +1,16 @@
 import { Prisma } from "@prisma/client";
-import { eachDayOfInterval, format } from "date-fns";
+import { eachDayOfInterval, endOfMonth, format, startOfMonth } from "date-fns";
 import { z } from "zod";
 import { protectedProcedure } from "../../trpc";
 
 export const clickedLinkGraphOverviewQuery = protectedProcedure
   .input(
     z.object({
-      search: z
-        .object({
-          linkId: z.string().optional(),
-          createdAt: z
-            .object({
-              from: z.date(),
-              to: z.date(),
-            })
-            .optional(),
-        })
-        .optional(),
+      search: z.object({
+        linkId: z.string().nullable(),
+        month: z.coerce.number().min(1).max(12),
+        year: z.coerce.number(),
+      }),
     })
   )
   .query(async ({ input: { search }, ctx: { session, db } }) => {
@@ -38,28 +32,33 @@ export const clickedLinkGraphOverviewQuery = protectedProcedure
       AND: whereClauses,
     };
 
+    const startOfCurrentMonth = search ? startOfMonth(new Date(search.year, search.month - 1)) : undefined;
+    const endOfCurrentMonth = search ? endOfMonth(new Date(search.year, search.month - 1)) : undefined;
+
     const links = await db.link.findMany({
       where,
       include: {
         events: {
-          where: search?.createdAt
-            ? {
-                createdAt: {
-                  gte: search.createdAt.from,
-                  lte: search.createdAt.to,
-                },
-              }
-            : undefined,
+          where:
+            startOfCurrentMonth && endOfCurrentMonth
+              ? {
+                  createdAt: {
+                    gte: startOfCurrentMonth,
+                    lte: endOfCurrentMonth,
+                  },
+                }
+              : undefined,
         },
       },
     });
 
-    const daysInterval = search?.createdAt
-      ? eachDayOfInterval({
-          start: search.createdAt.from,
-          end: search.createdAt.to,
-        })
-      : [];
+    const daysInterval =
+      startOfCurrentMonth && endOfCurrentMonth
+        ? eachDayOfInterval({
+            start: startOfCurrentMonth,
+            end: endOfCurrentMonth,
+          })
+        : [];
 
     const data = daysInterval?.map((day) => {
       const formattedDate = format(day, "yyyy-MM-dd");
