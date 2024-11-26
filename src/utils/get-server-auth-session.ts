@@ -1,5 +1,6 @@
 import session from "@/lib/auth";
 import type { User } from "next-auth";
+import { cache } from "react";
 
 export type ServerAuthSession =
   | {
@@ -11,7 +12,7 @@ export type ServerAuthSession =
       isAuthenticated: false;
     };
 
-export async function getServerAuthSession(): Promise<ServerAuthSession> {
+export const getServerAuthSession = cache(async (): Promise<ServerAuthSession> => {
   const data = await session();
 
   if (!data)
@@ -24,4 +25,4 @@ export async function getServerAuthSession(): Promise<ServerAuthSession> {
     user: data.user,
     isAuthenticated: true,
   };
-}
+});
