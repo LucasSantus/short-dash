@@ -24,7 +24,7 @@ import { CalendarIcon } from "lucide-react";
 import * as React from "react";
 import { DateRange } from "react-day-picker";
 
-const months = [
+export const months = [
   "Janeiro",
   "Fevereiro",
   "Março",
