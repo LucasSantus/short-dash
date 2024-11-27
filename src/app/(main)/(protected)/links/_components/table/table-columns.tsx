@@ -191,25 +191,35 @@ export function getLinkColumns(): Array<ColumnDef<LinkTableColumns>> {
 
         return (
           <div className="flex items-center justify-center text-muted-foreground">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger className="flex items-center gap-1.5 rounded-md border p-2">
-                  <MousePointerClickIcon className="size-4" />
+            {amountOfAccesses > 0 ? (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="flex items-center gap-1.5 rounded-md border p-2">
+                    <MousePointerClickIcon className="size-4" />
 
-                  {amountOfAccesses}
+                    {amountOfAccesses}
 
-                  <span>Click(s)</span>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <div className="flex flex-col gap-1 p-1">
-                    <span>
-                      <span className="font-bold">{amountOfAccesses}</span> Clicks
-                    </span>
-                    <span className="text-muted-foreground">{formattedDateLastClickOnEvent}</span>
-                  </div>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+                    <span>Click(s)</span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <div className="flex flex-col gap-1 p-1">
+                      <span>
+                        <span className="font-bold">{amountOfAccesses}</span> Clicks
+                      </span>
+                      <span className="text-muted-foreground">{formattedDateLastClickOnEvent}</span>
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <div className="flex cursor-pointer items-center gap-1.5 rounded-md border p-2">
+                <MousePointerClickIcon className="size-4" />
+
+                {amountOfAccesses}
+
+                <span>Click(s)</span>
+              </div>
+            )}
           </div>
         );
       },

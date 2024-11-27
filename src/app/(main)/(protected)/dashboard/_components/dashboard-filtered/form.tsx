@@ -14,9 +14,17 @@ import { z } from "zod";
 import { useDashboardFilters } from "../../_hooks/use-dashboard-filters";
 
 const dashboardFilteredSchema = z.object({
-  year: z.coerce.string(),
-  month: z.coerce.string(),
-  linkIds: z.array(z.string()),
+  year: z.coerce
+    .number()
+    .int()
+    .min(1900, { message: "O ano deve ser maior ou igual a 1900." })
+    .max(2100, { message: "O ano deve ser menor ou igual a 2100." }),
+  month: z.coerce
+    .number()
+    .int()
+    .min(1, { message: "O mês deve ser no mínimo 1 (Janeiro)." })
+    .max(12, { message: "O mês deve ser no máximo 12 (Dezembro)." }),
+  linkIds: z.array(z.string().optional()),
 });
 
 export type DashboardFilteredSchema = z.infer<typeof dashboardFilteredSchema>;
@@ -32,9 +40,9 @@ export function DashboardFilteredForm({ linkOptions, setIsOpen }: DashboardFilte
   const form = useForm<DashboardFilteredSchema>({
     resolver: zodResolver(dashboardFilteredSchema),
     defaultValues: {
-      year: filters.year.toString(),
-      month: filters.month.toString(),
-      linkIds: [filters.linkId ?? undefined],
+      year: filters.year,
+      month: filters.month,
+      linkIds: filters.linkId ? [filters.linkId] : [],
     },
   });
 
@@ -66,7 +74,7 @@ export function DashboardFilteredForm({ linkOptions, setIsOpen }: DashboardFilte
 
   const { handleSubmit, control } = form;
 
-  const years = getYearsPerRange(30);
+  const years = getYearsPerRange();
 
   return (
     <Form {...form}>
@@ -78,15 +86,15 @@ export function DashboardFilteredForm({ linkOptions, setIsOpen }: DashboardFilte
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Ano</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} defaultValue={String(field.value)}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione o ano" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {years.map((year, index) => (
-                      <SelectItem key={index} value={year.toString()}>
+                    {years.map((year) => (
+                      <SelectItem key={year} value={year.toString()}>
                         {year}
                       </SelectItem>
                     ))}
@@ -103,7 +111,7 @@ export function DashboardFilteredForm({ linkOptions, setIsOpen }: DashboardFilte
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Mês</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} defaultValue={String(field.value)}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione o mês" />
@@ -130,19 +138,9 @@ export function DashboardFilteredForm({ linkOptions, setIsOpen }: DashboardFilte
             <FormItem>
               <FormLabel>Links</FormLabel>
               <FormControl>
-                {/* <MultiSelect
-                  placeholder="Selecione um Link"
-                  defaultValue={field.value}
-                  onValueChange={field.onChange}
-                  options={allLinks?.data ?? []}
-                  maxCount={1}
-                  isLoading={isLoadingAllLinks || isSubmitting}
-                  modalPopover
-                /> */}
-
                 <MultiSelect
                   placeholder="Selecione um Link"
-                  defaultValue={field.value}
+                  defaultValue={field.value as string[]}
                   onValueChange={field.onChange}
                   options={linkOptions}
                   maxCount={1}

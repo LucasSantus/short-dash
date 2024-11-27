@@ -1,4 +1,4 @@
-import { endOfMonth, startOfMonth } from "date-fns";
+import { endOfMonth, isAfter, startOfMonth } from "date-fns";
 import { z } from "zod";
 import { protectedProcedure } from "../../trpc";
 
@@ -12,11 +12,16 @@ export const overviewQuery = protectedProcedure
     })
   )
   .query(async ({ input: { search }, ctx: { session, db } }) => {
-    const startOfCurrentMonth = search ? startOfMonth(new Date(search.year, search.month - 1)) : undefined;
-    const endOfCurrentMonth = search ? endOfMonth(new Date(search.year, search.month - 1)) : undefined;
+    const today = new Date();
+    const dateSearchrable = new Date(search.year, search.month - 1);
 
-    const startOfLastMonth = search ? startOfMonth(new Date(search.year, search.month)) : undefined;
-    const endOfLastMonth = search ? endOfMonth(new Date(search.year, search.month)) : undefined;
+    const isFutureDate = isAfter(dateSearchrable, today);
+
+    const startOfCurrentMonth = isFutureDate ? startOfMonth(new Date(search.year, search.month - 1)) : undefined;
+    const endOfCurrentMonth = isFutureDate ? endOfMonth(new Date(search.year, search.month - 1)) : undefined;
+
+    const startOfLastMonth = isFutureDate ? startOfMonth(new Date(search.year, search.month)) : undefined;
+    const endOfLastMonth = isFutureDate ? endOfMonth(new Date(search.year, search.month)) : undefined;
 
     const [totalClicks, totalClicksThisMonth, totalLinksCreated, totalLinksCreatedThisMonth] = await Promise.all([
       db.event.count({
@@ -24,10 +29,12 @@ export const overviewQuery = protectedProcedure
           link: {
             ownerId: session.user.id,
           },
-          createdAt: {
-            gte: startOfCurrentMonth,
-            lte: endOfCurrentMonth,
-          },
+          createdAt: isFutureDate
+            ? {
+                gte: startOfCurrentMonth,
+                lte: endOfCurrentMonth,
+              }
+            : undefined,
         },
       }),
       db.event.count({
@@ -35,28 +42,34 @@ export const overviewQuery = protectedProcedure
           link: {
             ownerId: session.user.id,
           },
-          createdAt: {
-            gte: startOfLastMonth,
-            lte: endOfLastMonth,
-          },
+          createdAt: isFutureDate
+            ? {
+                gte: startOfLastMonth,
+                lte: endOfLastMonth,
+              }
+            : undefined,
         },
       }),
       db.link.count({
         where: {
           ownerId: session.user.id,
-          createdAt: {
-            gte: startOfCurrentMonth,
-            lte: endOfCurrentMonth,
-          },
+          createdAt: isFutureDate
+            ? {
+                gte: startOfCurrentMonth,
+                lte: endOfCurrentMonth,
+              }
+            : undefined,
         },
       }),
       db.link.count({
         where: {
           ownerId: session.user.id,
-          createdAt: {
-            gte: startOfLastMonth,
-            lte: endOfLastMonth,
-          },
+          createdAt: isFutureDate
+            ? {
+                gte: startOfLastMonth,
+                lte: endOfLastMonth,
+              }
+            : undefined,
         },
       }),
     ]);
