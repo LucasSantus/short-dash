@@ -1,14 +1,25 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { PropsWithChildren } from "react";
-import { SettingsHeader, SettingsHeaderProps } from "./header";
 
-interface SettingsLayoutProps extends PropsWithChildren, SettingsHeaderProps {}
+interface SettingsLayoutProps extends PropsWithChildren {
+  title: string;
+  description: string;
+}
 
 export function SettingsLayout({ title, description, children }: SettingsLayoutProps) {
   return (
     <div className="space-y-4">
-      <SettingsHeader title={title} description={description} />
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
 
-      {children}
+        <Separator />
+
+        <CardContent className="pt-6">{children}</CardContent>
+      </Card>
     </div>
   );
 }

@@ -11,11 +11,10 @@ export const metadata: Metadata = {
   title: "Minha Conta",
 };
 
-export default async function SettingsAccountPage() {
+export default async function Account() {
   const { isAuthenticated, user } = await getServerAuthSession();
 
   const title = "Minha Conta";
-
   const description = "Atualize as configurações da sua conta.";
 
   if (!isAuthenticated || !user.id)

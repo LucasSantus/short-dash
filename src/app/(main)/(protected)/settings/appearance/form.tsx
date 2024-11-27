@@ -106,7 +106,8 @@ export function AppearanceForm() {
           type="submit"
           aria-label="Submit for update user data"
           isLoading={isSubmitting}
-          icon={<SaveIcon className="size-4" />}
+          icon={<SaveIcon />}
+          size="sm"
         >
           Salvar
         </Button>

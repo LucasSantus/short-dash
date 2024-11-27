@@ -92,7 +92,13 @@ export function ChangePasswordForm({ email }: ProfileFormProps) {
           )}
         />
 
-        <Button type="submit" aria-label="Submit for update user data" isLoading={isLoading} icon={<SaveIcon />}>
+        <Button
+          type="submit"
+          aria-label="Submit for update user data"
+          isLoading={isLoading}
+          icon={<SaveIcon />}
+          size="sm"
+        >
           Salvar
         </Button>
       </form>
