@@ -8,29 +8,41 @@ import { CredentialsPasswordNotIsValidError } from "@/errors/auth/credentials-pa
 import { CredentialsUserDeactivateError } from "@/errors/auth/credentials-user-deleted";
 import { CredentialsUserNotFoundError } from "@/errors/auth/credentials-user-not-found";
 
-interface Login {
+interface LoginVariables {
   email: string;
   password: string;
 }
 
-export async function logIn(data: Login) {
+export async function logIn({ email, password }: LoginVariables) {
+  const data = {
+    email,
+    password,
+    redirect: false,
+  };
+
   try {
     await signIn("credentials", data);
   } catch (error) {
+    console.error({ error });
+
+    let errorMessage = "Credenciais inválidas!";
+
     if (error instanceof CredentialsUserNotFoundError) {
-      throw new Error(messages.globals.user.notFound);
+      errorMessage = messages.globals.user.notFound;
     }
     if (error instanceof CredentialsUserDeactivateError) {
-      throw new Error(messages.globals.user.deactivate);
+      errorMessage = messages.globals.user.deactivate;
     }
     if (error instanceof CredentialsAccountNotFoundError) {
-      throw new Error(messages.globals.account.notFound);
+      errorMessage = messages.globals.account.notFound;
     }
     if (error instanceof CredentialsPasswordNotFoundError) {
-      throw new Error("Ocorreu um problema ao tentar recuperar a conta do usuário!");
+      errorMessage = "Ocorreu um problema ao tentar recuperar a conta do usuário!";
     }
     if (error instanceof CredentialsPasswordNotIsValidError) {
-      throw new Error("A Senha informada está incorreta!");
+      errorMessage = "A Senha informada está incorreta!";
     }
+
+    throw new Error(errorMessage);
   }
 }
