@@ -126,7 +126,7 @@ export const protectedProcedure = t.procedure.use(timingMiddleware).use(({ ctx, 
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
-      message: "Usuário não autenticado!",
+      message: "O usuário não está autenticado!",
     });
   }
 

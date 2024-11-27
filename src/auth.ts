@@ -1,6 +1,6 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { compare } from "bcryptjs";
-import NextAuth from "next-auth";
+import NextAuth, { Account } from "next-auth";
 import type { Adapter } from "next-auth/adapters";
 import { env } from "./env";
 import { CredentialsAccountNotFoundError } from "./errors/auth/credentials-account-not-found";
@@ -9,11 +9,11 @@ import { CredentialsPasswordNotIsValidError } from "./errors/auth/credentials-pa
 import { CredentialsUserDeactivateError } from "./errors/auth/credentials-user-deleted";
 import { CredentialsUserNotFoundError } from "./errors/auth/credentials-user-not-found";
 import { prismaClient } from "./lib/prisma";
-import { signInFormSchema } from "./validation/auth/sign-in";
 
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import Resend from "next-auth/providers/resend";
+import { signInFormSchema } from "./validation/auth/sign-in";
 
 export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
   session: { strategy: "jwt" },
@@ -77,7 +77,7 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
     error: "/failed",
   },
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
+    async jwt({ token, user, trigger, session, account }) {
       if (trigger === "update" && !!session) {
         /**
          * Todos os campos que seram alterados devem ser passados aqui.
@@ -86,6 +86,10 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
          *  token.email = session?.email;
          */
         token.name = session?.name;
+      }
+
+      if (account) {
+        token.account = account;
       }
 
       if (user)
@@ -99,13 +103,15 @@ export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
 
     async session({ session, user, trigger, token, newSession }) {
       if (token) {
-        const { user } = token as {
+        const { user, account } = token as {
           user: {
             id: string;
           };
+          account: Account;
         };
 
         session.user = { ...session.user, id: user.id };
+        session.account = account || null;
       } else if (trigger === "update") {
         /**
          * Todos os campos que seram alterados devem ser passados aqui.
