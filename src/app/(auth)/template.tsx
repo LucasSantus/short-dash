@@ -2,11 +2,11 @@ import { getServerAuthSession } from "@/utils/get-server-auth-session";
 import { permanentRedirect } from "next/navigation";
 import type { ReactNode } from "react";
 
-interface AuthTemplateProps {
+interface TemplateProps {
   children: ReactNode;
 }
 
-export default async function AuthTemplate({ children }: Readonly<AuthTemplateProps>) {
+export default async function Template({ children }: Readonly<TemplateProps>) {
   const { isAuthenticated } = await getServerAuthSession();
 
   if (isAuthenticated) permanentRedirect("/dashboard");

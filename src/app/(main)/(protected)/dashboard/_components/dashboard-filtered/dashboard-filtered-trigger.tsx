@@ -18,15 +18,15 @@ export function DashboardFilteredTrigger({ setIsOpen, linkOptions, type }: Dashb
   const { filters, setFilters } = useDashboardFilters();
 
   useEffect(() => {
-    if (linkIdDefault)
+    if (!filters.linkId && linkIdDefault)
       setFilters({
         linkId: linkIdDefault,
       });
-  }, [linkIdDefault]);
+  }, [linkIdDefault, filters.linkId]);
 
   const monthName = getMonthName(filters.month);
 
-  const linkName = linkOptions?.find(({ value }) => value === linkIdDefault);
+  const linkName = linkOptions?.find(({ value }) => value === filters.linkId);
 
   return (
     <div className="space-x-2">
@@ -44,7 +44,7 @@ export function DashboardFilteredTrigger({ setIsOpen, linkOptions, type }: Dashb
 
       {linkName && type === "link" && (
         <SheetTrigger asChild>
-          <Button variant="outline" icon={<LinkIcon />}>
+          <Button variant="outline" icon={<LinkIcon />} className="!justify-start min-w-44">
             {linkName.label}
           </Button>
         </SheetTrigger>
