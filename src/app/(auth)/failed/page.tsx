@@ -1,5 +1,5 @@
 import { messages } from "@/constants/messages";
-import { KeyRoundIcon } from "lucide-react";
+import { TriangleAlertIcon } from "lucide-react";
 import { AuthLayout } from "../_components/layout";
 
 export default function Failed() {
@@ -7,12 +7,9 @@ export default function Failed() {
     <AuthLayout
       title="Erro!"
       description="Ops, houve um problema ao tentar recuperar as informações do usuário!"
-      icon={KeyRoundIcon}
+      icon={TriangleAlertIcon}
     >
-      <div className="py-4">
-        {messages.globals.error.errorNotFound}
-        {/* <ErrorHandling error={error} /> */}
-      </div>
+      <div className="py-4">{messages.globals.error.errorNotFound}</div>
     </AuthLayout>
   );
 }
