@@ -1,6 +1,7 @@
 "use client";
 
 import { logOut } from "@/actions/auth/logout";
+import { dropdownSidebarItems } from "@/app/(main)/(protected)/_contants/dropdown-sidebar-items";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -17,7 +18,6 @@ import {
   SidebarMenuItem as SidebarMenuItemShacn,
   SidebarMenu as SidebarMenuShacn,
 } from "@/components/ui/sidebar";
-import { protectedHeaderItems } from "@/constants/protected-header-items";
 import { ChevronsUpDown, LoaderIcon, LogOutIcon, UserIcon } from "lucide-react";
 import { User } from "next-auth";
 import { useRouter } from "nextjs-toploader/app";
@@ -81,7 +81,7 @@ export function SidebarFooter({ user }: SidebarFooterProps): JSX.Element {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                {protectedHeaderItems.map(({ href, icon: Icon, title }) => (
+                {dropdownSidebarItems.map(({ href, icon: Icon, title }) => (
                   <DropdownMenuItem className="space-x-2" onClick={() => router.push(href)} key={href}>
                     <Icon />
                     <span>{title}</span>
@@ -96,7 +96,7 @@ export function SidebarFooter({ user }: SidebarFooterProps): JSX.Element {
                   onHandleLogout();
                 }}
                 className="space-x-2"
-                icon={isPendingLogout ? <LoaderIcon /> : <LogOutIcon />}
+                icon={isPendingLogout ? <LoaderIcon className="animate-spin" /> : <LogOutIcon />}
                 disabled={isPendingLogout}
               >
                 <span>Log out</span>
