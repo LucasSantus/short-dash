@@ -1,6 +1,6 @@
 import { LucideIcon } from "lucide-react";
 
-export interface SidebarItemsData {
+export interface SidebarItem {
   title: string;
   href: string;
   icon: LucideIcon;
