@@ -17,6 +17,11 @@ export const env = createEnv({
     DATABASE_URL: z.string().url(),
     DIRECT_URL: z.string().url(),
 
+    // REDIS
+    REDIS_HOST: z.string().default("localhost"),
+    REDIS_PORT: z.string().default("6379"),
+    REDIS_PASSWORD: z.string().default("password"),
+
     // NEXT AUTH
     NEXTAUTH_SECRET: process.env.NODE_ENV === "production" ? z.string() : z.string().optional(),
     NEXTAUTH_URL: z.preprocess(
@@ -46,7 +51,7 @@ export const env = createEnv({
     NEXT_PUBLIC_BASE_URL: z.string().url().default("http://localhost:3000"),
 
     // ARTIFICIAL_DELAY IN MS
-    NEXT_PUBLIC_ARTIFICIAL_DELAY_IN_MS: z.coerce.number().default(500),
+    NEXT_PUBLIC_ARTIFICIAL_DELAY_IN_MS: z.coerce.number().default(300),
   },
 
   /**
@@ -59,6 +64,10 @@ export const env = createEnv({
 
     DATABASE_URL: process.env.DATABASE_URL,
     DIRECT_URL: process.env.DIRECT_URL,
+
+    REDIS_HOST: process.env.REDIS_HOST,
+    REDIS_PORT: process.env.REDIS_PORT,
+    REDIS_PASSWORD: process.env.REDIS_PASSWORD,
 
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,

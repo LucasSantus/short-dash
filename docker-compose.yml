@@ -1,9 +1,7 @@
-version: "3.7"
-
 services:
   postgres:
     image: bitnami/postgresql:latest
-    container_name: short-dase-postgres
+    container_name: short-dash-postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
@@ -12,6 +10,17 @@ services:
       - "5433:5432"
     volumes:
       - ./.postgres-data:/bitnami/postgresql
+  redis:
+    image: redis:latest
+    container_name: short-dash-redis
+    environment:
+      REDIS_PASSWORD: password
+    ports:
+      - "6380:6379"
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    volumes:
+      - ./redis-data:/data
 
 volumes:
   .postgres-data:
+  redis-data:
