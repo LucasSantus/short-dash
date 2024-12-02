@@ -12,7 +12,7 @@ export function startCronJob() {
 
   global.cronInitialized = true;
 
-  cron.schedule("*/1 * * * *", async () => {
+  cron.schedule("*/10 * * * *", async () => {
     const start = Date.now();
     const timestamp = new Date().toISOString();
 
