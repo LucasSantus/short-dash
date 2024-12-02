@@ -1,10 +1,14 @@
 import { publicMetadata } from "@/config/metadata";
+import { env } from "@/env";
+import { startCronJob } from "@/lib/cron";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import type { ReactNode } from "react";
-import "../styles/globals.css";
 import { Providers } from "./providers";
+
+import "../styles/globals.css";
+import "../styles/reset.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,6 +21,10 @@ const mono = Roboto_Mono({
   display: "swap",
   variable: "--font-roboto-mono",
 });
+
+if (env.NODE_ENV !== "production") {
+  startCronJob();
+}
 
 export const metadata: Metadata = publicMetadata;
 

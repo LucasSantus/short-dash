@@ -60,6 +60,7 @@ export async function GET() {
     return NextResponse.json({ message: `${parsedEvents.length} eventos sincronizados com sucesso.` }, { status: 200 });
   } catch (error) {
     console.error("Erro ao sincronizar eventos:", error);
+
     return NextResponse.json({ message: "Erro ao sincronizar eventos." }, { status: 500 });
   }
 }
