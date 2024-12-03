@@ -14,7 +14,7 @@ export function startCronJob() {
 
   global.cronInitialized = true;
 
-  cron.schedule("*/1 * * * *", async () => {
+  cron.schedule("*/30 * * * *", async () => {
     const start = Date.now();
     const formattedDate = format(start, "dd/MM/yyyy 'às' HH:mm", { locale: ptBR });
 
