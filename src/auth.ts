@@ -9,13 +9,14 @@ import { CredentialsPasswordNotIsValidError } from "./errors/auth/credentials-pa
 import { CredentialsUserDeactivateError } from "./errors/auth/credentials-user-deleted";
 import { CredentialsUserNotFoundError } from "./errors/auth/credentials-user-not-found";
 import { prismaClient } from "./lib/prisma";
+import { signInFormSchema } from "./validation/auth/sign-in";
 
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import Resend from "next-auth/providers/resend";
-import { signInFormSchema } from "./validation/auth/sign-in";
 
 export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
+  trustHost: env.NODE_ENV !== "production",
   session: { strategy: "jwt" },
   adapter: PrismaAdapter(prismaClient) as Adapter,
   providers: [
