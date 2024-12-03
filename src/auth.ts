@@ -16,7 +16,6 @@ import Google from "next-auth/providers/google";
 import Resend from "next-auth/providers/resend";
 
 export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
-  trustHost: env.NODE_ENV !== "production",
   session: { strategy: "jwt" },
   adapter: PrismaAdapter(prismaClient) as Adapter,
   providers: [
