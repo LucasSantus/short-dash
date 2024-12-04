@@ -3,6 +3,8 @@ import { redis } from "@/lib/redis";
 import { Event } from "@prisma/client";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 const maxEventsPerCicle = 100;
 
 export async function GET() {

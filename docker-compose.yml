@@ -16,7 +16,7 @@ services:
     environment:
       REDIS_PASSWORD: password
     ports:
-      - "6380:6379"
+      - "6379:6379"
     command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
     volumes:
       - ./redis-data:/data
