@@ -7,7 +7,7 @@ import { trpc } from "@/trpc/client";
 import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { ResetPasswordFormData, resetPasswordFormSchema } from "@/validation/auth/reset-password";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SaveIcon } from "lucide-react";
+import { KeyRoundIcon, SaveIcon } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -59,7 +59,12 @@ export function ResetPasswordForm({ email }: ResetPasswordFormProps) {
             <FormItem>
               <FormLabel>Senha</FormLabel>
               <FormControl>
-                <InputPassword placeholder="Digite a senha:" disabled={isLoading} {...field} />
+                <InputPassword
+                  placeholder="Digite a senha:"
+                  startComponent={<KeyRoundIcon />}
+                  disabled={isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

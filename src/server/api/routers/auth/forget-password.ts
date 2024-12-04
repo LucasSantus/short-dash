@@ -19,11 +19,22 @@ export const forgetPasswordMutation = publicProcedure
 
     if (!user || !user.name) throw new Error(messages.globals.email.dontRegisteredOnSystem);
 
+    const account = await db.account.findFirst({
+      where: {
+        userId: user.id,
+        type: "credentials",
+      },
+    });
+
+    if (!account) {
+      throw new Error(
+        "O usuário atual não possuí este método de autenticação, portanto, não é possível recuperar esta conta. Para mais informações, entre em contato com a administração!"
+      );
+    }
+
     await db.verificationToken.deleteMany({
       where: {
-        user: {
-          email,
-        },
+        userId: user.id,
       },
     });
 
@@ -47,7 +58,7 @@ export const forgetPasswordMutation = publicProcedure
 
     const url = `${env.NEXT_PUBLIC_BASE_URL}/reset-password/${token}`;
 
-    resend.emails.send({
+    await resend.emails.send({
       from: env.RESEND_TO_EMAIL,
       to: email,
       subject: "Recuperação de Senha",

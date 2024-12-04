@@ -6,7 +6,10 @@ interface AuthLinkProps extends LinkProps {
 
 export function AuthLink({ title, ...rest }: AuthLinkProps): JSX.Element {
   return (
-    <Link className="text-blue-600 text-sm hover:text-blue-500 hover:underline" {...rest}>
+    <Link
+      className="font-semibold text-blue-600 text-sm hover:text-blue-500 hover:underline focus:text-blue-700"
+      {...rest}
+    >
       {title}
     </Link>
   );

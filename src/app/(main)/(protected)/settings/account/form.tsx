@@ -7,7 +7,7 @@ import { trpc } from "@/trpc/client";
 import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { ProfileFormData, profileFormSchema } from "@/validation/settings/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MailIcon, SaveIcon, User2Icon } from "lucide-react";
+import { AtSignIcon, SaveIcon, User2Icon } from "lucide-react";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "nextjs-toploader/app";
@@ -84,7 +84,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
               <FormControl>
                 <Input
                   placeholder="Digite o e-mail:"
-                  startComponent={<MailIcon />}
+                  startComponent={<AtSignIcon />}
                   readOnly
                   className="cursor-not-allowed opacity-70"
                   {...field}

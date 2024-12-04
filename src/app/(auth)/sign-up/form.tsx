@@ -8,7 +8,7 @@ import { trpc } from "@/trpc/client";
 import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { type SignUpFormData, signUpFormSchema } from "@/validation/auth/sign-up";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SaveIcon } from "lucide-react";
+import { AtSignIcon, KeyRoundIcon, SaveIcon } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -70,7 +70,7 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>E-mail</FormLabel>
               <FormControl>
-                <Input placeholder="Digite o e-mail:" {...field} disabled={isLoading} />
+                <Input placeholder="Digite o e-mail:" startComponent={<AtSignIcon />} {...field} disabled={isLoading} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -84,7 +84,13 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>Senha</FormLabel>
               <FormControl>
-                <InputPassword placeholder="Digite a senha:" {...field} disabled={isLoading} />
+                <InputPassword
+                  placeholder="Digite a senha:"
+                  startComponent={<KeyRoundIcon />}
+                  {...field}
+                  disabled={isLoading}
+                  withStrength
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

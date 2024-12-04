@@ -10,7 +10,7 @@ import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { type SignInFormData, signInFormSchema } from "@/validation/auth/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { LogInIcon } from "lucide-react";
+import { AtSignIcon, KeyRoundIcon, LogInIcon } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -63,9 +63,9 @@ export function SignInForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>E-mail</FormLabel>
               <FormControl>
-                <Input placeholder="Digite o e-mail:" disabled={isLoading} {...field} />
+                <Input placeholder="Digite o e-mail:" disabled={isLoading} startComponent={<AtSignIcon />} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,7 +79,12 @@ export function SignInForm() {
             <FormItem>
               <FormLabel>Senha</FormLabel>
               <FormControl>
-                <InputPassword placeholder="Digite a senha:" disabled={isLoading} {...field} />
+                <InputPassword
+                  placeholder="Digite a senha:"
+                  startComponent={<KeyRoundIcon />}
+                  disabled={isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

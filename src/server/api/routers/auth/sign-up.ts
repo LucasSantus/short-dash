@@ -1,11 +1,31 @@
 import { messages } from "@/constants/messages";
-import { signUpFormSchema } from "@/validation/auth/sign-up";
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcryptjs";
+import { z } from "zod";
 import { publicProcedure } from "../../trpc";
 
 export const signUpMutation = publicProcedure
-  .input(signUpFormSchema)
+  .input(
+    z.object({
+      name: z
+        .string({
+          required_error: messages.globals.form.requiredField,
+        })
+        .min(2, { message: "O nome deve ter pelo menos 2 caracteres." })
+        .trim(),
+      email: z
+        .string({
+          required_error: messages.globals.form.requiredField,
+        })
+        .email({
+          message: messages.globals.email.validEmail,
+        })
+        .trim(),
+      password: z.string({
+        required_error: messages.globals.form.requiredField,
+      }),
+    })
+  )
   .mutation(async ({ input: { name, email, password }, ctx: { db } }) => {
     const emailExists = await db.user.findUnique({
       where: {

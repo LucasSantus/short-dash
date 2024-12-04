@@ -6,10 +6,11 @@ import { Inter, Roboto_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { Providers } from "./providers";
 
+import { env } from "@/env";
 import "../styles/globals.css";
 import "../styles/reset.css";
 
-startCronJob();
+if (env.NODE_ENV !== "production") startCronJob();
 
 const inter = Inter({
   subsets: ["latin"],

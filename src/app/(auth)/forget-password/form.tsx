@@ -7,7 +7,7 @@ import { trpc } from "@/trpc/client";
 import { getApiErrorMessage } from "@/utils/get-api-error-message";
 import { ForgetPasswordFormData, forgetPasswordFormSchema } from "@/validation/auth/forget-password";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SendIcon } from "lucide-react";
+import { AtSignIcon, SendIcon } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -56,7 +56,7 @@ export function ForgetPasswordForm({}: ForgetPasswordFormProps) {
             <FormItem>
               <FormLabel>E-mail</FormLabel>
               <FormControl>
-                <Input placeholder="Digite o e-mail:" disabled={isLoading} {...field} />
+                <Input placeholder="Digite o e-mail:" disabled={isLoading} startComponent={<AtSignIcon />} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

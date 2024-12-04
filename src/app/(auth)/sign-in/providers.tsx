@@ -1,7 +1,8 @@
 "use client";
 
-import { GoogleIcon } from "@/components/icons/google";
 import { KEY_PROVIDER_SELECTED } from "@/constants/globals";
+import { RiGoogleFill } from "@remixicon/react";
+import { Loader2Icon } from "lucide-react";
 import type { BuiltInProviderType } from "next-auth/providers/index";
 import { type LiteralUnion, signIn } from "next-auth/react";
 import { ReactNode, useTransition } from "react";
@@ -27,16 +28,26 @@ export function SignInProviders({ children }: SignInProviderProps): JSX.Element 
   }
 
   return (
-    <div className="grid space-y-2">
+    <div className="grid space-y-2 py-4">
       <AuthButton
         providerType="google"
         label="Google"
         onClick={() => onHandleSelectedProvider("google")}
-        variant="outline"
-        icon={<GoogleIcon />}
-        isLoading={isPendingRedirect}
+        disabled={isPendingRedirect}
         isProviderWasSelectedAtLastLogin={providerSelectedOnStorage === "google"}
-      />
+        className="bg-[#DB4437] text-white after:flex-1 hover:bg-[#DB4437]/90 dark:bg-transparent dark:text-white dark:hover:bg-gray-500/10"
+        icon={
+          <span className="pointer-events-none me-2 flex-1">
+            {isPendingRedirect ? (
+              <Loader2Icon className="animate-spin" />
+            ) : (
+              <RiGoogleFill className="size-5 opacity-60" aria-hidden="true" />
+            )}
+          </span>
+        }
+      >
+        Login with Google
+      </AuthButton>
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">

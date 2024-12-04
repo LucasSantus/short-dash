@@ -54,6 +54,7 @@ export async function GET() {
 
     if (remainingEvents === 0) {
       await redis.del("events-queue");
+
       console.info("Fila de eventos limpa após sincronização.");
     }
 
