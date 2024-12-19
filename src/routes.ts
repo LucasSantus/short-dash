@@ -17,7 +17,14 @@ export const authRoutes: string[] = ["/failed", "/forget-password", "/reset-pass
  * These routes will redirect logged in users to /settings
  * @type {string[]}
  */
-export const protectedRoutes: string[] = ["/dashboard", "/events", "/links", "/settings"];
+export const protectedRoutes: string[] = [
+  "/dashboard",
+  "/events",
+  "/links",
+  "/settings/appareance",
+  "/settings/account",
+  "/settings/password",
+];
 
 /**
  * The prefix for api authentication routes.
