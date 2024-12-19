@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getUser } from "@/actions/queries/auth/get-user";
+import { REDIS_TIME_CACHE } from "@/constants/globals";
 import { prismaClient } from "@/lib/prisma";
 import { redis } from "@/lib/redis";
 import { Link } from "@prisma/client";
@@ -38,7 +39,7 @@ export const getShortUrl = cache(async (code: string) => {
 
   if (!link) return null;
 
-  await redis.set(cacheKey, JSON.stringify(link), "EX", 3600);
+  await redis.set(cacheKey, JSON.stringify(link), "EX", REDIS_TIME_CACHE);
 
   if (link.status === LinkStatus.Inactive) {
     return link;
