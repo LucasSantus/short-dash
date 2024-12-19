@@ -1,6 +1,6 @@
+import { getUser } from "@/actions/queries/auth/get-user";
 import { env } from "@/env";
 import { prismaClient } from "@/lib/prisma";
-import { getServerAuthSession } from "@/utils/get-server-auth-session";
 import { sleep } from "@/utils/sleep";
 import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
@@ -19,7 +19,7 @@ import { ZodError } from "zod";
  * @see https://trpc.io/docs/server/context
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
-  const session = await getServerAuthSession();
+  const session = await getUser();
 
   return {
     db: prismaClient,

@@ -114,7 +114,7 @@ export const sidebarItems: SidebarItems = {
 };
 
 interface SidebarProps {
-  user: User;
+  user: User | null;
 }
 
 export function Sidebar({ user }: SidebarProps) {

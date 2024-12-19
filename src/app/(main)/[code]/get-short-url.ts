@@ -1,15 +1,15 @@
 import "server-only";
 
+import { getUser } from "@/actions/queries/auth/get-user";
 import { prismaClient } from "@/lib/prisma";
 import { redis } from "@/lib/redis";
-import { getServerAuthSession } from "@/utils/get-server-auth-session";
 import { Link } from "@prisma/client";
 import { cache } from "react";
 import { LinkStatus } from "../(protected)/links/_types/links";
 import { addEventToQueue } from "./add-event-to-queue";
 
 export const getShortUrl = cache(async (code: string) => {
-  const session = await getServerAuthSession();
+  const session = await getUser();
 
   const cacheKey = `short-url:${code}`;
   const clickCacheKey = `clicks:${code}`;

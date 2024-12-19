@@ -1,6 +1,5 @@
+import { getUser } from "@/actions/queries/auth/get-user";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { getServerAuthSession } from "@/utils/get-server-auth-session";
-import { redirect } from "next/navigation";
 import { Footer } from "./_components/layout/footer";
 import { Sidebar } from "./_components/layout/sidebar";
 
@@ -9,9 +8,7 @@ interface LayoutProps {
 }
 
 export default async function Layout({ children }: Readonly<LayoutProps>) {
-  const { isAuthenticated, user } = await getServerAuthSession();
-
-  if (!isAuthenticated) redirect("/sign-in");
+  const { user } = await getUser();
 
   return (
     <SidebarProvider>
