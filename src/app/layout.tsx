@@ -1,12 +1,12 @@
 import { publicMetadata } from "@/config/metadata";
 import { startCronJob } from "@/cron";
+import { env } from "@/env";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { Providers } from "./providers";
 
-import { env } from "@/env";
 import "../styles/globals.css";
 import "../styles/reset.css";
 

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { sidebarMenuButtonVariants } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import { Account } from "next-auth";
+import { Account } from "@prisma/client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { sidebarItems } from "../../_constants/sidebar-items";

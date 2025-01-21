@@ -1,5 +1,5 @@
 import "next-auth";
-import type { Account, DefaultSession } from "next-auth";
+import type { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
   interface User {
@@ -8,6 +8,5 @@ declare module "next-auth" {
 
   interface Session {
     user: User & DefaultSession["user"];
-    account: Account;
   }
 }

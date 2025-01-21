@@ -5,6 +5,7 @@ export const TRANSITION_DURATION = 0.7;
 
 // GLOBALS
 export const MAX_POPULAR_LINKS = 6;
+export const REDIS_TIME_CACHE = 60 * 60 * 60;
 
 // FUNCTIONS
 function createUniqueKey(key: string): string {

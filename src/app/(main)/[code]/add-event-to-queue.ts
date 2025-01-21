@@ -1,5 +1,6 @@
-import { redis } from "@/lib/redis";
 import "server-only";
+
+import { redis } from "@/lib/redis";
 
 interface EventoToQueue {
   linkId: string;
